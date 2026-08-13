@@ -220,7 +220,7 @@ const references = [
             ReactorFrontの実環境では、全体を管理する権限と、日常の確認・配置に使う権限を分けています。
           </p>
           <p>
-            2026年8月14日の管理画面確認では、ノエル用の入口にはAWS資源を直接操作する権限がなく、
+            2026年8月14日の管理画面確認では、管理者権限を持たない作業用IAMユーザーにはAWS資源を直接操作する権限がなく、
             指定された3種類のロールだけを借りられる構成でした。
           </p>
         </div>
@@ -235,7 +235,7 @@ const references = [
           <span class="permission-chain__arrow" aria-hidden="true">↓</span>
           <div class="permission-chain__entry">
             <span class="permission-chain__label">入館証</span>
-            <strong>ノエル用の入口</strong>
+            <strong>作業用IAMユーザー</strong>
             <small>直接の作業権限なし / 借り先だけを限定</small>
           </div>
           <span class="permission-chain__arrow" aria-hidden="true">↓</span>
