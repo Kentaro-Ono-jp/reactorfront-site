@@ -1,0 +1,277 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const slices = [
+  {
+    number: "01",
+    title: "文書を受け付け、裏側で処理する",
+    plain: "利用者がPDFを送ると、画面を待たせ続けず、別の処理係が安全に仕事を引き継ぎます。",
+    proves: "Web / API / 非同期処理 / 障害からの再開",
+  },
+  {
+    number: "02",
+    title: "本人だけが確認し、一度だけ決める",
+    plain: "ログインした本人が、機械の予測を承認または訂正します。同じ操作の二重実行も防ぎます。",
+    proves: "認証 / 権限 / 人の最終判断 / 監査記録",
+  },
+  {
+    number: "03",
+    title: "人の訂正を、すぐ学習へ混ぜない",
+    plain: "訂正内容は候補として分離し、確認されたデータだけで新旧モデルを比較します。",
+    proves: "データ管理 / 再現可能な評価 / 更新と巻き戻し",
+  },
+  {
+    number: "04",
+    title: "クラウドに作り、確かめ、消し切る",
+    plain: "AWS上へ短時間だけ環境を作り、一連の動作を確認した後、残骸がないことまで検査します。",
+    proves: "Terraform / AWS / 最小権限 / 復旧 / コスト管理",
+  },
+];
+---
+
+<BaseLayout
+  title="ポートフォリオ解説"
+  description="ReactorFrontの公開ポートフォリオを、非エンジニアや学び始めた方にも分かる言葉で3分解説。文書AI、人の確認、監査、クラウド運用を一つにつないだシステムです。"
+>
+  <section class="page-hero page-hero--portfolio">
+    <div class="page-hero__mesh" aria-hidden="true"></div>
+    <div class="shell page-hero__inner">
+      <div class="breadcrumbs" aria-label="パンくずリスト">
+        <a href="/">Home</a><span aria-hidden="true">/</span><span>Portfolio</span>
+      </div>
+      <div class="page-hero__grid">
+        <div>
+          <p class="eyebrow eyebrow--accent">3-minute overview</p>
+          <h1>このポートフォリオ、<br />何をつくったのか。</h1>
+        </div>
+        <div class="page-hero__lead">
+          <p>
+            PDFの種類を機械が予測し、人が最終確認する「文書AI」の仕組みです。
+            派手なデモではなく、実際に扱うなら必要になる安全性と運用まで一つにつなぎました。
+          </p>
+          <span class="reading-time">約3分で読めます</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section portfolio-summary">
+    <div class="shell portfolio-summary__grid">
+      <div data-reveal>
+        <p class="eyebrow">In one sentence</p>
+        <h2>機械が下書きし、<br />人が責任を持って決める。</h2>
+      </div>
+      <div class="prose prose--large" data-reveal>
+        <p>
+          たとえば、会社へ届く文書を「請求書」「領収書」のように仕分ける仕事を想像してください。
+          このシステムでは、利用者がPDFを送ると、機械学習が種類の候補を出します。
+        </p>
+        <p>
+          ただし、AIの答えをそのまま正解にはしません。ログインした人が元の文書と予測を見比べ、承認または訂正します。
+          そして「機械は何を答え、人は何を決めたか」を後から確認できる形で残します。
+        </p>
+      </div>
+    </div>
+
+    <div class="scope-note shell" data-reveal>
+      <span class="scope-note__icon" aria-hidden="true">i</span>
+      <div>
+        <h3>これは再現手順書ではありません</h3>
+        <p>
+          このページは、非エンジニアまたは情報処理を学び始めた方向けの概要です。
+          同じシステムを作れる粒度のコード解説や構築手順は載せず、「何を考え、どこまで確かめたか」が分かる範囲に留めています。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="shell">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">How it works</p>
+        <h2>処理の流れは、4段階。</h2>
+        <p>受付窓口と、その裏で働く専門チームに置き換えると見通しがよくなります。</p>
+      </div>
+
+      <ol class="portfolio-flow" aria-label="文書処理の4段階">
+        <li data-reveal>
+          <span class="portfolio-flow__number">01</span>
+          <div class="portfolio-flow__visual portfolio-flow__visual--upload" aria-hidden="true">
+            <span class="paper-sheet"></span><span class="upload-arrow">↑</span>
+          </div>
+          <h3>受付</h3>
+          <p>本人確認をして、PDFを安全に預かります。</p>
+          <small>窓口の役割</small>
+        </li>
+        <li data-reveal>
+          <span class="portfolio-flow__number">02</span>
+          <div class="portfolio-flow__visual portfolio-flow__visual--process" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <h3>機械処理</h3>
+          <p>別の処理係が文書を読み、種類の候補を返します。</p>
+          <small>裏方の役割</small>
+        </li>
+        <li data-reveal>
+          <span class="portfolio-flow__number">03</span>
+          <div class="portfolio-flow__visual portfolio-flow__visual--decision" aria-hidden="true">
+            <span>✓</span><span>↺</span>
+          </div>
+          <h3>人の判断</h3>
+          <p>元の文書を見て、承認するか訂正します。</p>
+          <small>責任者の役割</small>
+        </li>
+        <li data-reveal>
+          <span class="portfolio-flow__number">04</span>
+          <div class="portfolio-flow__visual portfolio-flow__visual--record" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <h3>記録</h3>
+          <p>機械の答えと人の判断を、後から追える形で残します。</p>
+          <small>台帳の役割</small>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section why-section">
+    <div class="shell why-section__grid">
+      <div class="why-section__sticky" data-reveal>
+        <p class="eyebrow">Why it matters</p>
+        <h2>難しいのは、<br />AIそのものだけではない。</h2>
+        <p>
+          実際の仕事で使うには、「予測できた」の前後にある仕組みが必要です。
+          このポートフォリオが主に示すのは、その接続部分です。
+        </p>
+      </div>
+      <div class="challenge-list">
+        <article data-reveal>
+          <span>01</span><div><h3>待たせない</h3><p>重い処理を裏側へ渡し、画面は現在の状態を確認できるようにします。</p></div>
+        </article>
+        <article data-reveal>
+          <span>02</span><div><h3>取り違えない</h3><p>ログインした人と文書の所有者を確認し、他人のデータを見せません。</p></div>
+        </article>
+        <article data-reveal>
+          <span>03</span><div><h3>二重に決めない</h3><p>通信の再送や同時操作が起きても、最終判断は一度だけ成立させます。</p></div>
+        </article>
+        <article data-reveal>
+          <span>04</span><div><h3>根拠を混ぜない</h3><p>機械の予測、人の決定、将来の学習候補を別々の記録として扱います。</p></div>
+        </article>
+        <article data-reveal>
+          <span>05</span><div><h3>失敗から戻す</h3><p>途中で処理が止まっても、仕事を失わず、同じ結果へ戻れるようにします。</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark slices-section">
+    <div class="shell">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow eyebrow--accent">Four vertical slices</p>
+          <h2>4回に分けて、<br />証明範囲を広げた。</h2>
+        </div>
+        <p>
+          一度に大きく作るのではなく、「端から端まで動く小さな一本」を4回積み重ねました。
+          2026年8月12日時点で、4つの区切りを完了しています。
+        </p>
+      </div>
+
+      <div class="slice-list">
+        {
+          slices.map((slice) => (
+            <article data-reveal>
+              <span class="slice-list__number">{slice.number}</span>
+              <div class="slice-list__body">
+                <h3>{slice.title}</h3>
+                <p>{slice.plain}</p>
+              </div>
+              <p class="slice-list__proof"><span>示せること</span>{slice.proves}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section tech-map-section">
+    <div class="shell">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">Under the hood</p>
+        <h2>中では、複数の専門が協力している。</h2>
+        <p>技術名を覚える必要はありません。それぞれが何を担当するかだけ見てください。</p>
+      </div>
+
+      <div class="tech-map" data-reveal>
+        <article>
+          <span class="tech-map__role">利用者の窓口</span>
+          <h3>Web</h3>
+          <p>画面表示、ログイン、PDFの送信、結果の確認</p>
+          <div class="tag-list"><span>Next.js</span><span>React</span></div>
+        </article>
+        <article>
+          <span class="tech-map__role">仕事の司令塔</span>
+          <h3>API</h3>
+          <p>権限、データ、処理依頼、人の最終判断を管理</p>
+          <div class="tag-list"><span>FastAPI</span><span>PostgreSQL</span></div>
+        </article>
+        <article>
+          <span class="tech-map__role">裏方の連絡網</span>
+          <h3>Queue</h3>
+          <p>処理依頼を失わず、担当するサービスへ届ける</p>
+          <div class="tag-list"><span>RabbitMQ</span><span>Outbox</span></div>
+        </article>
+        <article>
+          <span class="tech-map__role">文書の予測係</span>
+          <h3>ML Worker</h3>
+          <p>文書を読み、測定可能な形で種類の候補を返す</p>
+          <div class="tag-list"><span>Python</span><span>PyTorch</span></div>
+        </article>
+        <article>
+          <span class="tech-map__role">期間限定の実地試験場</span>
+          <h3>AWS</h3>
+          <p>環境を作成し、動作を確認し、最後に消し切る</p>
+          <div class="tag-list"><span>Terraform</span><span>Fargate</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section limitations-section">
+    <div class="shell limitations-section__grid">
+      <div data-reveal>
+        <p class="eyebrow">Honest limitations</p>
+        <h2>できることを、<br />大きく見せない。</h2>
+      </div>
+      <div data-reveal>
+        <p class="limitations-section__lead">
+          これは実運用サービスではなく、設計と実装の考え方を示す検証用ポートフォリオです。
+        </p>
+        <ul class="plain-list">
+          <li>入力は公開可能な合成PDFだけを使っています。</li>
+          <li>分類対象と評価データは小さく、実業務の精度を保証する数値ではありません。</li>
+          <li>AWS環境は常時稼働せず、試験時だけ作成して破棄します。</li>
+          <li>高可用性、災害復旧、一般利用者の登録、SLAは対象外です。</li>
+          <li>実際の導入には、業務データ・費用・セキュリティに合わせた追加設計が必要です。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="repository-cta">
+    <div class="shell repository-cta__inner" data-reveal>
+      <div>
+        <p class="eyebrow eyebrow--light">Public repository</p>
+        <h2>証拠は、GitHubにあります。</h2>
+        <p>
+          ソースコード、テスト、設計判断、検証結果は公開リポジトリで確認できます。
+          READMEと詳細資料は英語です。
+        </p>
+      </div>
+      <a class="button button--accent button--large" href="https://github.com/Kentaro-Ono-jp/Portfolio" target="_blank" rel="noreferrer">
+        GitHubで見る
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
