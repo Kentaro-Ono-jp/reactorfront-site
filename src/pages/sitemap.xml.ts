@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 
-const routes = ["/", "/profile/", "/portfolio/", "/infrastructure/"];
+const routes = ["/", "/profile/", "/portfolio/", "/portfolio/aws/", "/infrastructure/"];
 
 export const GET: APIRoute = ({ site }) => {
   const urls = routes

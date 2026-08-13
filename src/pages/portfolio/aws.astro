@@ -1,0 +1,539 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const portfolioCommit = "708056f33d56f1affe2dbe8e1b58f4a722895b88";
+
+const journey = [
+  {
+    number: "01",
+    verb: "入る",
+    title: "本人確認をする",
+    body: "まずAWSへ入る人を特定します。普段の作業に、管理者の強い権限は使いません。",
+  },
+  {
+    number: "02",
+    verb: "借りる",
+    title: "作業用の権限へ切り替える",
+    body: "その仕事に必要な時間だけ、用途を限定したロール（作業許可証）を借ります。",
+  },
+  {
+    number: "03",
+    verb: "つくる",
+    title: "設計図から環境を組み立てる",
+    body: "Terraformという設計図を使い、ネットワーク、画面、処理、データ保存を配置します。",
+  },
+  {
+    number: "04",
+    verb: "試す",
+    title: "利用者の流れを端から端まで通す",
+    body: "ログインからPDF登録、AI処理、人の確認、監査記録までを一続きで確かめます。",
+  },
+  {
+    number: "05",
+    verb: "読む",
+    title: "状態とログで裏を取る",
+    body: "画面が開くだけで合格にはせず、AWSの状態と処理記録も照合します。",
+  },
+  {
+    number: "06",
+    verb: "消す",
+    title: "片付けた後も残骸を探す",
+    body: "destroy後にもう一度AWSを調べ、課金対象や一時データが残っていないか確認します。",
+  },
+];
+
+const e2eSteps = [
+  { label: "Login", title: "本人として入る", body: "試験専用の利用者でログインします。" },
+  { label: "Upload", title: "PDFを預ける", body: "公開可能な合成文書だけを登録します。" },
+  { label: "Queue", title: "裏方へ渡す", body: "処理依頼が失われず、次の担当へ届くか見ます。" },
+  { label: "ML", title: "AIが候補を返す", body: "別の処理係が文書の種類を予測します。" },
+  { label: "Review", title: "人が最終判断する", body: "予測を承認または訂正します。" },
+  { label: "Audit", title: "経緯を追える", body: "機械と人の判断が記録に残ることを確かめます。" },
+];
+
+const failureLessons = [
+  {
+    number: "01",
+    title: "同じファイルでも、名前が違えば検証は止まる",
+    body: "ダウンロードしたTerraformのファイル名と、検証側が期待した名前が一致せず、自動片付けが開始前に停止しました。",
+    lesson: "中身だけでなく、受け渡しの約束まで固定する。",
+  },
+  {
+    number: "02",
+    title: "入っているPythonと、実際に選ばれるPythonは別物",
+    body: "CodeBuildには目的の版があっても、実行時には別のPythonが先に選ばれました。",
+    lesson: "『存在する』ではなく『実際に使われた』を確認する。",
+  },
+  {
+    number: "03",
+    title: "削除権限だけでは、安全な削除はできない",
+    body: "片付け担当が、対象を特定するための小さな管理記録を読めずに止まりました。",
+    lesson: "消す権限と、正しく対象を確かめる権限をセットで考える。",
+  },
+];
+
+const references = [
+  {
+    label: "Portfolio source",
+    title: "確認した公開コミット",
+    href: `https://github.com/Kentaro-Ono-jp/Portfolio/commit/${portfolioCommit}`,
+    note: "2026年8月14日時点のmainと一致",
+  },
+  {
+    label: "Portfolio guide",
+    title: "AWS Operations Guide（英語）",
+    href: `https://github.com/Kentaro-Ono-jp/Portfolio/blob/${portfolioCommit}/AWS_OPERATIONS_GUIDE.md`,
+    note: "設計・検証記録の一次資料",
+  },
+  {
+    label: "AWS official",
+    title: "IAMロールと一時的な権限",
+    href: "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_assumerole.html",
+    note: "AWS公式ドキュメント",
+  },
+  {
+    label: "AWS official",
+    title: "Permissions Boundary",
+    href: "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html",
+    note: "権限の上限に関するAWS公式説明",
+  },
+  {
+    label: "AWS official",
+    title: "CloudWatch Logsとは",
+    href: "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html",
+    note: "ログの保存・検索に関するAWS公式説明",
+  },
+  {
+    label: "HashiCorp official",
+    title: "Terraform destroy",
+    href: "https://developer.hashicorp.com/terraform/cli/commands/destroy",
+    note: "Terraform公式リファレンス",
+  },
+];
+---
+
+<BaseLayout
+  title="AWSの舞台裏｜10分で読むポートフォリオ"
+  description="ReactorFront Portfolioを実AWSへ配置し、E2Eで確かめ、ログを読み、destroy後の残存ゼロまで確認する流れを、非エンジニア向けにやさしく解説します。"
+>
+  <article class="aws-story">
+    <header class="page-hero page-hero--aws-story">
+      <div class="aws-story__orbit" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="shell page-hero__inner">
+        <div class="breadcrumbs" aria-label="パンくずリスト">
+          <a href="/">Home</a><span aria-hidden="true">/</span>
+          <a href="/portfolio/">Portfolio</a><span aria-hidden="true">/</span>
+          <span>AWS behind the scenes</span>
+        </div>
+        <div class="page-hero__grid">
+          <div>
+            <p class="eyebrow eyebrow--accent">10-minute field note</p>
+            <h1>つくるだけでは、<br />終われない。</h1>
+          </div>
+          <div class="page-hero__lead">
+            <p>
+              AWSへ載せる。利用者として試す。失敗の記録を読む。そして、料金が発生する環境を消し切る。
+              ReactorFront Portfolioの実地試験を、少しだけ詳しく案内します。
+            </p>
+            <span class="reading-time">約10分で読めます</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="story-meta">
+      <div class="shell story-meta__inner">
+        <div><span>Audience</span><strong>非エンジニア・学習初期</strong></div>
+        <div><span>AWS checked</span><strong>2026.08.14</strong></div>
+        <div><span>Portfolio main</span><strong><code>708056f</code></strong></div>
+        <div><span>Format</span><strong>読み物 / 非チュートリアル</strong></div>
+      </div>
+    </div>
+
+    <section class="section story-opening">
+      <div class="shell story-opening__grid">
+        <div data-reveal>
+          <p class="eyebrow">What this story proves</p>
+          <h2>「動いた」の、<br />もう一歩先へ。</h2>
+        </div>
+        <div class="prose prose--large" data-reveal>
+          <p>
+            クラウドへのデプロイは、完成したファイルを一か所へ置く作業ではありません。
+            受付、本人確認、処理係、データ置き場、連絡網など、役割の異なる仕組みをAWS上で組み合わせる仕事です。
+          </p>
+          <p>
+            この作品では、短時間だけ実AWS環境を組み立て、ログインから文書処理、AIの予測、人の最終判断、監査記録までを確認しました。
+            合格後はすぐに環境を片付け、Terraformの管理対象だけでなく、AWS側に残りやすいものまで別に数え直しています。
+          </p>
+        </div>
+      </div>
+
+      <div class="scope-note shell" data-reveal>
+        <span class="scope-note__icon" aria-hidden="true">i</span>
+        <div>
+          <h3>この記事は、AWSを再現するための手順書ではありません</h3>
+          <p>
+            実際のAWS設定と公開リポジトリを根拠にしていますが、コマンド、アカウント固有値、完全なIAMポリシー、環境変数、秘密情報は掲載しません。
+            読後に「何を、なぜ確かめたか」が分かる粒度に留めています。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark journey-section" id="journey">
+      <div class="shell">
+        <div class="section-heading section-heading--split" data-reveal>
+          <div>
+            <p class="eyebrow eyebrow--accent">One lifecycle</p>
+            <h2>入って、借りて、<br />つくって、消す。</h2>
+          </div>
+          <p>
+            実AWSの試験は一本道です。途中だけ成功しても、最後の片付けまで通らなければ完了とは扱いません。
+          </p>
+        </div>
+
+        <ol class="aws-journey" aria-label="AWS実地試験の6段階">
+          {
+            journey.map((step) => (
+              <li data-reveal>
+                <div class="aws-journey__head">
+                  <span>{step.number}</span><strong>{step.verb}</strong>
+                </div>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="section iam-story" id="iam">
+      <div class="shell iam-story__grid">
+        <div class="iam-story__copy" data-reveal>
+          <p class="eyebrow">IAM &amp; roles</p>
+          <h2>強い鍵を、<br />持ち歩かない。</h2>
+          <p>
+            IAMは「誰が、何をしてよいか」を決める仕組みです。
+            ReactorFrontの実環境では、全体を管理する権限と、日常の確認・配置に使う権限を分けています。
+          </p>
+          <p>
+            2026年8月14日の管理画面確認では、ノエル用の入口にはAWS資源を直接操作する権限がなく、
+            指定された3種類のロールだけを借りられる構成でした。
+          </p>
+        </div>
+
+        <figure class="permission-chain" data-reveal>
+          <figcaption>入館証と作業許可証で考える権限の流れ</figcaption>
+          <div class="permission-chain__owner">
+            <span class="permission-chain__label">責任者</span>
+            <strong>オーナー管理者</strong>
+            <small>初期整備・保守・全体確認</small>
+          </div>
+          <span class="permission-chain__arrow" aria-hidden="true">↓</span>
+          <div class="permission-chain__entry">
+            <span class="permission-chain__label">入館証</span>
+            <strong>ノエル用の入口</strong>
+            <small>直接の作業権限なし / 借り先だけを限定</small>
+          </div>
+          <span class="permission-chain__arrow" aria-hidden="true">↓</span>
+          <div class="permission-chain__roles">
+            <div>
+              <span>01</span><strong>観察する</strong><small>設定と安全性を読む</small>
+            </div>
+            <div>
+              <span>02</span><strong>費用を見る</strong><small>請求・利用量を読む</small>
+            </div>
+            <div class="permission-chain__role--operator">
+              <span>03</span><strong>配置・試験・片付け</strong><small>1時間の作業許可証</small>
+              <em>Permission Boundary</em>
+            </div>
+          </div>
+        </figure>
+      </div>
+
+      <div class="shell permission-facts" data-reveal>
+        <article>
+          <span>Role</span>
+          <h3>ロールは、借りる権限</h3>
+          <p>入口の権限を強くするのではなく、作業中だけ別の許可証へ切り替えます。</p>
+        </article>
+        <article>
+          <span>Trust</span>
+          <h3>貸す側も、相手を確認する</h3>
+          <p>入口が「借りたい」と言えるだけでなく、ロール側も「この入口へ貸してよい」と定めます。</p>
+        </article>
+        <article>
+          <span>Boundary</span>
+          <h3>許可の上限を、別に置く</h3>
+          <p>配置ロールは、付与ポリシーと上限ポリシーの両方が許す範囲だけで動きます。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--soft deployment-story" id="deploy">
+      <div class="shell">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Deploy</p>
+          <h2>一つの作品を、<br />複数の専門部署へ分ける。</h2>
+          <p>
+            Terraformは「どの部署を、どう結ぶか」を記した設計図です。実AWSでは、次のような役割へ分けて配置しました。
+          </p>
+        </div>
+
+        <div class="cloud-role-map" data-reveal>
+          <article>
+            <span>Front door</span><h3>受付</h3><p>外からのHTTPS通信を受け、WebとAPIへ安全につなぐ。</p><small>API Gateway / Cloud Map</small>
+          </article>
+          <article>
+            <span>Identity</span><h3>本人確認</h3><p>ログインした人と、許可された操作を見分ける。</p><small>Cognito</small>
+          </article>
+          <article>
+            <span>Runtime</span><h3>働く場所</h3><p>Web、司令塔のAPI、AI処理係を別々に動かす。</p><small>ECS / Fargate</small>
+          </article>
+          <article>
+            <span>Handoff</span><h3>仕事の連絡網</h3><p>重い処理を待ち行列へ渡し、途中で失わない。</p><small>Amazon MQ</small>
+          </article>
+          <article>
+            <span>State</span><h3>記録と文書</h3><p>業務状態とPDFを、役割の異なる保存先へ分ける。</p><small>RDS / S3</small>
+          </article>
+          <article>
+            <span>Evidence</span><h3>観測</h3><p>各担当の状態と記録を集め、失敗箇所を追えるようにする。</p><small>CloudWatch Logs</small>
+          </article>
+        </div>
+
+        <div class="deployment-note" data-reveal>
+          <strong>実地試験用の短命な構成</strong>
+          <p>
+            これは常時公開する本番サービスではありません。高可用性や一般利用者登録を広げず、作品の境界がAWSでも成立するかを確かめるための、期間限定の試験場です。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section e2e-story" id="e2e">
+      <div class="shell">
+        <div class="section-heading section-heading--split" data-reveal>
+          <div>
+            <p class="eyebrow">E2E / authenticated smoke</p>
+            <h2>部品ではなく、<br />利用者の一日を試す。</h2>
+          </div>
+          <p>
+            E2Eは「End to End」の略です。この作品のAWS検証では、公開資料上の呼び名を authenticated smoke とし、本人確認を含む一連の流れを外部HTTPSから通しました。
+          </p>
+        </div>
+
+        <ol class="e2e-path" aria-label="AWSで確認した文書処理の流れ">
+          {
+            e2eSteps.map((step, index) => (
+              <li data-reveal>
+                <div><span>{String(index + 1).padStart(2, "0")}</span><small>{step.label}</small></div>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="proof-statement" data-reveal>
+          <span class="proof-statement__mark" aria-hidden="true">✓</span>
+          <div>
+            <p class="eyebrow">Accepted live proof</p>
+            <h3>実AWSで、3つの処理サービスが稼働し、この一本道を完走。</h3>
+            <p>
+              移行、合成データの準備、ログイン、PDF登録、非同期処理、AI結果、人の確認、監査までを確認しました。
+              入力はリポジトリ所有の合成データだけで、顧客文書や個人情報は使っていません。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark logs-story" id="logs">
+      <div class="shell logs-story__grid">
+        <div data-reveal>
+          <p class="eyebrow eyebrow--accent">Read the evidence</p>
+          <h2>ログは、<br />黒い画面の洪水ではない。</h2>
+          <p>
+            ログは「いつ、どの担当で、何が起きたか」を残す業務日誌です。失敗時は、闇雲に全部読むのではなく、層を分けて絞ります。
+          </p>
+        </div>
+        <div class="log-layers">
+          <article data-reveal>
+            <span>01 / State</span><h3>まず、今の状態を見る</h3>
+            <p>準備中、稼働中、失敗など、AWSが示す状態とヘルスチェックを確認します。</p>
+          </article>
+          <article data-reveal>
+            <span>02 / Application</span><h3>次に、担当部署の日誌を見る</h3>
+            <p>CloudWatch Logsで、Web、API、AI処理、移行処理のどこまで進んだかを追います。</p>
+          </article>
+          <article data-reveal>
+            <span>03 / Lifecycle</span><h3>最後に、全体工程の記録を見る</h3>
+            <p>GitHub Actions、CodeBuild、Terraformの要約から、配置・試験・片付けのどこで止まったかを照合します。</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="shell privacy-rule" data-reveal>
+        <strong>公開するのは、検証結果の要約だけ。</strong>
+        <p>
+          生ログにはアカウント識別子、内部URL、トークン、文書内容、秘密情報が混ざり得ます。
+          本サイトでは「どの層を確認し、何が分かったか」だけを公開し、生の画面や出力は掲載しません。
+        </p>
+      </div>
+    </section>
+
+    <section class="section destroy-story" id="destroy">
+      <div class="shell">
+        <div class="section-heading section-heading--split" data-reveal>
+          <div>
+            <p class="eyebrow">Destroy &amp; sweep</p>
+            <h2>消した、ではなく、<br />残っていない。</h2>
+          </div>
+          <p>
+            Terraformのdestroyは大切ですが、それだけでAWS全体の空白を証明したことにはなりません。この作品では、別の棚卸しを重ねます。
+          </p>
+        </div>
+
+        <div class="cleanup-timeline" data-reveal>
+          <div>
+            <span>Before create</span><strong>先に非常口を用意</strong><p>環境を作る前に、一定時間後の自動片付けを予約し、予約内容を読み返します。</p>
+          </div>
+          <span aria-hidden="true">→</span>
+          <div>
+            <span>After E2E</span><strong>成功したら即時destroy</strong><p>制限時間いっぱいまで残さず、試験完了後に通常経路で片付けます。</p>
+          </div>
+          <span aria-hidden="true">→</span>
+          <div>
+            <span>Postflight</span><strong>別の方法で残骸を探す</strong><p>設計図の記録、イメージ、AWSサービス一覧をそれぞれ確認します。</p>
+          </div>
+        </div>
+
+        <div class="zero-proof" data-reveal>
+          <div><strong>0</strong><span>Terraform管理対象</span></div>
+          <div><strong>0</strong><span>実行ごとのイメージ</span></div>
+          <div class="zero-proof__primary"><strong>27</strong><span>分類すべてで残存ゼロ</span></div>
+          <div><strong>0</strong><span>一時予約・制御記録</span></div>
+        </div>
+
+        <p class="zero-proof__note" data-reveal>
+          IAM、状態保存用S3、空のイメージ置き場、片付け用CodeBuildなど、次回も使う管理基盤は意図的に残します。
+          「一時環境の残骸」と「繰り返し使う設備」を混同しないことも、片付け設計の一部です。
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--soft failure-story" id="failures">
+      <div class="shell">
+        <div class="failure-story__lead" data-reveal>
+          <p class="eyebrow">Failures are evidence</p>
+          <h2>失敗を消すと、<br />技術力まで消える。</h2>
+          <p>
+            完成前には、SchedulerからCodeBuildへ渡す自動destroyが7回失敗しています。
+            その7回を「成功までの途中」として塗り替えず、後の成功記録と分けて残しました。代表的な学びは次の3つです。
+          </p>
+        </div>
+
+        <div class="failure-lessons">
+          {
+            failureLessons.map((item) => (
+              <article data-reveal>
+                <span>{item.number}</span>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+                <strong>{item.lesson}</strong>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section boundary-story">
+      <div class="shell boundary-story__grid">
+        <div data-reveal>
+          <p class="eyebrow">What stays / what goes</p>
+          <h2>全部消すことが、<br />正解ではない。</h2>
+        </div>
+        <div class="state-boundaries" data-reveal>
+          <article>
+            <span class="state-boundaries__status state-boundaries__status--keep">Keep</span>
+            <h3>次回も使う管理基盤</h3>
+            <p>権限の仕組み、Terraformの状態置き場、空のイメージ置き場、片付け担当。</p>
+          </article>
+          <article>
+            <span class="state-boundaries__status state-boundaries__status--remove">Remove</span>
+            <h3>試験中だけ使う環境</h3>
+            <p>ネットワーク、アプリ、データベース、キュー、ログイン基盤、一時データ。</p>
+          </article>
+          <article>
+            <span class="state-boundaries__status state-boundaries__status--prove">Prove</span>
+            <h3>一回ごとの証拠</h3>
+            <p>合成文書、試験利用者、予約、チェックポイント、実行時だけのイメージ。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section story-limitations">
+      <div class="shell story-limitations__grid">
+        <div data-reveal>
+          <p class="eyebrow">Honest boundary</p>
+          <h2>この実地試験が、<br />証明しないこと。</h2>
+        </div>
+        <ul class="plain-list" data-reveal>
+          <li>常時稼働する本番サービスや、SLAを備えた商用運用ではありません。</li>
+          <li>高可用性、災害復旧、大人数・大容量での性能を証明するものではありません。</li>
+          <li>小さな合成データの結果は、実業務でのAI精度を保証しません。</li>
+          <li>将来のAWS料金、サービス仕様、別アカウントでの再現性を保証しません。</li>
+          <li>この記事はAWSアカウント、IAM、Terraform環境を作る操作マニュアルではありません。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--dark references-section">
+      <div class="shell">
+        <div class="section-heading section-heading--split" data-reveal>
+          <div>
+            <p class="eyebrow eyebrow--accent">Sources &amp; verification</p>
+            <h2>分かりやすくする。<br />根拠は薄めない。</h2>
+          </div>
+          <p>
+            本文は、2026年8月14日に確認した実AWSのIAM設定と、同日時点のPortfolio mainを基に再構成しました。固有値は公開していません。
+          </p>
+        </div>
+
+        <div class="reference-list">
+          {
+            references.map((reference) => (
+              <a href={reference.href} target="_blank" rel="noreferrer" data-reveal>
+                <span>{reference.label}</span>
+                <strong>{reference.title}</strong>
+                <small>{reference.note}</small>
+                <em aria-hidden="true">↗</em>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="story-next">
+      <div class="shell story-next__inner" data-reveal>
+        <div>
+          <p class="eyebrow eyebrow--light">Choose your depth</p>
+          <h2>輪郭へ戻る。<br />または、証拠へ進む。</h2>
+          <p>3分解説は作品の全体像、GitHubはコードと英語の詳細資料です。</p>
+        </div>
+        <div class="story-next__actions">
+          <a class="button button--ghost-light button--large" href="/portfolio/">3分解説へ戻る</a>
+          <a class="button button--accent button--large" href="https://github.com/Kentaro-Ono-jp/Portfolio" target="_blank" rel="noreferrer">
+            GitHubで証拠を見る <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
