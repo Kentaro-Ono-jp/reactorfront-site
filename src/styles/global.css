@@ -340,9 +340,11 @@ code {
 }
 
 .brand__mark {
-  width: 2.55rem;
-  height: 2.55rem;
+  display: block;
+  width: 2.8rem;
+  height: 2.8rem;
   flex: none;
+  object-fit: contain;
 }
 
 .brand__type {
@@ -1215,20 +1217,13 @@ code {
   box-shadow: var(--shadow);
 }
 
-.profile-card__monogram {
-  display: grid;
+.profile-card__logo {
+  display: block;
+  width: 100%;
+  height: auto;
   aspect-ratio: 1;
-  place-items: center;
   margin-bottom: 2rem;
-  color: var(--accent);
-  background:
-    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px),
-    var(--ink);
-  background-size: 2.5rem 2.5rem;
-  font-size: clamp(3rem, 7vw, 5rem);
-  font-weight: 350;
-  letter-spacing: -0.08em;
+  object-fit: cover;
 }
 
 .profile-card__name {
@@ -2219,7 +2214,7 @@ code {
   :root { --gutter: 1.1rem; --section-space: 4.8rem; }
   body { font-size: .96rem; }
   .brand__type small { display: none; }
-  .site-header .brand__mark { width: 2.35rem; height: 2.35rem; }
+  .site-header .brand__mark { width: 2.55rem; height: 2.55rem; }
   .home-hero__image {
     background:
       linear-gradient(90deg, rgba(4,19,27,.94), rgba(4,19,27,.55)),

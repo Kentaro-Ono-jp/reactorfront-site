@@ -1,5 +1,13 @@
 # Asset notes
 
+## `public/images/reactorfront-logo.png`
+
+- 用途: ヘッダー、フッター、プロフィール、favicon、Webアプリアイコン
+- 著作者・権利者: ReactorFront代表 小野賢太郎
+- 外部素材: なし
+- Web向け処理: 原画の外周余白を除去し、縦横比を維持して512×512pxのPNGへ縮小
+- 意匠上の変更: なし
+
 ## `public/images/reactorfront-workspace.webp`
 
 - 用途: トップページのヒーロービジュアル、OGP画像

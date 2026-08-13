@@ -26,6 +26,7 @@ const organization = {
   name: "ReactorFront",
   alternateName: "リアクターフロント",
   url: "https://www.reactorfront.jp/",
+  logo: "https://www.reactorfront.jp/images/reactorfront-logo.png",
   email: "mailto:kentaro.ono@reactorfront.jp",
   founder: {
     "@type": "Person",
@@ -49,7 +50,8 @@ const organization = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/images/reactorfront-logo.png" type="image/png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/images/reactorfront-logo.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#071b24" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
