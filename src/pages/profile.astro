@@ -1,0 +1,173 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const disciplines = [
+  {
+    title: "アプリケーション",
+    description: "利用者の操作からAPI・データまで、分断しない形で組み立てます。",
+    items: ["TypeScript", "React / Next.js", "Python / FastAPI", "PostgreSQL", "OpenAPI"],
+  },
+  {
+    title: "基盤と運用",
+    description: "作るだけでなく、起動・監視・復旧・終了までを設計対象にします。",
+    items: ["Linux", "Docker", "AWS", "Terraform", "GitHub Actions", "RabbitMQ"],
+  },
+  {
+    title: "機械学習",
+    description: "予測値の先にある評価、人の確認、更新判断を仕組みに落とします。",
+    items: ["PyTorch", "Document Intelligence", "Model Evaluation", "Human-in-the-loop"],
+  },
+];
+---
+
+<BaseLayout
+  title="プロフィール"
+  description="ReactorFront代表・小野健太郎のプロフィール。システム開発20年以上、Linux運用保守5年の経験を土台に、現在は機械学習の研究開発に取り組んでいます。"
+>
+  <section class="page-hero page-hero--profile">
+    <div class="shell page-hero__inner">
+      <div class="breadcrumbs" aria-label="パンくずリスト">
+        <a href="/">Home</a><span aria-hidden="true">/</span><span>Profile</span>
+      </div>
+      <div class="page-hero__grid">
+        <div>
+          <p class="eyebrow eyebrow--light">Profile</p>
+          <h1>設計と実装、<br />そして運用の<br />あいだ。</h1>
+        </div>
+        <p class="page-hero__lead">
+          システム開発20年以上。Linuxを中心とした運用保守5年。
+          現場で積み重ねた二つの視点を、機械学習の研究開発へつないでいます。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section profile-overview">
+    <div class="shell profile-overview__grid">
+      <aside class="profile-card" data-reveal>
+        <div class="profile-card__monogram" aria-hidden="true">KO</div>
+        <p class="profile-card__name">小野 健太郎 <span>Kentaro Ono</span></p>
+        <p>ReactorFront 代表<br />Independent Software Engineer</p>
+        <dl>
+          <div><dt>拠点</dt><dd>東京 / フルリモート</dd></div>
+          <div><dt>現在</dt><dd>機械学習 R&amp;D</dd></div>
+          <div><dt>連絡</dt><dd><a href="mailto:kentaro.ono@reactorfront.jp">Email ↗</a></dd></div>
+        </dl>
+      </aside>
+
+      <div class="profile-story" data-reveal>
+        <p class="eyebrow">About</p>
+        <h2>長く現場にいるからこそ、<br />技術を目的にしない。</h2>
+        <div class="prose prose--large">
+          <p>
+            私の軸は、特定のフレームワークではありません。
+            誰が使い、どこで壊れ、どう戻し、次の担当者へ何を残すかまで考えて、技術を選ぶことです。
+          </p>
+          <p>
+            アプリケーション開発とLinux運用保守の両方を経験してきたことで、
+            「コードは正しいのに本番では扱いにくい」「基盤は安定しているのに利用者の目的を満たさない」といった境界の問題を早い段階で見つけられます。
+          </p>
+          <p>
+            現在はその視点を機械学習へ広げています。
+            モデル単体の数値だけでなく、人が確認できる画面、データの由来、失敗時の復旧、更新するかを判断する証拠までを一つの製品として扱います。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft career-section">
+    <div class="shell">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">Career layers</p>
+          <h2>経験は、層になって残る。</h2>
+        </div>
+        <p>
+          新しい領域へ移っても、それまでの経験は捨てません。
+          実装、運用、機械学習を重ね、判断できる範囲を広げています。
+        </p>
+      </div>
+
+      <ol class="career-timeline">
+        <li data-reveal>
+          <span class="career-timeline__year">20+ years</span>
+          <div>
+            <h3>システム開発</h3>
+            <p>業務システムを中心に、要件の理解から設計・実装・テストまで。長期運用されるコードに向き合ってきました。</p>
+          </div>
+        </li>
+        <li data-reveal>
+          <span class="career-timeline__year">5 years</span>
+          <div>
+            <h3>Linux運用保守</h3>
+            <p>サーバー、ログ、障害対応、定常作業。止まった後に何が必要かを、現場の手触りで学びました。</p>
+          </div>
+        </li>
+        <li data-reveal>
+          <span class="career-timeline__year">Current</span>
+          <div>
+            <h3>機械学習の研究開発</h3>
+            <p>再現可能な評価と、人が責任を持って使えるプロダクトへの組み込みに取り組んでいます。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">Working principles</p>
+        <h2>仕事で守る、4つのこと。</h2>
+      </div>
+      <div class="principle-grid">
+        <article data-reveal><span>01</span><h3>事実と推測を分ける</h3><p>計測できたこと、推測していること、まだ分からないことを混ぜません。</p></article>
+        <article data-reveal><span>02</span><h3>失敗経路から設計する</h3><p>成功時だけでなく、途中で止まった時の復旧と安全な終了を先に考えます。</p></article>
+        <article data-reveal><span>03</span><h3>判断の理由を残す</h3><p>コードだけでなく、なぜその境界や制約にしたかを次の人へ渡します。</p></article>
+        <article data-reveal><span>04</span><h3>過剰に作らない</h3><p>現在の目的に必要な最小構成から始め、拡張の入口だけを丁寧に残します。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark discipline-section">
+    <div class="shell">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow eyebrow--accent">Technical range</p>
+          <h2>専門を持ち、<br />全体も見る。</h2>
+        </div>
+        <p>
+          技術名は道具の目録です。大切なのは、どの境界に置き、どう確かめ、誰が運用するかまで説明できることだと考えています。
+        </p>
+      </div>
+      <div class="discipline-grid">
+        {
+          disciplines.map((discipline, index) => (
+            <article data-reveal>
+              <span class="discipline-grid__number">0{index + 1}</span>
+              <h3>{discipline.title}</h3>
+              <p>{discipline.description}</p>
+              <ul class="tag-list tag-list--dark">
+                {discipline.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section next-step">
+    <div class="shell next-step__inner" data-reveal>
+      <div>
+        <p class="eyebrow">Evidence, not adjectives</p>
+        <h2>技術力は、公開できる成果物で。</h2>
+        <p>
+          顧客情報を語る代わりに、設計・実装・検証・運用の考え方を一つの公開ポートフォリオへまとめています。
+        </p>
+      </div>
+      <a class="button button--dark" href="/portfolio/">ポートフォリオ解説へ <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</BaseLayout>

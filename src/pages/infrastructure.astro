@@ -1,0 +1,360 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const records = [
+  { type: "A / AAAA", role: "Webサイトの行き先", example: "example.com → GitHub PagesのIP", note: "IPv4 / IPv6" },
+  { type: "CNAME", role: "別名を本名へつなぐ", example: "www.example.com → owner.github.io", note: "サブドメイン向け" },
+  { type: "MX", role: "メールの配達先", example: "example.com → 管理画面が示すメールサーバー", note: "優先度あり" },
+  { type: "TXT", role: "文字で証明や方針を示す", example: "所有確認 / SPF / DKIM / DMARC", note: "秘密は入れない" },
+];
+---
+
+<BaseLayout
+  title="フリーランスの独立インフラ入門"
+  description="独自ドメイン、GitHub Pages、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontが実際に整えた最小構成を一般化し、フリーランス向けに安全な範囲で解説します。"
+>
+  <section class="page-hero page-hero--infrastructure">
+    <div class="page-hero__circuit" aria-hidden="true"></div>
+    <div class="shell page-hero__inner">
+      <div class="breadcrumbs" aria-label="パンくずリスト">
+        <a href="/">Home</a><span aria-hidden="true">/</span><span>Infrastructure</span>
+      </div>
+      <div class="page-hero__grid">
+        <div>
+          <p class="eyebrow eyebrow--accent">Freelance infrastructure guide</p>
+          <h1>独立したら<br />整えたい、<br />最小のIT基盤。</h1>
+        </div>
+        <div class="page-hero__lead">
+          <p>
+            独自ドメイン、仕事用メール、Webサイト。
+            契約先が増えても迷子にならないよう、「誰が何を担当しているか」から順に解きほぐします。
+          </p>
+          <span class="reading-time">実地確認: 2026-08-14</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section guide-intro">
+    <div class="shell guide-intro__grid">
+      <div data-reveal>
+        <p class="eyebrow">The actual stack</p>
+        <h2>このサイト自身が、<br />教材です。</h2>
+      </div>
+      <div class="prose prose--large" data-reveal>
+        <p>
+          ReactorFrontは、XServerドメインで契約した独自ドメイン、GitHub PagesのWebサイト、Google Workspaceの仕事用メールを組み合わせています。
+          DNSとメール認証も実際に設定し、公開レコードまで確認した構成です。
+          受信側でのSPF・DKIM・DMARC判定とDMARCレポートは、導入後の確認を継続しています。
+        </p>
+        <p>
+          ここではその構成を <code>example.com</code> に置き換えて説明します。
+          画面固有のトークンや鍵は公開せず、別のフリーランスが自分の契約情報で組み立てられる考え方を残します。
+        </p>
+      </div>
+    </div>
+
+    <div class="infra-architecture shell" data-reveal aria-label="独立インフラの構成図">
+      <div class="infra-architecture__source">
+        <span>契約・名前の管理</span>
+        <strong>XServerドメイン</strong>
+        <small>ドメイン / 権威DNS</small>
+      </div>
+      <div class="infra-architecture__hub">
+        <span class="infra-architecture__pulse" aria-hidden="true"></span>
+        <strong>DNS</strong>
+        <small>行き先を案内する</small>
+      </div>
+      <div class="infra-architecture__destinations">
+        <div>
+          <span>Web</span>
+          <strong>GitHub Pages</strong>
+          <small>静的サイト / HTTPS</small>
+        </div>
+        <div>
+          <span>Mail</span>
+          <strong>Google Workspace</strong>
+          <small>送受信 / 認証</small>
+        </div>
+      </div>
+      <svg viewBox="0 0 900 240" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M270 120H385" /><path d="M515 120H610V64H650" /><path d="M610 120v56h40" />
+      </svg>
+    </div>
+  </section>
+
+  <section class="section section--soft role-section">
+    <div class="shell">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">First principle</p>
+        <h2>まず、4つの役割を分ける。</h2>
+        <p>同じ会社が複数を提供することはありますが、役割そのものは別です。</p>
+      </div>
+      <div class="role-grid">
+        <article data-reveal>
+          <span>01</span><h3>ドメイン契約先</h3>
+          <p><code>example.com</code> という名前を契約し、更新する場所。期限切れはWebとメールの両方へ影響します。</p>
+        </article>
+        <article data-reveal>
+          <span>02</span><h3>DNS管理先</h3>
+          <p>Webやメールの行き先を記録する場所。現在使っているネームサーバーが、実際の編集先を決めます。</p>
+        </article>
+        <article data-reveal>
+          <span>03</span><h3>Web公開先</h3>
+          <p>サイトのファイルを置き、HTTPSで配信する場所。この構成ではGitHub Pagesです。</p>
+        </article>
+        <article data-reveal>
+          <span>04</span><h3>メール提供元</h3>
+          <p>独自ドメインのメールを送受信する場所。この構成ではGoogle Workspaceです。</p>
+        </article>
+      </div>
+      <div class="guide-tip" data-reveal>
+        <strong>迷った時の見分け方</strong>
+        <p>
+          「どこで契約したか」より、最初に <strong>NS（ネームサーバー）</strong> を確認します。
+          XServerドメインなら、契約一覧のクイックメニューにある「DNSレコード設定」が入口です。レンタルサーバーの管理画面とは別の場合があります。
+        </p>
+        <a href="https://www.xdomain.ne.jp/manual/man_domain_dns_setting.php" target="_blank" rel="noreferrer">XServerドメイン公式: DNSレコードの編集 ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section record-section">
+    <div class="shell">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">DNS records</p>
+          <h2>レコードは、<br />インターネットの案内板。</h2>
+        </div>
+        <p>
+          英字の種類に圧倒されますが、担当する仕事はそれぞれ一つです。
+          まず役割を理解し、値は必ず利用するサービスの公式画面・公式文書から取得します。
+        </p>
+      </div>
+
+      <div class="record-table" data-reveal role="table" aria-label="主要なDNSレコード">
+        <div class="record-table__head" role="row">
+          <span role="columnheader">種類</span><span role="columnheader">役割</span><span role="columnheader">例</span><span role="columnheader">補足</span>
+        </div>
+        {
+          records.map((record) => (
+            <div class="record-table__row" role="row">
+              <strong role="cell">{record.type}</strong>
+              <span role="cell">{record.role}</span>
+              <code role="cell">{record.example}</code>
+              <small role="cell">{record.note}</small>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark build-section">
+    <div class="shell build-section__grid">
+      <aside class="guide-index" data-reveal>
+        <p class="eyebrow eyebrow--accent">Build order</p>
+        <h2>設定する順番。</h2>
+        <ol>
+          <li><a href="#step-1"><span>01</span>ドメインとDNS</a></li>
+          <li><a href="#step-2"><span>02</span>Webサイト</a></li>
+          <li><a href="#step-3"><span>03</span>仕事用メール</a></li>
+          <li><a href="#step-4"><span>04</span>メール認証</a></li>
+          <li><a href="#step-5"><span>05</span>外部から確認</a></li>
+        </ol>
+      </aside>
+
+      <div class="guide-steps">
+        <article id="step-1" data-reveal>
+          <span class="guide-steps__number">01</span>
+          <p class="eyebrow">Domain &amp; DNS</p>
+          <h3>名前を契約し、編集場所を確定する。</h3>
+          <p>
+            ドメインを契約したら、自動更新と連絡先メールを確認します。次にNSレコードを調べ、現在そのドメインの案内板を管理しているサービスを特定します。
+          </p>
+          <div class="code-block">
+            <div class="code-block__head"><span>PowerShell</span><span>ネームサーバーを確認</span></div>
+            <pre><code>Resolve-DnsName example.com -Type NS</code></pre>
+          </div>
+          <ul class="task-list">
+            <li>契約の自動更新と支払い方法を確認する</li>
+            <li>NSの結果とDNS編集画面が一致するか確認する</li>
+            <li>変更前のDNSレコードを控える</li>
+          </ul>
+        </article>
+
+        <article id="step-2" data-reveal>
+          <span class="guide-steps__number">02</span>
+          <p class="eyebrow">Website</p>
+          <h3>GitHub PagesへWebの行き先を向ける。</h3>
+          <p>
+            GitHub側でカスタムドメインを登録・検証してから、DNSへA / AAAA / CNAMEを追加します。
+            ルートドメインと <code>www</code> のどちらを正規URLにするかも決めます。
+          </p>
+          <div class="dns-example" aria-label="GitHub Pages向けDNSの一般例">
+            <div><strong>A / AAAA</strong><span><code>@</code> → GitHub Pages公式のIP</span></div>
+            <div><strong>CNAME</strong><span><code>www</code> → <code>owner.github.io</code></span></div>
+            <div><strong>TXT</strong><span>GitHubが表示した所有確認値</span></div>
+          </div>
+          <div class="warning-note">
+            <strong>値をこの記事から丸写ししない</strong>
+            <p>IPや確認手順は変更され得ます。設定時点のGitHub公式文書と、自分のリポジトリ設定画面を正としてください。ワイルドカードDNSは使いません。</p>
+          </div>
+          <p class="official-links">
+            <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site" target="_blank" rel="noreferrer">GitHub公式: カスタムドメイン設定 ↗</a>
+            <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages" target="_blank" rel="noreferrer">GitHub公式: ドメイン所有確認 ↗</a>
+          </p>
+        </article>
+
+        <article id="step-3" data-reveal>
+          <span class="guide-steps__number">03</span>
+          <p class="eyebrow">Business email</p>
+          <h3>Google Workspaceへメールを届ける。</h3>
+          <p>
+            Google Workspaceでドメイン所有を確認し、管理画面が指定するMXレコードをDNSへ登録します。
+            優先度は数値が小さいほど先に使われます。既に問題なく稼働している旧形式のGoogle MXは、理由なく置き換えません。
+          </p>
+          <ul class="task-list">
+            <li>管理画面に表示されたMXの値と優先度を使う</li>
+            <li>同じドメインの不要な旧MXが混ざっていないか確認する</li>
+            <li>作成した独自ドメインアドレスで送受信を試す</li>
+          </ul>
+          <p class="official-links">
+            <a href="https://support.google.com/a/answer/6156494" target="_blank" rel="noreferrer">Google公式: MXレコード設定 ↗</a>
+          </p>
+        </article>
+
+        <article id="step-4" data-reveal>
+          <span class="guide-steps__number">04</span>
+          <p class="eyebrow">Email authentication</p>
+          <h3>SPF・DKIM・DMARCを順番に有効化する。</h3>
+          <p>
+            3つは重複機能ではありません。送信元の許可、電子署名、失敗時の扱いという別々の役割を持ちます。
+          </p>
+
+          <div class="auth-stack">
+            <section>
+              <div><span>SPF</span><strong>送信元の許可リスト</strong></div>
+              <p>このドメインのメールを、どのサービスが送ってよいか宣言します。</p>
+              <pre><code>v=spf1 include:_spf.google.com ~all</code></pre>
+            </section>
+            <section>
+              <div><span>DKIM</span><strong>メールへの電子署名</strong></div>
+              <p>Google管理画面で2048ビット鍵を生成し、公開鍵だけをTXTへ登録します。実際の鍵は転載しません。</p>
+              <pre><code>google._domainkey  TXT  &lt;管理画面が生成した公開鍵&gt;</code></pre>
+            </section>
+            <section>
+              <div><span>DMARC</span><strong>失敗時の方針と報告</strong></div>
+              <p>最初は監視だけの <code>p=none</code> で始め、報告を見てから段階的に強くします。</p>
+              <pre><code>v=DMARC1; p=none; rua=mailto:dmarc@example.com</code></pre>
+            </section>
+          </div>
+
+          <div class="warning-note warning-note--accent">
+            <strong>DMARCは一気に <code>reject</code> へ進めない</strong>
+            <p>SPFとDKIMを先に整え、少なくとも1週間はレポートを監視します。正規の送信元がすべて通ると確認してから <code>quarantine</code>、その後 <code>reject</code> を検討します。</p>
+          </div>
+          <p class="official-links">
+            <a href="https://support.google.com/a/answer/33786" target="_blank" rel="noreferrer">Google公式: SPF ↗</a>
+            <a href="https://support.google.com/a/answer/174124" target="_blank" rel="noreferrer">Google公式: DKIM ↗</a>
+            <a href="https://support.google.com/a/answer/10032473" target="_blank" rel="noreferrer">Google公式: DMARC導入手順 ↗</a>
+          </p>
+        </article>
+
+        <article id="step-5" data-reveal>
+          <span class="guide-steps__number">05</span>
+          <p class="eyebrow">Verification</p>
+          <h3>管理画面ではなく、外から確かめる。</h3>
+          <p>
+            「保存できた」は完了ではありません。権威DNSへ問い合わせ、Webを開き、別サービスのメールボックスへ送り、受信側がどう判定したかを確認します。
+          </p>
+          <div class="code-block">
+            <div class="code-block__head"><span>PowerShell</span><span>公開DNSを確認</span></div>
+            <pre><code>Resolve-DnsName example.com -Type A
+Resolve-DnsName example.com -Type AAAA
+Resolve-DnsName www.example.com -Type CNAME
+Resolve-DnsName example.com -Type MX
+Resolve-DnsName example.com -Type TXT
+Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
+          </div>
+          <ul class="task-list">
+            <li>ルートドメインと <code>www</code> の両方がHTTPSで開く</li>
+            <li>片方から正規URLへ意図どおり転送される</li>
+            <li>外部メールの「メッセージのソース」でSPF / DKIM / DMARCが <code>PASS</code></li>
+            <li>DMARCレポートが届き、未知の送信元がない</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section publish-safety">
+    <div class="shell">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">Publish safely</p>
+          <h2>ノウハウは公開する。<br />認証情報は公開しない。</h2>
+        </div>
+        <p>
+          DNSはそもそも公開情報ですが、管理画面のスクリーンショットには公開不要な情報が混ざります。
+          解説に必要な「構造」と、本人しか持つべきでない「値」を分けます。
+        </p>
+      </div>
+
+      <div class="safety-grid">
+        <article class="safety-card safety-card--yes" data-reveal>
+          <p><span aria-hidden="true">✓</span> 公開してよい</p>
+          <ul>
+            <li>サービスごとの役割と構成図</li>
+            <li>A / AAAA / MXなど公開DNSの一般例</li>
+            <li>SPF・DKIM・DMARCの考え方</li>
+            <li>値を伏せた管理画面の手順</li>
+            <li>確認コマンドと判定基準</li>
+          </ul>
+        </article>
+        <article class="safety-card safety-card--no" data-reveal>
+          <p><span aria-hidden="true">×</span> 公開しない</p>
+          <ul>
+            <li>アカウントID、請求・契約情報</li>
+            <li>パスワード、二要素認証、復旧コード</li>
+            <li>認証コード、EPP/AuthCode</li>
+            <li>GitHub / Googleの実際の確認トークン</li>
+            <li>DKIM鍵の実値や管理画面のセッションURL</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft operations-section">
+    <div class="shell operations-section__grid">
+      <div data-reveal>
+        <p class="eyebrow">Keep it healthy</p>
+        <h2>作った後に、<br />忘れないための運用。</h2>
+      </div>
+      <div class="operations-list">
+        <article data-reveal><span>Monthly</span><h3>期限と請求を確認</h3><p>ドメイン、Google Workspace、支払い手段、管理者への通知を確認します。</p></article>
+        <article data-reveal><span>After change</span><h3>DNSを外部確認</h3><p>レコード変更後は、権威DNSと一般の名前解決の両方を確認します。</p></article>
+        <article data-reveal><span>Weekly at first</span><h3>DMARCレポートを見る</h3><p>導入直後は未知の送信元や認証失敗がないか確認し、方針強化の判断材料にします。</p></article>
+        <article data-reveal><span>Quarterly</span><h3>管理権限を棚卸し</h3><p>使っていないアカウント、古い回復先、不要なDNSレコードを整理します。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="guide-closing">
+    <div class="shell guide-closing__inner" data-reveal>
+      <div>
+        <p class="eyebrow eyebrow--light">Small, understandable, yours</p>
+        <h2>最小構成とは、<br />自分で説明できる構成。</h2>
+        <p>
+          サービスを減らすことだけが最小化ではありません。
+          契約、行き先、安全策、確認方法を自分の言葉で説明できれば、独立の基盤はブラックボックスになりません。
+        </p>
+      </div>
+      <a class="button button--accent button--large" href="mailto:kentaro.ono@reactorfront.jp">
+        インフラ整備を相談する
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

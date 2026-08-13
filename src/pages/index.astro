@@ -1,0 +1,223 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="ReactorFront"
+  description="設計・実装・運用の境界をまたぎ、複雑さを動く仕組みに変える。東京を拠点に活動する独立系ソフトウェアエンジニア、ReactorFrontの公式サイトです。"
+>
+  <section class="home-hero">
+    <div class="home-hero__image" aria-hidden="true"></div>
+    <div class="home-hero__grid" aria-hidden="true"></div>
+    <div class="home-hero__inner shell">
+      <div class="home-hero__copy">
+        <p class="eyebrow eyebrow--light">Independent Software Engineering / Tokyo</p>
+        <h1>
+          複雑さを、<br />
+          <span>動く仕組み</span>に。
+        </h1>
+        <p class="home-hero__lead">
+          設計だけでも、実装だけでも、運用だけでも終わらせない。<br />
+          ソフトウェアとインフラの境界をまたぎ、現場で使い続けられる形までつくります。
+        </p>
+        <div class="button-row">
+          <a class="button button--accent" href="/portfolio/">
+            仕事と技術を見る
+            <span aria-hidden="true">→</span>
+          </a>
+          <a class="button button--ghost-light" href="mailto:kentaro.ono@reactorfront.jp">
+            相談する
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="home-hero__foot">
+        <div class="availability">
+          <span class="availability__pulse" aria-hidden="true"></span>
+          <span><strong>Now</strong> 機械学習の研究開発案件に参画中</span>
+        </div>
+        <dl class="hero-stats" aria-label="経験年数">
+          <div>
+            <dt>システム開発</dt>
+            <dd><strong>20</strong><span>年+</span></dd>
+          </div>
+          <div>
+            <dt>Linux運用保守</dt>
+            <dd><strong>5</strong><span>年</span></dd>
+          </div>
+          <div>
+            <dt>現在地</dt>
+            <dd><strong>ML</strong><span>R&amp;D</span></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--intro">
+    <div class="shell">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">What I do</p>
+          <h2>境界に落ちる仕事を、<br />拾い上げる。</h2>
+        </div>
+        <p>
+          アプリケーション、基盤、運用は別々の専門領域に見えて、実際の障害や使いにくさはその境界で起こります。
+          ReactorFrontは、全体を見渡して「動く」から「任せられる」までをつなぎます。
+        </p>
+      </div>
+
+      <div class="capability-grid">
+        <article class="capability-card" data-reveal>
+          <span class="capability-card__number">01</span>
+          <div class="capability-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M8 12h32v24H8zM8 19h32M15 15h.1M20 15h.1" /></svg>
+          </div>
+          <h3>Product Engineering</h3>
+          <p>要件を整理し、Web画面・API・データベースまで、利用者の操作として一つにつなぎます。</p>
+          <ul class="tag-list" aria-label="関連技術">
+            <li>TypeScript</li><li>React</li><li>Python</li><li>API</li>
+          </ul>
+        </article>
+
+        <article class="capability-card" data-reveal>
+          <span class="capability-card__number">02</span>
+          <div class="capability-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M10 10h28v10H10zM10 28h28v10H10zM15 15h.1M15 33h.1M21 15h12M21 33h12" /></svg>
+          </div>
+          <h3>Platform &amp; Reliability</h3>
+          <p>Linux、コンテナ、クラウド、CI/CDを、復旧や安全な終了まで含む運用可能な基盤に整えます。</p>
+          <ul class="tag-list" aria-label="関連技術">
+            <li>Linux</li><li>Docker</li><li>AWS</li><li>Terraform</li>
+          </ul>
+        </article>
+
+        <article class="capability-card" data-reveal>
+          <span class="capability-card__number">03</span>
+          <div class="capability-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="6" /><path d="M24 5v8M24 35v8M5 24h8M35 24h8M10.6 10.6l5.7 5.7M31.7 31.7l5.7 5.7M37.4 10.6l-5.7 5.7M16.3 31.7l-5.7 5.7" /></svg>
+          </div>
+          <h3>Applied ML</h3>
+          <p>モデルの精度だけでなく、人の確認、データの由来、評価と更新までを製品の仕組みとして扱います。</p>
+          <ul class="tag-list" aria-label="関連技術">
+            <li>PyTorch</li><li>Evaluation</li><li>Human Review</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark featured-work">
+    <div class="featured-work__glow" aria-hidden="true"></div>
+    <div class="shell featured-work__inner">
+      <div class="featured-work__copy" data-reveal>
+        <p class="eyebrow eyebrow--accent">Featured Portfolio</p>
+        <h2>AIの答えを、<br />人が安心して扱える仕組みへ。</h2>
+        <p>
+          PDFを受け付け、機械が種類を予測し、人が最終判断を行い、その履歴を残す。
+          一見単純な流れを、認証・非同期処理・監査・機械学習・クラウド運用まで含む一つの公開システムとして実装しました。
+        </p>
+        <a class="text-link text-link--light" href="/portfolio/">
+          3分でわかる日本語解説へ
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="mini-flow" data-reveal aria-label="ポートフォリオの処理の流れ">
+        <div class="mini-flow__rail" aria-hidden="true"></div>
+        <div class="mini-flow__step">
+          <span>01</span>
+          <div class="mini-flow__glyph mini-flow__glyph--document" aria-hidden="true"></div>
+          <h3>受付</h3>
+          <p>PDFを安全に預かる</p>
+        </div>
+        <div class="mini-flow__step">
+          <span>02</span>
+          <div class="mini-flow__glyph mini-flow__glyph--machine" aria-hidden="true"></div>
+          <h3>機械処理</h3>
+          <p>裏側で種類を予測</p>
+        </div>
+        <div class="mini-flow__step">
+          <span>03</span>
+          <div class="mini-flow__glyph mini-flow__glyph--review" aria-hidden="true"></div>
+          <h3>人の判断</h3>
+          <p>承認または訂正</p>
+        </div>
+        <div class="mini-flow__step">
+          <span>04</span>
+          <div class="mini-flow__glyph mini-flow__glyph--audit" aria-hidden="true"></div>
+          <h3>記録</h3>
+          <p>誰が何を決めたか残す</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section infrastructure-teaser">
+    <div class="shell infrastructure-teaser__grid">
+      <div class="infrastructure-teaser__visual" data-reveal aria-hidden="true">
+        <div class="orbit orbit--outer"></div>
+        <div class="orbit orbit--inner"></div>
+        <div class="infra-node infra-node--domain"><span>01</span><strong>Domain</strong></div>
+        <div class="infra-node infra-node--dns"><span>02</span><strong>DNS</strong></div>
+        <div class="infra-node infra-node--web"><span>03</span><strong>Web</strong></div>
+        <div class="infra-node infra-node--mail"><span>04</span><strong>Mail</strong></div>
+      </div>
+      <div class="infrastructure-teaser__copy" data-reveal>
+        <p class="eyebrow">Open knowledge</p>
+        <h2>独立した日に、<br />本当に必要だったIT基盤。</h2>
+        <p>
+          独自ドメイン、Webサイト、仕事用メール、DNS、メール認証。
+          ReactorFront自身が整備した最小構成を、同じ場所で迷うフリーランスのために一般化して公開します。
+        </p>
+        <ul class="check-list">
+          <li>契約先と実際の役割を切り分ける</li>
+          <li>A / AAAA / CNAME / MX / TXTを言葉から理解する</li>
+          <li>SPF・DKIM・DMARCでメールの信頼性を上げる</li>
+          <li>秘密を公開せず、自分で設定後の確認ができる</li>
+        </ul>
+        <a class="button button--outline" href="/infrastructure/">
+          独立インフラ入門を読む
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section profile-teaser">
+    <div class="shell profile-teaser__inner">
+      <div class="profile-teaser__kicker" data-reveal>
+        <span class="profile-teaser__initial">K</span>
+        <div>
+          <p>Kentaro Ono</p>
+          <span>Independent Software Engineer</span>
+        </div>
+      </div>
+      <blockquote data-reveal>
+        「動いた」で終えず、<br />次に触る人が判断できるところまで。
+      </blockquote>
+      <div class="profile-teaser__body" data-reveal>
+        <p>
+          システム開発20年以上、Linuxを中心とした運用保守5年。
+          長い現場経験で得た実装と運用の視点を土台に、現在は機械学習の研究開発へ領域を広げています。
+        </p>
+        <a class="text-link" href="/profile/">プロフィールを見る <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-band">
+    <div class="shell contact-band__inner" data-reveal>
+      <div>
+        <p class="eyebrow eyebrow--light">Start a conversation</p>
+        <h2>まずは、状況を聞かせてください。</h2>
+        <p>技術相談、将来の協業、案件のご連絡。整理前の段階でも構いません。</p>
+      </div>
+      <a class="button button--accent button--large" href="mailto:kentaro.ono@reactorfront.jp">
+        kentaro.ono@reactorfront.jp
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

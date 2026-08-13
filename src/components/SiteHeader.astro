@@ -1,0 +1,79 @@
+---
+import BrandMark from "./BrandMark.astro";
+
+const path = Astro.url.pathname;
+const nav = [
+  { href: "/", label: "ホーム" },
+  { href: "/profile/", label: "プロフィール" },
+  { href: "/portfolio/", label: "ポートフォリオ" },
+  { href: "/infrastructure/", label: "独立インフラ入門" },
+];
+
+const isActive = (href: string) =>
+  href === "/" ? path === href : path.startsWith(href);
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-header__inner shell">
+    <a class="site-header__brand" href="/" aria-label="ReactorFront ホーム">
+      <BrandMark />
+    </a>
+
+    <button
+      class="menu-button"
+      type="button"
+      aria-expanded="false"
+      aria-controls="global-navigation"
+      data-menu-button
+    >
+      <span class="sr-only">メニューを開く</span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+
+    <nav class="site-nav" id="global-navigation" aria-label="グローバルナビゲーション" data-menu>
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="button button--small button--dark site-nav__contact" href="mailto:kentaro.ono@reactorfront.jp">
+        相談する
+        <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-site-header]");
+  const button = document.querySelector<HTMLButtonElement>("[data-menu-button]");
+  const menu = document.querySelector<HTMLElement>("[data-menu]");
+
+  const closeMenu = () => {
+    button?.setAttribute("aria-expanded", "false");
+    button?.querySelector(".sr-only")?.replaceChildren("メニューを開く");
+    header?.classList.remove("is-menu-open");
+  };
+
+  button?.addEventListener("click", () => {
+    const open = button.getAttribute("aria-expanded") !== "true";
+    button.setAttribute("aria-expanded", String(open));
+    button.querySelector(".sr-only")?.replaceChildren(open ? "メニューを閉じる" : "メニューを開く");
+    header?.classList.toggle("is-menu-open", open);
+  });
+
+  menu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
+  });
+</script>

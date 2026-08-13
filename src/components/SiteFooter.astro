@@ -1,0 +1,37 @@
+---
+import BrandMark from "./BrandMark.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="site-footer__main">
+      <div class="site-footer__intro">
+        <a href="/" aria-label="ReactorFront ホーム"><BrandMark /></a>
+        <p>
+          設計・実装・運用の境界をまたぎ、<br />複雑さを動く仕組みに変える。
+        </p>
+      </div>
+
+      <div class="site-footer__links">
+        <div>
+          <p class="site-footer__label">Explore</p>
+          <a href="/profile/">プロフィール</a>
+          <a href="/portfolio/">ポートフォリオ</a>
+          <a href="/infrastructure/">独立インフラ入門</a>
+        </div>
+        <div>
+          <p class="site-footer__label">Connect</p>
+          <a href="mailto:kentaro.ono@reactorfront.jp">Email</a>
+          <a href="https://github.com/Kentaro-Ono-jp" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {year} ReactorFront / Kentaro Ono</p>
+      <p>Tokyo, Japan</p>
+    </div>
+  </div>
+</footer>

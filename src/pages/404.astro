@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="ページが見つかりません"
+  description="お探しのページは移動または削除された可能性があります。"
+  noindex={true}
+>
+  <section class="not-found">
+    <div class="shell not-found__inner">
+      <p class="not-found__code">404</p>
+      <p class="eyebrow eyebrow--light">Page not found</p>
+      <h1>その経路は、<br />ここでは終端です。</h1>
+      <p>URLが変わったか、ページが移動した可能性があります。</p>
+      <a class="button button--accent" href="/">ホームへ戻る <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</BaseLayout>
