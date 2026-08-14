@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { articleReadingMinutes } from "../../reading-times";
 
 const portfolioCommit = "708056f33d56f1affe2dbe8e1b58f4a722895b88";
 
@@ -155,7 +156,7 @@ const references = [
 ---
 
 <BaseLayout
-  title="AWSデプロイと撤収｜10分で読むポートフォリオ"
+  title={`AWSデプロイと撤収｜約${articleReadingMinutes.aws}分で読むポートフォリオ`}
   description="IAM、OIDC、Terraform、ECS/Fargate、認証付きE2E、CloudWatch Logs、destroy後の残存確認。ReactorFront Portfolioの実AWS検証を解説します。"
 >
   <article class="aws-story">
@@ -171,7 +172,7 @@ const references = [
         </div>
         <div class="page-hero__grid">
           <div>
-            <p class="eyebrow eyebrow--accent">10-minute field note</p>
+            <p class="eyebrow eyebrow--accent">{articleReadingMinutes.aws}-minute field note</p>
             <h1>AWSを構築し、<br />E2E後に撤収する。</h1>
           </div>
           <div class="page-hero__lead">
@@ -179,7 +180,7 @@ const references = [
               Terraformで実AWS環境を構築し、認証付きE2Eとログで動作を確認し、destroy後の残存リソースまで検査する。
               ReactorFront Portfolioで実行した一連の検証を解説します。
             </p>
-            <span class="reading-time">約10分で読めます</span>
+            <span class="reading-time">約{articleReadingMinutes.aws}分で読めます</span>
           </div>
         </div>
       </div>
@@ -222,6 +223,21 @@ const references = [
           </p>
         </div>
       </div>
+
+      <aside class="reader-bridge shell" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>この章の全体像</strong>
+        </div>
+        <div>
+          <h3>必要な時だけ、本番相当の環境を丸ごと作る話です。</h3>
+          <p>
+            AWS上にWeb画面、API、データベース、AI処理などを配置し、利用者と同じ流れで動作を確認した後、課金対象を片付けます。
+            「作れた」「画面が開いた」だけで終わらず、「業務を最後まで通せた」「安全に閉じられた」までを一回の検証としています。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>公開作業だけでなく、試験、障害確認、費用の停止まで任せられることを示します。</p>
+        </div>
+      </aside>
     </section>
 
     <section class="section section--dark journey-section" id="journey">
@@ -313,6 +329,21 @@ const references = [
           <p>デプロイ用ロールは、アイデンティティポリシーとBoundaryの両方が許可するアクションだけを実行できます。</p>
         </article>
       </div>
+
+      <aside class="reader-bridge shell" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>IAMを平たく言うと</strong>
+        </div>
+        <div>
+          <h3>万能鍵を持ち歩かず、用事ごとに期限付きの鍵を借ります。</h3>
+          <p>
+            普段使う利用者には強い権限を置かず、設定を見る時、費用を見る時、環境を作る時で別のロールへ切り替えます。
+            デプロイの鍵は一時間で失効し、許可できる範囲にも上限を設けています。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>操作ミスや認証情報の流出が起きた場合でも、使える時間と影響範囲を狭くできます。</p>
+        </div>
+      </aside>
     </section>
 
     <section class="section section--soft deployment-story" id="deploy">
@@ -370,6 +401,21 @@ const references = [
             Fargateが常時稼働で常に最安という主張ではありません。EC2キャパシティ管理を対象外とし、build・E2E・destroyのライフサイクル検証へ集中するための選択です。
           </p>
         </div>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>Fargateを選ぶ意味</strong>
+          </div>
+          <div>
+            <h3>サーバーそのものの保守を減らし、アプリの検証へ集中します。</h3>
+            <p>
+              EC2では仮想サーバーの台数、OS更新、空き容量なども管理対象になります。Fargateでは必要なCPUとメモリを指定し、検証する間だけコンテナを実行できます。
+              今回はサーバー運用の比較ではなく、アプリケーションを配置して片付ける工程を確かめるため、この方式を選びました。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>何を検証し、何をAWSへ任せるかを明確にし、短命な環境の構築と撤収へ作業を絞れます。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -441,6 +487,21 @@ const references = [
             </article>
           </div>
         </div>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>月次実行の狙い</strong>
+          </div>
+          <div>
+            <h3>24時間公開しなくても、作れる・動かせる・消せることは証明できます。</h3>
+            <p>
+              この作品で確認したいのは、いつでも閲覧できるサービスかどうかではなく、同じ設計から環境を再構築し、試験を完走し、課金対象を撤収できるかです。
+              月に一度この全工程を動かせば、証拠を更新しながら常時稼働の費用を避けられます。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>技術検証に必要な証拠と、維持費のバランスを設計として管理しています。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -497,6 +558,21 @@ const references = [
           <strong>実際のschedule経路で、配置・E2E・即時destroy・27分類の残存ゼロまで完走。</strong>
           <small>約29分の実行記録をGitHub Actionsで公開しています <em aria-hidden="true">↗</em></small>
         </a>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>二つの時計</strong>
+          </div>
+          <div>
+            <h3>片付けを、作業を始めた仕組みだけに任せません。</h3>
+            <p>
+              通常はGitHub Actionsが構築から撤収まで進めます。しかし、その処理自体が停止すると、同じ経路からは片付けられません。
+              そこでAWS側にも「一時間後にまだ残っていたら撤収する」という独立した予約を先に置きます。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>デプロイ担当の処理が途中で消えても、課金対象だけが残り続ける事態を別系統から防ぎます。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -535,6 +611,21 @@ const references = [
             </p>
           </div>
         </div>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>E2Eとは</strong>
+          </div>
+          <div>
+            <h3>部品ごとの検査ではなく、利用者が仕事を終えられるかを通しで試します。</h3>
+            <p>
+              ログインだけ、AIだけ、データベースだけが正常でも、つなぎ目に問題があれば利用者は作業を完了できません。
+              実際の入口からPDFを登録し、AI処理を待ち、人が確認し、記録が残るところまでを一続きで試験します。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>個別機能の正常だけでは見つからない、認証やデータ受け渡しの不整合を検出できます。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -628,6 +719,21 @@ const references = [
           一時リソースと次回も使う管理基盤を混同しないことも、撤収設計の一部です。
           AWSの利用額には反映まで時間差があるため、後日の請求も確認します。ただし、請求額だけを「残存ゼロ」の証拠にはしません。
         </p>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>削除の完了条件</strong>
+          </div>
+          <div>
+            <h3>「削除コマンドが成功した」と「請求対象が消えた」は同じではありません。</h3>
+            <p>
+              本体を削除しても、保存領域、固定IP、スナップショット、別サービスが作った付随物などが残る場合があります。
+              そのため、作成に使ったTerraformとは別にAWSへ問い合わせ、残り物がないかを種類ごとに確認しています。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>次回の構築を邪魔する古い資源や、気づかないまま続く請求を見逃しにくくします。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -731,11 +837,11 @@ const references = [
         <div>
           <p class="eyebrow eyebrow--light">Choose your depth</p>
           <h2>システム全体、ML設計、<br />公開リポジトリへ。</h2>
-          <p>3分解説ではDocument Intelligence基盤の全体像、ML編ではモデルライフサイクル、GitHubでは実装と実行履歴を確認できます。</p>
+          <p>約{articleReadingMinutes.overview}分の概説ではDocument Intelligence基盤の全体像、ML編ではモデルライフサイクル、GitHubでは実装と実行履歴を確認できます。</p>
         </div>
         <div class="story-next__actions">
-          <a class="button button--ghost-light button--large" href="/portfolio/">3分解説へ戻る</a>
-          <a class="button button--ghost-light button--large" href="/portfolio/ml/">MLの10分記事へ</a>
+          <a class="button button--ghost-light button--large" href="/portfolio/">約{articleReadingMinutes.overview}分の概説へ戻る</a>
+          <a class="button button--ghost-light button--large" href="/portfolio/ml/">MLの約{articleReadingMinutes.ml}分記事へ</a>
           <a class="button button--accent button--large" href="https://github.com/Kentaro-Ono-jp/Portfolio" target="_blank" rel="noreferrer">
             GitHubで実装を見る <span aria-hidden="true">↗</span>
           </a>

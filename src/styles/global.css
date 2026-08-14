@@ -1504,6 +1504,82 @@ code {
   font-size: 0.86rem;
 }
 
+.reader-bridge {
+  display: grid;
+  grid-template-columns: minmax(145px, 0.32fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+  padding: clamp(1.5rem, 3.5vw, 2.75rem);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent-dark);
+  background: var(--paper-raised);
+}
+
+.reader-bridge__label {
+  align-self: start;
+}
+
+.reader-bridge__label span {
+  display: block;
+  color: #587078;
+  font-family: "Cascadia Code", monospace;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.reader-bridge__label strong {
+  display: block;
+  margin-top: 0.65rem;
+  font-size: 0.93rem;
+}
+
+.reader-bridge h3 {
+  margin-bottom: 0.8rem;
+  font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+}
+
+.reader-bridge p {
+  max-width: 850px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.reader-bridge__meaning {
+  margin-top: 1.15rem !important;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line);
+}
+
+.reader-bridge__meaning strong {
+  display: inline-block;
+  margin-right: 0.6rem;
+  color: #173f49;
+  font-size: 0.73rem;
+  letter-spacing: 0.06em;
+}
+
+.section--dark .reader-bridge {
+  border-color: var(--line-dark);
+  border-left-color: var(--accent);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.section--dark .reader-bridge__label span,
+.section--dark .reader-bridge p {
+  color: var(--muted-light);
+}
+
+.section--dark .reader-bridge__meaning {
+  border-color: var(--line-dark);
+}
+
+.section--dark .reader-bridge__meaning strong {
+  color: var(--accent);
+}
+
 .portfolio-flow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -4366,6 +4442,7 @@ code {
   .page-hero { min-height: auto; }
   .breadcrumbs { margin-bottom: 4.5rem; }
   .page-hero__grid { align-items: start; gap: 2rem; }
+  .reader-bridge { grid-template-columns: 1fr; gap: 1.2rem; }
   .profile-card { max-width: 480px; }
   .experience-proof-grid { grid-template-columns: 1fr; }
   .experience-proof-grid article { min-height: auto; }

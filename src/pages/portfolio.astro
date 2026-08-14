@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { articleReadingMinutes } from "../reading-times";
 
 const slices = [
   {
@@ -30,8 +31,8 @@ const slices = [
 ---
 
 <BaseLayout
-  title="ポートフォリオ解説"
-  description="PDF受付、非同期解析、Human-in-the-loop、監査ログ、モデルライフサイクル、AWS運用を統合したReactorFrontのDocument Intelligence基盤を3分で解説します。"
+  title={`ポートフォリオ解説｜約${articleReadingMinutes.overview}分で読む`}
+  description={`PDF受付、非同期解析、Human-in-the-loop、監査ログ、モデルライフサイクル、AWS運用を統合したReactorFrontのDocument Intelligence基盤を約${articleReadingMinutes.overview}分で解説します。`}
 >
   <section class="page-hero page-hero--portfolio">
     <div class="page-hero__mesh" aria-hidden="true"></div>
@@ -41,7 +42,7 @@ const slices = [
       </div>
       <div class="page-hero__grid">
         <div>
-          <p class="eyebrow eyebrow--accent">3-minute overview</p>
+          <p class="eyebrow eyebrow--accent">{articleReadingMinutes.overview}-minute overview</p>
           <h1>現在は文書分類。<br />文書知能化へ。</h1>
         </div>
         <div class="page-hero__lead">
@@ -49,7 +50,7 @@ const slices = [
             PDFの受付、AIによる解析、人のレビュー、監査、モデル更新までを統合したDocument Intelligence基盤です。
             公開版では最小の実証として文書分類を実装し、その先の業務文書分析や設計図面の読み取りを見据えています。
           </p>
-          <span class="reading-time">約3分で読めます</span>
+          <span class="reading-time">約{articleReadingMinutes.overview}分で読めます</span>
         </div>
       </div>
     </div>
@@ -83,6 +84,21 @@ const slices = [
         </p>
       </div>
     </div>
+
+    <aside class="reader-bridge shell" data-reveal>
+      <div class="reader-bridge__label">
+        <span>理解の補助線</span>
+        <strong>要するに</strong>
+      </div>
+      <div>
+        <h3>AIの回答を出して終わるデモではありません。</h3>
+        <p>
+          書類を受け取り、AIが内容を判定し、人が結果を確認し、その判断を後から説明できる形で残すところまでを一つの仕組みにしています。
+          AIが間違えた場合は人が訂正でき、その記録を次の改善候補として扱えます。
+        </p>
+        <p class="reader-bridge__meaning"><strong>実務上の意味</strong>AI任せにせず、担当者の確認と責任を残したまま文書処理を効率化できます。</p>
+      </div>
+    </aside>
   </section>
 
   <section class="section section--soft">
@@ -131,6 +147,21 @@ const slices = [
           <small>Audit Trail / Lineage</small>
         </li>
       </ol>
+
+      <aside class="reader-bridge" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>非同期とは</strong>
+        </div>
+        <div>
+          <h3>受付を先に済ませ、時間のかかる解析は裏側で進めます。</h3>
+          <p>
+            PDFを送った画面を処理完了まで固めておくのではなく、まず受付済みの状態を返します。
+            利用者は進行状況を確認でき、解析に失敗した場合も、どこで止まったかを残して再実行できます。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>文書が増えたりAI処理が長引いたりしても、利用者の操作とバックグラウンド処理を互いに巻き込みにくくします。</p>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -162,6 +193,21 @@ const slices = [
         </article>
       </div>
     </div>
+
+    <aside class="reader-bridge shell" data-reveal>
+      <div class="reader-bridge__label">
+        <span>理解の補助線</span>
+        <strong>なぜ必要か</strong>
+      </div>
+      <div>
+        <h3>同じ依頼が二度届いても、結果を二重に確定しないためです。</h3>
+        <p>
+          通信の再送や複数人の同時操作は、実際の業務システムでは珍しくありません。
+          冪等性や排他制御は、そうした状況でも「承認が二度記録される」「後から来た操作で判断が上書きされる」といった事故を防ぐための仕組みです。
+        </p>
+        <p class="reader-bridge__meaning"><strong>実務上の意味</strong>操作の重複や途中停止があっても、業務上の最終結果と監査記録を壊しにくくします。</p>
+      </div>
+    </aside>
   </section>
 
   <section class="section section--dark slices-section">
@@ -191,6 +237,21 @@ const slices = [
           ))
         }
       </div>
+
+      <aside class="reader-bridge" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>Vertical Sliceとは</strong>
+        </div>
+        <div>
+          <h3>使える一連の流れを、細く一本ずつ完成させる進め方です。</h3>
+          <p>
+            画面だけ、APIだけ、AIだけを別々に作りためるのではなく、PDF受付から保存、解析、確認までを最小範囲で通します。
+            その一本を動く状態にしたまま、次の機能を追加して実証範囲を広げました。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>開発途中でも動作確認でき、問題が起きた変更範囲を絞りやすくなります。</p>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -234,6 +295,21 @@ const slices = [
           <div class="tag-list"><span>Terraform</span><span>Fargate</span></div>
         </article>
       </div>
+
+      <aside class="reader-bridge" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>なぜ分けるのか</strong>
+        </div>
+        <div>
+          <h3>画面、受付、配送、AI、実行環境を、それぞれ交換・修理できるようにしています。</h3>
+          <p>
+            一つの巨大なプログラムに全部を詰め込むと、画面の変更がAI処理へ影響したり、処理の遅れで受付まで止まったりします。
+            役割と受け渡し方を分けることで、どこを直すべきかを判断しやすくしています。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>機能追加や障害対応で、関係のない部分まで同時に変更する危険を抑えられます。</p>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -307,14 +383,14 @@ const slices = [
   <section class="section aws-story-teaser aws-story-teaser--ml">
     <div class="shell aws-story-teaser__inner" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--accent">Continue · 10-minute engineering note</p>
+        <p class="eyebrow eyebrow--accent">Continue · {articleReadingMinutes.ml}-minute engineering note</p>
         <h2>機械学習を、どう比べ、<br />どう採用し、どう戻すか。</h2>
         <p>
           評価の難しさ、現行版と候補版、データの版、採用根拠、巻き戻し、人の訂正との距離まで。
           MLシステムで起こりやすい問題に、このポートフォリオがどう対処したかを解説します。
         </p>
         <a class="button button--accent button--large" href="/portfolio/ml/">
-          MLの10分読み物へ
+          MLの{articleReadingMinutes.ml}分読み物へ
           <span aria-hidden="true">→</span>
         </a>
       </div>
@@ -330,14 +406,14 @@ const slices = [
   <section class="section aws-story-teaser">
     <div class="shell aws-story-teaser__inner" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--accent">Continue · 10-minute field note</p>
+        <p class="eyebrow eyebrow--accent">Continue · {articleReadingMinutes.aws}-minute field note</p>
         <h2>AWSでは、どう作り、<br />どう確かめ、どう消したか。</h2>
         <p>
           IAMの権限、デプロイ、E2E、ログ、destroy後の残存確認まで。
           実際のAWS設定と検証記録を基に、IaCで環境を構築し、試験後に撤収するまでの設計を解説します。
         </p>
         <a class="button button--accent button--large" href="/portfolio/aws/">
-          10分読み物へ進む
+          {articleReadingMinutes.aws}分読み物へ進む
           <span aria-hidden="true">→</span>
         </a>
       </div>
