@@ -2,10 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const records = [
-  { type: "A / AAAA", role: "Webサイトの行き先", example: "example.com → GitHub PagesのIP", note: "IPv4 / IPv6" },
-  { type: "CNAME", role: "別名を本名へつなぐ", example: "www.example.com → owner.github.io", note: "サブドメイン向け" },
-  { type: "MX", role: "メールの配達先", example: "example.com → 管理画面が示すメールサーバー", note: "優先度あり" },
-  { type: "TXT", role: "文字で証明や方針を示す", example: "所有確認 / SPF / DKIM / DMARC", note: "秘密は入れない" },
+  { type: "A / AAAA", role: "ホスト名をIPアドレスへ対応付ける", example: "example.com → GitHub PagesのIP", note: "IPv4 / IPv6" },
+  { type: "CNAME", role: "ホスト名に別名を設定する", example: "www.example.com → owner.github.io", note: "サブドメイン向け" },
+  { type: "MX", role: "メールを受け取るサーバーを指定する", example: "example.com → 管理画面が示すメールサーバー", note: "優先度あり" },
+  { type: "TXT", role: "所有確認・送信ポリシー・公開鍵を記録する", example: "所有確認 / SPF / DKIM / DMARC", note: "秘密鍵は置かない" },
 ];
 ---
 
@@ -27,7 +27,7 @@ const records = [
         <div class="page-hero__lead">
           <p>
             独自ドメイン、仕事用メール、Webサイト。
-            契約先が増えても迷子にならないよう、「誰が何を担当しているか」から順に解きほぐします。
+            ドメイン契約、権威DNS、Webホスティング、メールサービスの責務を分け、ReactorFrontの実構成に沿って解説します。
           </p>
           <span class="reading-time">実地確認: 2026-08-14</span>
         </div>
@@ -107,17 +107,17 @@ const records = [
     <div class="shell guide-intro__grid">
       <div data-reveal>
         <p class="eyebrow">The actual stack</p>
-        <h2>このサイト自身が、<br />教材です。</h2>
+        <h2>ReactorFrontの実構成を、<br />ケーススタディにする。</h2>
       </div>
       <div class="prose prose--large" data-reveal>
         <p>
           ReactorFrontは、XServerドメインで契約した独自ドメイン、GitHub PagesのWebサイト、Google Workspaceの仕事用メールを組み合わせています。
-          DNSとメール認証も実際に設定し、公開レコードまで確認した構成です。
-          受信側でのSPF・DKIM・DMARC判定とDMARCレポートは、導入後の確認を継続しています。
+          権威DNSへWeb・メール用レコードを設定し、SPF・DKIM・DMARCも有効化しました。
+          設定後は公開DNS、HTTPS、受信側の認証結果、DMARCレポートを継続して確認しています。
         </p>
         <p>
-          ここではその構成を <code>example.com</code> に置き換えて説明します。
-          画面固有のトークンや鍵は公開せず、別のフリーランスが自分の契約情報で組み立てられる考え方を残します。
+          本文では実ドメインを <code>example.com</code> に置き換え、サービス間の関係と検証方法を説明します。
+          アカウント固有のトークンや鍵は公開せず、値を取得する公式資料へのリンクを示します。
         </p>
       </div>
     </div>
@@ -131,7 +131,7 @@ const records = [
       <div class="infra-architecture__hub">
         <span class="infra-architecture__pulse" aria-hidden="true"></span>
         <strong>DNS</strong>
-        <small>行き先を案内する</small>
+        <small>名前解決 / 経路指定</small>
       </div>
       <div class="infra-architecture__destinations">
         <div>
@@ -155,31 +155,31 @@ const records = [
     <div class="shell">
       <div class="section-heading" data-reveal>
         <p class="eyebrow">First principle</p>
-        <h2>まず、4つの役割を分ける。</h2>
-        <p>同じ会社が複数を提供することはありますが、役割そのものは別です。</p>
+        <h2>契約先と技術的な責務を分ける。</h2>
+        <p>一社が複数サービスを提供していても、レジストラ、権威DNS、Web、メールは別の機能です。</p>
       </div>
       <div class="role-grid">
         <article data-reveal>
-          <span>01</span><h3>ドメイン契約先</h3>
-          <p><code>example.com</code> という名前を契約し、更新する場所。期限切れはWebとメールの両方へ影響します。</p>
+          <span>01</span><h3>レジストラ</h3>
+          <p><code>example.com</code> を登録・更新する事業者です。契約が失効するとWebとメールの両方へ影響します。</p>
         </article>
         <article data-reveal>
-          <span>02</span><h3>DNS管理先</h3>
-          <p>Webやメールの行き先を記録する場所。現在使っているネームサーバーが、実際の編集先を決めます。</p>
+          <span>02</span><h3>権威DNS</h3>
+          <p>ドメインのDNSレコードを保持し、問い合わせへ応答します。NSレコードを見れば、現在の管理先を特定できます。</p>
         </article>
         <article data-reveal>
-          <span>03</span><h3>Web公開先</h3>
-          <p>サイトのファイルを置き、HTTPSで配信する場所。この構成ではGitHub Pagesです。</p>
+          <span>03</span><h3>Webホスティング</h3>
+          <p>サイトをHTTPSで配信するサービスです。この構成では、GitHub Actionsでビルドした静的サイトをGitHub Pagesから配信します。</p>
         </article>
         <article data-reveal>
-          <span>04</span><h3>メール提供元</h3>
-          <p>独自ドメインのメールを送受信する場所。この構成ではGoogle Workspaceです。</p>
+          <span>04</span><h3>メールサービス</h3>
+          <p>独自ドメインのメールボックスと送受信機能を提供します。この構成ではGoogle Workspaceです。</p>
         </article>
       </div>
       <div class="guide-tip" data-reveal>
-        <strong>迷った時の見分け方</strong>
+        <strong>DNSレコードを編集する場所の特定方法</strong>
         <p>
-          「どこで契約したか」より、最初に <strong>NS（ネームサーバー）</strong> を確認します。
+          契約先の名称だけで判断せず、最初に <strong>NS（ネームサーバー）</strong> を確認します。
           XServerドメインなら、契約一覧のクイックメニューにある「DNSレコード設定」が入口です。レンタルサーバーの管理画面とは別の場合があります。
         </p>
         <a href="https://www.xdomain.ne.jp/manual/man_domain_dns_setting.php" target="_blank" rel="noreferrer">XServerドメイン公式: DNSレコードの編集 ↗</a>
@@ -192,11 +192,10 @@ const records = [
       <div class="section-heading section-heading--split" data-reveal>
         <div>
           <p class="eyebrow">DNS records</p>
-          <h2>レコードは、<br />インターネットの案内板。</h2>
+          <h2>DNSレコードが、<br />Webとメールの経路を決める。</h2>
         </div>
         <p>
-          英字の種類に圧倒されますが、担当する仕事はそれぞれ一つです。
-          まず役割を理解し、値は必ず利用するサービスの公式画面・公式文書から取得します。
+          レコード種別ごとに役割は異なります。同じ名前・種別の重複や古い値を避け、設定値は利用サービスの管理画面と公式ドキュメントから取得します。
         </p>
       </div>
 
@@ -238,7 +237,7 @@ const records = [
           <p class="eyebrow">Domain &amp; DNS</p>
           <h3>名前を契約し、編集場所を確定する。</h3>
           <p>
-            ドメインを契約したら、自動更新と連絡先メールを確認します。次にNSレコードを調べ、現在そのドメインの案内板を管理しているサービスを特定します。
+            ドメインを契約したら、自動更新と連絡先メールを確認します。次にNSレコードを調べ、現在の権威DNSとレコード編集画面を特定します。
           </p>
           <div class="code-block">
             <div class="code-block__head"><span>PowerShell</span><span>ネームサーバーを確認</span></div>
@@ -332,9 +331,9 @@ const records = [
         <article id="step-5" data-reveal>
           <span class="guide-steps__number">05</span>
           <p class="eyebrow">Verification</p>
-          <h3>管理画面ではなく、外から確かめる。</h3>
+          <h3>公開DNSと実際の通信で検証する。</h3>
           <p>
-            「保存できた」は完了ではありません。権威DNSへ問い合わせ、Webを開き、別サービスのメールボックスへ送り、受信側がどう判定したかを確認します。
+            管理画面での保存だけでは完了としません。公開DNSを問い合わせ、HTTPSでサイトを開き、外部メールボックスへ送信して、受信側の認証結果まで確認します。
           </p>
           <div class="code-block">
             <div class="code-block__head"><span>PowerShell</span><span>公開DNSを確認</span></div>
@@ -398,7 +397,7 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
     <div class="shell operations-section__grid">
       <div data-reveal>
         <p class="eyebrow">Keep it healthy</p>
-        <h2>作った後に、<br />忘れないための運用。</h2>
+        <h2>構築後に必要な、<br />定期運用。</h2>
       </div>
       <div class="operations-list">
         <article data-reveal><span>Monthly</span><h3>期限と請求を確認</h3><p>ドメイン、Google Workspace、支払い手段、管理者への通知を確認します。</p></article>
@@ -413,10 +412,10 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
     <div class="shell guide-closing__inner" data-reveal>
       <div>
         <p class="eyebrow eyebrow--light">Small, understandable, yours</p>
-        <h2>最小構成とは、<br />自分で説明できる構成。</h2>
+        <h2>小さく始め、<br />構成と責任範囲を把握する。</h2>
         <p>
-          サービスを減らすことだけが最小化ではありません。
-          契約、行き先、安全策、確認方法を自分の言葉で説明できれば、独立の基盤はブラックボックスになりません。
+          サービス数の少なさだけが最小構成ではありません。
+          契約更新、DNS、認証、検証、障害時の連絡先まで把握していれば、必要な変更を自分で判断できます。
         </p>
       </div>
       <a class="button button--accent button--large" href="mailto:kentaro.ono@reactorfront.jp">

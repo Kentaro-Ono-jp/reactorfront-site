@@ -4,17 +4,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 const disciplines = [
   {
     title: "アプリケーション",
-    description: "利用者の操作からAPI・データまで、分断しない形で組み立てます。",
+    description: "業務要件をデータモデルとAPIへ落とし込み、フロントエンドからバックエンドまで実装します。",
     items: ["TypeScript", "React / Next.js", "Python / FastAPI", "PostgreSQL", "OpenAPI"],
   },
   {
     title: "基盤と運用",
-    description: "作るだけでなく、起動・監視・復旧・終了までを設計対象にします。",
+    description: "IaC、CI/CD、監視、障害復旧、リソース撤収までをシステムの設計範囲として扱います。",
     items: ["Linux", "Docker", "AWS", "Terraform", "GitHub Actions", "RabbitMQ"],
   },
   {
     title: "機械学習",
-    description: "予測値の先にある評価、人の確認、更新判断を仕組みに落とします。",
+    description: "モデル評価、データの来歴、Human-in-the-loop、更新とロールバックをアプリケーションへ統合します。",
     items: ["PyTorch", "Document Intelligence", "Model Evaluation", "Human-in-the-loop"],
   },
 ];
@@ -32,11 +32,11 @@ const disciplines = [
       <div class="page-hero__grid">
         <div>
           <p class="eyebrow eyebrow--light">Profile</p>
-          <h1>設計と実装、<br />そして運用の<br />あいだ。</h1>
+          <h1>業務要件から、<br />本番運用まで。</h1>
         </div>
         <p class="page-hero__lead">
-          システム開発20年以上。Linuxを中心とした運用保守5年。
-          現場で積み重ねた二つの視点を、機械学習の研究開発へつないでいます。
+          システム開発20年以上、Linuxを中心とした運用保守5年。
+          現在は、これまでの開発・運用経験を機械学習の研究開発に生かしています。
         </p>
       </div>
     </div>
@@ -64,19 +64,19 @@ const disciplines = [
 
       <div class="profile-story" data-reveal>
         <p class="eyebrow">About</p>
-        <h2>長く現場にいるからこそ、<br />技術を目的にしない。</h2>
+        <h2>20年以上、システムの<br />ライフサイクルに関わってきた。</h2>
         <div class="prose prose--large">
           <p>
-            私の軸は、特定のフレームワークではありません。
-            誰が使い、どこで壊れ、どう戻し、次の担当者へ何を残すかまで考えて、技術を選ぶことです。
+            業務システムを中心に、要件整理、設計、実装、テスト、リリース後の保守まで経験してきました。
+            特定のフレームワークを使うことより、業務上の責務をどこへ置き、変更に耐えられる境界をどう作るかを重視しています。
           </p>
           <p>
-            アプリケーション開発とLinux運用保守の両方を経験してきたことで、
-            「コードは正しいのに本番では扱いにくい」「基盤は安定しているのに利用者の目的を満たさない」といった境界の問題を早い段階で見つけられます。
+            Linux運用保守では、ログ調査、障害切り分け、復旧、定常運用に携わりました。
+            その経験から、アプリケーションの仕様だけでなく、デプロイ方法、可観測性、ロールバック、運用担当者の作業まで含めて設計を判断します。
           </p>
           <p>
-            現在はその視点を機械学習へ広げています。
-            モデル単体の数値だけでなく、人が確認できる画面、データの由来、失敗時の復旧、更新するかを判断する証拠までを一つの製品として扱います。
+            現在取り組んでいる機械学習R&amp;Dでも考え方は同じです。
+            推論精度だけを切り出さず、データセットとモデルの来歴、再現可能な評価、人によるレビュー、リリース判断、障害時の復旧までを一つのシステムとして扱います。
           </p>
         </div>
       </div>
@@ -88,11 +88,11 @@ const disciplines = [
       <div class="section-heading section-heading--split" data-reveal>
         <div>
           <p class="eyebrow">Career layers</p>
-          <h2>経験は、層になって残る。</h2>
+          <h2>開発と運用の経験を、<br />機械学習R&amp;Dへ。</h2>
         </div>
         <p>
-          新しい領域へ移っても、それまでの経験は捨てません。
-          実装、運用、機械学習を重ね、判断できる範囲を広げています。
+          アプリケーション、インフラ、運用、機械学習を別々の経歴にはせず、
+          システム全体を判断するための経験として積み上げています。
         </p>
       </div>
 
@@ -101,21 +101,21 @@ const disciplines = [
           <span class="career-timeline__year">20+ years</span>
           <div>
             <h3>システム開発</h3>
-            <p>業務システムを中心に、要件の理解から設計・実装・テストまで。長期運用されるコードに向き合ってきました。</p>
+            <p>業務システムを中心に、要件整理、基本・詳細設計、実装、テスト、保守を担当。長期運用されるコードとデータに向き合ってきました。</p>
           </div>
         </li>
         <li data-reveal>
           <span class="career-timeline__year">5 years</span>
           <div>
             <h3>Linux運用保守</h3>
-            <p>サーバー、ログ、障害対応、定常作業。止まった後に何が必要かを、現場の手触りで学びました。</p>
+            <p>Linuxサーバーの運用、ログ調査、障害切り分け、復旧、定常作業を経験。実運用で必要になる情報と手順を学びました。</p>
           </div>
         </li>
         <li data-reveal>
           <span class="career-timeline__year">Current</span>
           <div>
             <h3>機械学習の研究開発</h3>
-            <p>再現可能な評価と、人が責任を持って使えるプロダクトへの組み込みに取り組んでいます。</p>
+            <p>モデル評価の再現性、データ・モデルの来歴管理、Human-in-the-loopを含むプロダクト実装に取り組んでいます。</p>
           </div>
         </li>
       </ol>
@@ -126,13 +126,13 @@ const disciplines = [
     <div class="shell">
       <div class="section-heading" data-reveal>
         <p class="eyebrow">Working principles</p>
-        <h2>仕事で守る、4つのこと。</h2>
+        <h2>設計・実装で重視すること。</h2>
       </div>
       <div class="principle-grid">
-        <article data-reveal><span>01</span><h3>事実と推測を分ける</h3><p>計測できたこと、推測していること、まだ分からないことを混ぜません。</p></article>
-        <article data-reveal><span>02</span><h3>失敗経路から設計する</h3><p>成功時だけでなく、途中で止まった時の復旧と安全な終了を先に考えます。</p></article>
-        <article data-reveal><span>03</span><h3>判断の理由を残す</h3><p>コードだけでなく、なぜその境界や制約にしたかを次の人へ渡します。</p></article>
-        <article data-reveal><span>04</span><h3>過剰に作らない</h3><p>現在の目的に必要な最小構成から始め、拡張の入口だけを丁寧に残します。</p></article>
+        <article data-reveal><span>01</span><h3>事実と仮説を分ける</h3><p>ログや計測で確認した事実、現時点の仮説、未確認事項を明確に分けます。</p></article>
+        <article data-reveal><span>02</span><h3>失敗経路を先に考える</h3><p>正常系だけでなく、再実行、ロールバック、タイムアウト、安全な終了を設計します。</p></article>
+        <article data-reveal><span>03</span><h3>意思決定を記録する</h3><p>コードに表れない制約やトレードオフは、ADRや運用資料として残します。</p></article>
+        <article data-reveal><span>04</span><h3>必要な複雑さだけを持つ</h3><p>現在の要件を満たす最小構成から始め、将来の拡張点を明示します。</p></article>
       </div>
     </div>
   </section>
@@ -142,10 +142,10 @@ const disciplines = [
       <div class="section-heading section-heading--split" data-reveal>
         <div>
           <p class="eyebrow eyebrow--accent">Technical range</p>
-          <h2>専門を持ち、<br />全体も見る。</h2>
+          <h2>複数のレイヤーを、<br />一つのシステムとして扱う。</h2>
         </div>
         <p>
-          技術名は道具の目録です。大切なのは、どの境界に置き、どう確かめ、誰が運用するかまで説明できることだと考えています。
+          採用技術そのものだけでなく、責務分割、インターフェース、テスト方法、運用主体まで説明できる設計を目指します。
         </p>
       </div>
       <div class="discipline-grid">
@@ -169,9 +169,9 @@ const disciplines = [
     <div class="shell next-step__inner" data-reveal>
       <div>
         <p class="eyebrow">Evidence, not adjectives</p>
-        <h2>技術力は、公開できる成果物で。</h2>
+        <h2>設計と検証の記録を、公開ポートフォリオで示す。</h2>
         <p>
-          顧客情報を語る代わりに、設計・実装・検証・運用の考え方を一つの公開ポートフォリオへまとめています。
+          顧客情報に触れずに技術判断を確認できるよう、アプリケーション、機械学習、AWS運用の設計と検証結果を公開しています。
         </p>
       </div>
       <a class="button button--dark" href="/portfolio/">ポートフォリオ解説へ <span aria-hidden="true">→</span></a>

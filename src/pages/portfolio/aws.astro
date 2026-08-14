@@ -6,49 +6,49 @@ const portfolioCommit = "708056f33d56f1affe2dbe8e1b58f4a722895b88";
 const journey = [
   {
     number: "01",
-    verb: "入る",
-    title: "本人確認をする",
-    body: "まずAWSへ入る人を特定します。普段の作業に、管理者の強い権限は使いません。",
+    verb: "Authenticate",
+    title: "非管理者IAMユーザーで認証する",
+    body: "日常作業ではAdministratorAccessを使わず、直接のリソース操作権限を持たないIAMプリンシパルから開始します。",
   },
   {
     number: "02",
-    verb: "借りる",
-    title: "作業用の権限へ切り替える",
-    body: "その仕事に必要な時間だけ、用途を限定したロール（作業許可証）を借ります。",
+    verb: "Assume",
+    title: "用途別のIAM Roleを引き受ける",
+    body: "設定閲覧、コスト確認、デプロイの用途ごとにロールを分け、STSの一時クレデンシャルへ切り替えます。",
   },
   {
     number: "03",
-    verb: "つくる",
-    title: "設計図から環境を組み立てる",
-    body: "Terraformという設計図を使い、ネットワーク、画面、処理、データ保存を配置します。",
+    verb: "Apply",
+    title: "Terraformで一時環境を構築する",
+    body: "ネットワーク、ECS、Cognito、RDS、S3、Amazon MQなどをバージョン管理したIaCから構築します。",
   },
   {
     number: "04",
-    verb: "試す",
-    title: "利用者の流れを端から端まで通す",
-    body: "ログインからPDF登録、AI処理、人の確認、監査記録までを一続きで確かめます。",
+    verb: "Test",
+    title: "認証付きE2Eを実行する",
+    body: "外部HTTPSからログイン、PDF登録、非同期推論、Human-in-the-loopのレビュー、監査証跡までを通します。",
   },
   {
     number: "05",
-    verb: "読む",
-    title: "状態とログで裏を取る",
-    body: "画面が開くだけで合格にはせず、AWSの状態と処理記録も照合します。",
+    verb: "Observe",
+    title: "AWS状態とログを照合する",
+    body: "画面上の成功だけで判定せず、サービス状態、アプリケーションログ、workflow summaryを確認します。",
   },
   {
     number: "06",
-    verb: "消す",
-    title: "片付けた後も残骸を探す",
-    body: "destroy後にもう一度AWSを調べ、課金対象や一時データが残っていないことまで技術的に証明します。",
+    verb: "Destroy",
+    title: "撤収後に残存リソースを検査する",
+    body: "terraform destroy後に27カテゴリを別経路で棚卸しし、一時リソースと実行データの残存ゼロを確認します。",
   },
 ];
 
 const e2eSteps = [
-  { label: "Login", title: "本人として入る", body: "試験専用の利用者でログインします。" },
-  { label: "Upload", title: "PDFを預ける", body: "公開可能な合成文書だけを登録します。" },
-  { label: "Queue", title: "裏方へ渡す", body: "処理依頼が失われず、次の担当へ届くか見ます。" },
-  { label: "ML", title: "AIが候補を返す", body: "別の処理係が文書の種類を予測します。" },
-  { label: "Review", title: "人が最終判断する", body: "予測を承認または訂正します。" },
-  { label: "Audit", title: "経緯を追える", body: "機械と人の判断が記録に残ることを確かめます。" },
+  { label: "Login", title: "Cognito認証", body: "試験専用ユーザーでトークンを取得します。" },
+  { label: "Upload", title: "PDF登録", body: "公開可能な合成文書をオブジェクトストレージへ登録します。" },
+  { label: "Queue", title: "非同期配送", body: "Outboxからキューへ処理依頼が配送されることを確認します。" },
+  { label: "ML", title: "ML推論", body: "Workerが採用済みModelで文書を分類します。" },
+  { label: "Review", title: "Human Review", body: "推論結果を承認または訂正します。" },
+  { label: "Audit", title: "Audit Trail", body: "推論と人の判断が別の監査証跡として保存されることを確認します。" },
 ];
 
 const failureLessons = [
@@ -155,8 +155,8 @@ const references = [
 ---
 
 <BaseLayout
-  title="AWSの舞台裏｜10分で読むポートフォリオ"
-  description="ReactorFront Portfolioを実AWSへ配置し、E2Eで確かめ、ログを読み、destroy後の残存ゼロまで確認する流れを、非エンジニア向けにやさしく解説します。"
+  title="AWSデプロイと撤収｜10分で読むポートフォリオ"
+  description="IAM、OIDC、Terraform、ECS/Fargate、認証付きE2E、CloudWatch Logs、destroy後の残存確認。ReactorFront Portfolioの実AWS検証を解説します。"
 >
   <article class="aws-story">
     <header class="page-hero page-hero--aws-story">
@@ -172,12 +172,12 @@ const references = [
         <div class="page-hero__grid">
           <div>
             <p class="eyebrow eyebrow--accent">10-minute field note</p>
-            <h1>つくるだけでは、<br />終われない。</h1>
+            <h1>AWSを構築し、<br />E2E後に撤収する。</h1>
           </div>
           <div class="page-hero__lead">
             <p>
-              AWSへ載せる。利用者として試す。失敗の記録を読む。そして、料金が発生する環境を消し切る。
-              ReactorFront Portfolioの実地試験を、少しだけ詳しく案内します。
+              Terraformで実AWS環境を構築し、認証付きE2Eとログで動作を確認し、destroy後の残存リソースまで検査する。
+              ReactorFront Portfolioで実行した一連の検証を解説します。
             </p>
             <span class="reading-time">約10分で読めます</span>
           </div>
@@ -187,7 +187,7 @@ const references = [
 
     <div class="story-meta">
       <div class="shell story-meta__inner">
-        <div><span>Audience</span><strong>非エンジニア・学習初期</strong></div>
+        <div><span>Audience</span><strong>IT業界・クラウド運用に関心のある方</strong></div>
         <div><span>AWS checked</span><strong>2026.08.14</strong></div>
         <div><span>Portfolio main</span><strong><code>708056f</code></strong></div>
         <div><span>Format</span><strong>読み物 / 非チュートリアル</strong></div>
@@ -198,16 +198,16 @@ const references = [
       <div class="shell story-opening__grid">
         <div data-reveal>
           <p class="eyebrow">What this story proves</p>
-          <h2>「動いた」の、<br />もう一歩先へ。</h2>
+          <h2>構築、E2E、可観測性、<br />撤収をまとめて検証する。</h2>
         </div>
         <div class="prose prose--large" data-reveal>
           <p>
-            クラウドへのデプロイは、完成したファイルを一か所へ置く作業ではありません。
-            受付、本人確認、処理係、データ置き場、連絡網など、役割の異なる仕組みをAWS上で組み合わせる仕事です。
+            このシステムは、Cognito、API Gateway、ECS/Fargate、RDS、S3、Amazon MQ、CloudWatch Logsなど、責務の異なるマネージドサービスで構成しています。
+            デプロイとは、それらの依存関係とセキュリティ境界をIaCで再現する作業です。
           </p>
           <p>
-            この作品では、短時間だけ実AWS環境を組み立て、ログインから文書処理、AIの予測、人の最終判断、監査記録までを確認しました。
-            合格後はすぐに環境を片付け、Terraformの管理対象だけでなく、AWS側に残りやすいものまで別に数え直しています。
+            構築後は外部HTTPSからログイン、文書登録、非同期推論、Human-in-the-loopのレビュー、監査証跡までを通し、AWS側の状態とログを照合しました。
+            E2E完了後は直ちに撤収し、Terraform stateだけに頼らずAWS APIから残存リソースを再確認しています。
           </p>
         </div>
       </div>
@@ -218,7 +218,7 @@ const references = [
           <h3>この記事は、AWSを再現するための手順書ではありません</h3>
           <p>
             実際のAWS設定と公開リポジトリを根拠にしていますが、コマンド、アカウント固有値、完全なIAMポリシー、環境変数、秘密情報は掲載しません。
-            読後に「何を、なぜ確かめたか」が分かる粒度に留めています。
+            操作手順ではなく、権限設計、検証条件、コスト管理、障害復旧の判断を説明します。
           </p>
         </div>
       </div>
@@ -229,10 +229,10 @@ const references = [
         <div class="section-heading section-heading--split" data-reveal>
           <div>
             <p class="eyebrow eyebrow--accent">One lifecycle</p>
-            <h2>入って、借りて、<br />つくって、消す。</h2>
+            <h2>AuthenticateからDestroyまで、<br />同じWorkflowで管理する。</h2>
           </div>
           <p>
-            実AWSの試験は一本道です。途中だけ成功しても、最後の片付けまで通らなければ完了とは扱いません。
+            デプロイやE2Eだけを個別の成功とは扱いません。事前の権限取得からpostflightの残存確認まで完走して、1回の検証完了とします。
           </p>
         </div>
 
@@ -256,40 +256,40 @@ const references = [
       <div class="shell iam-story__grid">
         <div class="iam-story__copy" data-reveal>
           <p class="eyebrow">IAM &amp; roles</p>
-          <h2>強い鍵を、<br />持ち歩かない。</h2>
+          <h2>Administrator権限を、<br />日常作業に使わない。</h2>
           <p>
-            IAMは「誰が、何をしてよいか」を決める仕組みです。
-            ReactorFrontの実環境では、全体を管理する権限と、日常の確認・配置に使う権限を分けています。
+            AWSアカウントの管理者と、日常作業に使うIAMプリンシパルを分離しています。
+            非管理者IAMユーザーはリソースを直接操作せず、用途別のIAMロールをAssumeRoleして一時クレデンシャルを取得します。
           </p>
           <p>
-            2026年8月14日の管理画面確認では、管理者権限を持たない作業用IAMユーザーにはAWS資源を直接操作する権限がなく、
-            指定された3種類のロールだけを借りられる構成でした。
+            2026年8月14日の実環境確認では、作業用IAMユーザーがAssumeRoleできるのは参照専用、コスト参照、デプロイ操作の3ロールだけでした。
+            デプロイ用ロールには1時間のセッション期限とPermissions Boundaryを設定しています。
           </p>
         </div>
 
         <figure class="permission-chain" data-reveal>
-          <figcaption>入館証と作業許可証で考える権限の流れ</figcaption>
+          <figcaption>IAM Userから用途別Roleへの権限遷移</figcaption>
           <div class="permission-chain__owner">
-            <span class="permission-chain__label">責任者</span>
-            <strong>オーナー管理者</strong>
-            <small>初期整備・保守・全体確認</small>
+            <span class="permission-chain__label">Account administration</span>
+            <strong>管理者Principal</strong>
+            <small>初期構築・IAM保守・緊急対応</small>
           </div>
           <span class="permission-chain__arrow" aria-hidden="true">↓</span>
           <div class="permission-chain__entry">
-            <span class="permission-chain__label">入館証</span>
-            <strong>作業用IAMユーザー</strong>
-            <small>直接の作業権限なし / 借り先だけを限定</small>
+            <span class="permission-chain__label">Entry principal</span>
+            <strong>非管理者IAMユーザー</strong>
+            <small>直接操作なし / sts:AssumeRoleのみ限定</small>
           </div>
           <span class="permission-chain__arrow" aria-hidden="true">↓</span>
           <div class="permission-chain__roles">
             <div>
-              <span>01</span><strong>観察する</strong><small>設定と安全性を読む</small>
+              <span>01</span><strong>Read-only</strong><small>設定・状態・セキュリティ確認</small>
             </div>
             <div>
-              <span>02</span><strong>費用を見る</strong><small>請求・利用量を読む</small>
+              <span>02</span><strong>Cost reader</strong><small>請求 / Cost Explorer参照</small>
             </div>
             <div class="permission-chain__role--operator">
-              <span>03</span><strong>配置・試験・片付け</strong><small>1時間の作業許可証</small>
+              <span>03</span><strong>Deploy operator</strong><small>1時間の一時クレデンシャル</small>
               <em>Permission Boundary</em>
             </div>
           </div>
@@ -299,18 +299,18 @@ const references = [
       <div class="shell permission-facts" data-reveal>
         <article>
           <span>Role</span>
-          <h3>ロールは、借りる権限</h3>
-          <p>入口の権限を強くするのではなく、作業中だけ別の許可証へ切り替えます。</p>
+          <h3>STSで一時クレデンシャルを発行する</h3>
+          <p>IAMユーザーへ強い権限を常設せず、ロールセッション中だけ必要な権限を付与します。</p>
         </article>
         <article>
           <span>Trust</span>
-          <h3>貸す側も、相手を確認する</h3>
-          <p>入口が「借りたい」と言えるだけでなく、ロール側も「この入口へ貸してよい」と定めます。</p>
+          <h3>信頼ポリシーでAssumeRole元を限定する</h3>
+          <p>呼び出し元のポリシーだけでなく、ロール側の信頼ポリシーでも許可するプリンシパルを限定します。</p>
         </article>
         <article>
           <span>Boundary</span>
-          <h3>許可の上限を、別に置く</h3>
-          <p>配置ロールは、付与ポリシーと上限ポリシーの両方が許す範囲だけで動きます。</p>
+          <h3>Permissions Boundaryで上限を固定する</h3>
+          <p>デプロイ用ロールは、アイデンティティポリシーとBoundaryの両方が許可するアクションだけを実行できます。</p>
         </article>
       </div>
     </section>
@@ -319,55 +319,55 @@ const references = [
       <div class="shell">
         <div class="section-heading" data-reveal>
           <p class="eyebrow">Deploy</p>
-          <h2>一つの作品を、<br />複数の専門部署へ分ける。</h2>
+          <h2>AWSのマネージドサービスへ、<br />責務を分割して配置する。</h2>
           <p>
-            Terraformは「どの部署を、どう結ぶか」を記した設計図です。実AWSでは、次のような役割へ分けて配置しました。
+            Terraformモジュールで各サービスの構成と依存関係を定義し、同じコミットから検証環境を再構築できます。
           </p>
         </div>
 
         <div class="cloud-role-map" data-reveal>
           <article>
-            <span>Front door</span><h3>受付</h3><p>外からのHTTPS通信を受け、WebとAPIへ安全につなぐ。</p><small>API Gateway / Cloud Map</small>
+            <span>Ingress</span><h3>HTTPS Routing</h3><p>外部HTTPSを受け付け、WebとAPIのservice discoveryへ接続する。</p><small>API Gateway / Cloud Map</small>
           </article>
           <article>
-            <span>Identity</span><h3>本人確認</h3><p>ログインした人と、許可された操作を見分ける。</p><small>Cognito</small>
+            <span>Identity</span><h3>Authentication</h3><p>ユーザー認証とトークン発行を担当し、APIの認可情報へ接続する。</p><small>Cognito</small>
           </article>
           <article>
-            <span>Runtime</span><h3>働く場所</h3><p>Web、司令塔のAPI、AI処理係を別々に動かす。</p><small>ECS / Fargate</small>
+            <span>Runtime</span><h3>Container Services</h3><p>Web、API、MLワーカーを独立したタスク定義とECSサービスで実行する。</p><small>ECS / Fargate</small>
           </article>
           <article>
-            <span>Handoff</span><h3>仕事の連絡網</h3><p>重い処理を待ち行列へ渡し、途中で失わない。</p><small>Amazon MQ</small>
+            <span>Messaging</span><h3>Asynchronous Queue</h3><p>APIとMLワーカーを分離し、長時間処理の配送と再試行を管理する。</p><small>Amazon MQ</small>
           </article>
           <article>
-            <span>State</span><h3>記録と文書</h3><p>業務状態とPDFを、役割の異なる保存先へ分ける。</p><small>RDS / S3</small>
+            <span>State</span><h3>Database / Object Storage</h3><p>業務状態と監査ログはRDS、PDFとアーティファクトはS3へ分離して保存する。</p><small>RDS / S3</small>
           </article>
           <article>
-            <span>Evidence</span><h3>観測</h3><p>各担当の状態と記録を集め、失敗箇所を追えるようにする。</p><small>CloudWatch Logs</small>
+            <span>Observability</span><h3>Centralized Logs</h3><p>各コンテナとbuildのログを集約し、workflow IDから処理を追跡する。</p><small>CloudWatch Logs</small>
           </article>
         </div>
 
         <div class="runtime-choice" data-reveal>
           <div class="runtime-choice__lead">
             <p class="eyebrow">Why Fargate</p>
-            <h3>常設サーバーを持たず、<br />仕事だけを起動する。</h3>
+            <h3>短命な検証環境に、<br />サーバーレスコンテナを使う。</h3>
             <p>
-              この作品はWeb、API、AI処理を3つのコンテナに分けています。その分担を実AWSでも保ちつつ、短時間の試験が終われば丸ごと止めやすいことから、ECSのFargateを選びました。
+              Web、API、MLワーカーのコンテナ分割を実AWSでも維持し、EC2インスタンスのプロビジョニングやOS保守を検証対象から外すため、ECS/Fargateを選びました。E2E完了後に実行環境をまとめて撤収しやすいことも判断理由です。
             </p>
           </div>
           <div class="runtime-choice__comparison">
             <article>
               <span>EC2で考えると</span>
-              <strong>先に「サーバー」を用意する</strong>
-              <p>台数、容量、OS、更新、コンテナを載せる余白まで、自分たちで面倒を見る領域が増えます。</p>
+              <strong>EC2キャパシティを管理する</strong>
+              <p>台数、インスタンスタイプ、OSパッチ、ECS agent、キャパシティ不足時のスケーリングを設計・運用します。</p>
             </article>
             <article class="runtime-choice__selected">
               <span>Fargateで考えると</span>
-              <strong>必要な「仕事」を渡す</strong>
-              <p>使うCPUとメモリを決めてコンテナを起動し、実証後はタスクと環境を片付けます。短命な使い方と相性がよい選択でした。</p>
+              <strong>タスク単位でCPUとメモリを指定する</strong>
+              <p>タスク定義にリソースを記述し、検証時だけコンテナを起動します。短命な環境の構築・撤収へ集中できます。</p>
             </article>
           </div>
           <p class="runtime-choice__boundary">
-            Fargateを「常時稼働で必ず最安の方式」として選んだわけではありません。サーバーの維持を作品の目的にせず、作る・試す・消すという実証へ集中するための判断です。
+            Fargateが常時稼働で常に最安という主張ではありません。EC2キャパシティ管理を対象外とし、build・E2E・destroyのライフサイクル検証へ集中するための選択です。
           </p>
         </div>
       </div>
@@ -378,10 +378,10 @@ const references = [
         <div class="section-heading section-heading--split" data-reveal>
           <div>
             <p class="eyebrow">Cost is architecture</p>
-            <h2>見せるために、<br />24時間は動かさない。</h2>
+            <h2>常時稼働ではなく、<br />月次のEphemeral Environmentにする。</h2>
           </div>
           <p>
-            このAWS環境の目的は、常時サービスを提供することではありません。実際に配置でき、利用者の流れを試せ、最後まで片付けられることを証明するための試験場です。
+            このAWS環境は公開サービスではなく、デプロイ可能性、認証付きE2E、可観測性、撤収能力を定期確認するための検証環境です。
           </p>
         </div>
 
@@ -420,23 +420,23 @@ const references = [
           <div class="cost-decisions">
             <article data-reveal>
               <span>01 / Measure</span>
-              <h3>「何回」を、記録から数える。</h3>
+              <h3>Actionsの実行履歴から試行回数を確定する。</h3>
               <p>
                 公開されたActions記録は8回。そのうちAWS配置の工程へ到達した5回だけをデプロイ試行と数えました。3回は途中失敗後もdestroyと残存確認に成功し、2回はE2Eまで含む全工程を完走しています。
               </p>
             </article>
             <article data-reveal>
               <span>02 / Notice</span>
-              <h3>一番大きかったのは、MQ。</h3>
+              <h3>最大のCost DriverはAmazon MQ。</h3>
               <p>
                 短い実証でもAmazon MQだけで当月総額の約65%でした。本番向けの冗長化を足せばさらに増えます。作品の説明だけのために動かし続ける合理性はありません。
               </p>
             </article>
             <article data-reveal>
               <span>03 / Decide</span>
-              <h3>必要な時だけ、全部を通す。</h3>
+              <h3>月次でFull Lifecycleを実行する。</h3>
               <p>
-                $2.40は24時間稼働の月額試算ではありません。料金が変わる将来額を断定せず、月に一度だけ環境を作り、E2Eを完走し、すぐに消す。可用性ではなく、ライフサイクル全体を繰り返せることへ費用を使います。
+                $2.40は24時間稼働の月額試算ではありません。月に一度だけ環境を構築し、E2E完走後に即時撤収します。Portfolioで証明したいのは可用性ではなく、Lifecycle全体の再現性です。
               </p>
             </article>
           </div>
@@ -448,26 +448,26 @@ const references = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow eyebrow--accent">Two clocks</p>
-            <h2>月に一度の実地試験。<br />60分後の非常口。</h2>
+            <p class="eyebrow eyebrow--accent">Two independent schedulers</p>
+            <h2>月次実行と60分後のFail-safeを、<br />別系統で動かす。</h2>
           </div>
           <p>
-            「定期的に作る時計」と「途中で止まっても消す時計」は別々です。一方の失敗で、高価な一時環境が置き去りにならないようにしています。
+            GitHub Actionsが月次検証を起動し、AWS EventBridge Schedulerが緊急destroyを予約します。片方の実行基盤が停止しても、もう片方から撤収できる構成です。
           </p>
         </div>
 
         <div class="automation-clocks">
           <article class="automation-clock automation-clock--monthly" data-reveal>
             <header>
-              <span>Clock 01 / GitHub</span>
+              <span>Scheduler 01 / GitHub</span>
               <strong>毎月1日 13:00 JST</strong>
             </header>
-            <h3>一度だけ、全工程を再演する。</h3>
+            <h3>default branchから全工程を実行する。</h3>
             <ol aria-label="月次AWS実証の流れ">
-              <li><span>01</span><strong>短期のAWS権限を借りる</strong><small>OIDC / 長期アクセスキーなし</small></li>
-              <li><span>02</span><strong>設計図から配置する</strong><small>Build / Terraform apply</small></li>
-              <li><span>03</span><strong>利用者として試す</strong><small>Login / PDF / AI / Review</small></li>
-              <li><span>04</span><strong>即時に消して数え直す</strong><small>Destroy / 27-category sweep</small></li>
+              <li><span>01</span><strong>OIDCで一時クレデンシャルを取得</strong><small>長期access keyなし</small></li>
+              <li><span>02</span><strong>Build / Terraform apply</strong><small>バージョン管理したIaC</small></li>
+              <li><span>03</span><strong>Authenticated E2E</strong><small>Login / PDF / ML / Review</small></li>
+              <li><span>04</span><strong>Destroy / Residual Sweep</strong><small>27カテゴリを棚卸し</small></li>
             </ol>
             <p>
               普段のpushやPull RequestではAWSを起動しません。所有者の手動実行か、既定ブランチの月次予定だけがこの経路へ入ります。
@@ -476,18 +476,18 @@ const references = [
 
           <article class="automation-clock automation-clock--fallback" data-reveal>
             <header>
-              <span>Clock 02 / AWS</span>
+              <span>Scheduler 02 / AWS</span>
               <strong>作成前 + 60 min</strong>
             </header>
-            <h3>人もGitHubも止まる前提で、先に撤収を予約する。</h3>
+            <h3>Workflow停止に備えて、事前に緊急Destroyを予約する。</h3>
             <p>
-              課金対象を作り始める前に、EventBridge Schedulerへ一度限りの片付けを登録し、内容を読み返します。通常はE2E直後に消すため、この時計を待ちません。
+              課金対象を作成する前に、EventBridge Schedulerへ一度限りのCodeBuild起動を登録し、設定内容を読み戻します。正常系ではE2E直後にdestroyするため、この予約は実行前に解除します。
             </p>
             <div class="fallback-route" aria-label="非常時の自動片付け経路">
               <span>Scheduler</span><i aria-hidden="true">→</i><span>CodeBuild</span><i aria-hidden="true">→</i><span>Destroy</span><i aria-hidden="true">→</i><span>Sweep</span>
             </div>
             <p>
-              GitHubの処理や作業者が途中で止まった時だけ、AWS側の時計が独立した片付け担当を起動します。予約をした事実ではなく、最後の残存確認までが合格条件です。
+              GitHub Actionsや作業端末が停止した場合だけ、AWS側が独立してdestroy jobを起動します。Scheduler登録だけではなく、postflightの残存確認までを受け入れ条件にしています。
             </p>
           </article>
         </div>
@@ -505,10 +505,10 @@ const references = [
         <div class="section-heading section-heading--split" data-reveal>
           <div>
             <p class="eyebrow">E2E / authenticated smoke</p>
-            <h2>部品ではなく、<br />利用者の一日を試す。</h2>
+            <h2>サービス単体ではなく、<br />認証付きの操作フローを通す。</h2>
           </div>
           <p>
-            E2Eは「End to End」の略です。この作品のAWS検証では、公開資料上の呼び名を authenticated smoke とし、本人確認を含む一連の流れを外部HTTPSから通しました。
+            この検証を公開資料ではAuthenticated Smokeと呼び、外部HTTPSから認証、同期API、非同期処理、Human-in-the-loopのレビュー、監査までを一続きで実行します。
           </p>
         </div>
 
@@ -528,10 +528,10 @@ const references = [
           <span class="proof-statement__mark" aria-hidden="true">✓</span>
           <div>
             <p class="eyebrow">Accepted live proof</p>
-            <h3>実AWSで、3つの処理サービスが稼働し、この一本道を完走。</h3>
+            <h3>実AWSで3つのECSサービスを起動し、Authenticated Smokeを完走。</h3>
             <p>
-              移行、合成データの準備、ログイン、PDF登録、非同期処理、AI結果、人の確認、監査までを確認しました。
-              入力はリポジトリ所有の合成データだけで、顧客文書や個人情報は使っていません。
+              DB migration、合成fixture、ログイン、PDF登録、キュー配送、ML推論、Human-in-the-loopのレビュー、監査証跡を確認しました。
+              入力はリポジトリ所有の合成データだけで、顧客文書やPIIは使用していません。
             </p>
           </div>
         </div>
@@ -542,23 +542,23 @@ const references = [
       <div class="shell logs-story__grid">
         <div data-reveal>
           <p class="eyebrow eyebrow--accent">Read the evidence</p>
-          <h2>ログは、<br />黒い画面の洪水ではない。</h2>
+          <h2>状態、アプリケーション、工程の<br />3層で障害を切り分ける。</h2>
           <p>
-            ログは「いつ、どの担当で、何が起きたか」を残す業務日誌です。失敗時は、闇雲に全部読むのではなく、層を分けて絞ります。
+            失敗時に全ログを順番なく読むのではなく、マネージドサービスの状態、アプリケーションログ、デプロイworkflowの順に確認範囲を絞ります。
           </p>
         </div>
         <div class="log-layers">
           <article data-reveal>
             <span>01 / State</span><h3>まず、今の状態を見る</h3>
-            <p>準備中、稼働中、失敗など、AWSが示す状態とヘルスチェックを確認します。</p>
+            <p>ECS service、task、target health、RDS、MQなど、AWS control planeの状態を確認します。</p>
           </article>
           <article data-reveal>
-            <span>02 / Application</span><h3>次に、担当部署の日誌を見る</h3>
-            <p>CloudWatch Logsで、Web、API、AI処理、移行処理のどこまで進んだかを追います。</p>
+            <span>02 / Application</span><h3>correlation IDで処理を追う</h3>
+            <p>CloudWatch LogsでWeb、API、MLワーカー、migrationの処理経路を追跡します。</p>
           </article>
           <article data-reveal>
-            <span>03 / Lifecycle</span><h3>最後に、全体工程の記録を見る</h3>
-            <p>GitHub Actions、CodeBuild、Terraformの要約から、配置・試験・片付けのどこで止まったかを照合します。</p>
+            <span>03 / Lifecycle</span><h3>workflow summaryを照合する</h3>
+            <p>GitHub Actions、CodeBuild、Terraformのsummaryから、build・apply・E2E・destroyの停止点を確認します。</p>
           </article>
         </div>
       </div>
@@ -577,42 +577,42 @@ const references = [
         <div class="section-heading section-heading--split" data-reveal>
           <div>
             <p class="eyebrow">Destroy &amp; sweep</p>
-            <h2>消した、ではなく、<br />残っていない。</h2>
+            <h2>destroyの成功だけでは、<br />撤収完了とみなさない。</h2>
           </div>
           <p>
-            作れることと同じくらい、正しく消せることも技術力です。Terraformのdestroyだけを信じず、別の棚卸しを重ねてAWS全体の空白を確かめます。
+            Terraform state外のリソースや、サービスが派生的に作成したリソースもあり得ます。destroy後にAWS APIを使った別の棚卸しを実行します。
           </p>
         </div>
 
         <div class="deletion-proof" data-reveal>
           <div>
             <p class="eyebrow">Deletion is engineering</p>
-            <h3>「消したつもり」は、<br />請求を止めない。</h3>
+            <h3>残存Resourceは、<br />次回障害と予期しない請求につながる。</h3>
           </div>
           <div>
             <p>
-              AWS公式にも「予期しない請求」の確認ページがあります。例えばEC2本体を止めても、保存領域やスナップショット、IPアドレス、別リージョンの資源、他サービスが自動で作った資源などは、別に残ることがあります。
+              AWS公式にも予期しない請求の確認手順があります。EC2インスタンスを停止・削除しても、ボリューム、スナップショット、Elastic IP、別リージョンのリソース、他サービスが作成したリソースは別に残る場合があります。
             </p>
             <p>
-              だからこの作品では、一つの削除命令が成功したことを完了条件にしません。自分が作ったものの範囲を把握し、安全な順序で消し、別経路で残骸を探すところまでを、AWSデプロイ技術の証明に含めました。
+              この実装では単一の削除Commandを完了条件にせず、作成ScopeをTagとStateで特定し、依存順に削除し、別経路でResidual Resourceを検出するところまでを検証対象にしました。
             </p>
             <div class="deletion-proof__risks" aria-label="一般的に確認が必要な残存リソースの例">
-              <span>保存領域</span><span>スナップショット</span><span>IPアドレス</span><span>別リージョン</span><span>自動作成された資源</span>
+              <span>Volumes</span><span>Snapshots</span><span>Elastic IP</span><span>Other Regions</span><span>Derived Resources</span>
             </div>
           </div>
         </div>
 
         <div class="cleanup-timeline" data-reveal>
           <div>
-            <span>Before create</span><strong>先に非常口を用意</strong><p>環境を作る前に、一定時間後の自動片付けを予約し、予約内容を読み返します。</p>
+            <span>Preflight</span><strong>フェイルセーフを先に登録</strong><p>リソース作成前に緊急destroyを予約し、Schedulerの設定を読み戻します。</p>
           </div>
           <span aria-hidden="true">→</span>
           <div>
-            <span>After E2E</span><strong>成功したら即時destroy</strong><p>制限時間いっぱいまで残さず、試験完了後に通常経路で片付けます。</p>
+            <span>After E2E</span><strong>即時terraform destroy</strong><p>E2E完了後、セッションの制限時間を待たず通常workflowで撤収します。</p>
           </div>
           <span aria-hidden="true">→</span>
           <div>
-            <span>Postflight</span><strong>別の方法で残骸を探す</strong><p>設計図の記録、イメージ、AWSサービス一覧をそれぞれ確認します。</p>
+            <span>Postflight</span><strong>残存リソースを棚卸し</strong><p>Terraform state、コンテナイメージ、27カテゴリのAWS APIを別々に確認します。</p>
           </div>
         </div>
 
@@ -625,7 +625,7 @@ const references = [
 
         <p class="zero-proof__note" data-reveal>
           IAM、状態保存用S3、空のイメージ置き場、片付け用CodeBuildなど、次回も使う管理基盤は意図的に残します。
-          「一時環境の残骸」と「繰り返し使う設備」を混同しないことも、片付け設計の一部です。
+          一時リソースと次回も使う管理基盤を混同しないことも、撤収設計の一部です。
           AWSの利用額には反映まで時間差があるため、後日の請求も確認します。ただし、請求額だけを「残存ゼロ」の証拠にはしません。
         </p>
       </div>
@@ -635,7 +635,7 @@ const references = [
       <div class="shell">
         <div class="failure-story__lead" data-reveal>
           <p class="eyebrow">Failures are evidence</p>
-          <h2>失敗を消すと、<br />技術力まで消える。</h2>
+          <h2>失敗履歴も、<br />検証結果として残す。</h2>
           <p>
             完成前には、SchedulerからCodeBuildへ渡す自動destroyが7回失敗しています。
             その7回を「成功までの途中」として塗り替えず、後の成功記録と分けて残しました。代表的な学びは次の3つです。
@@ -661,23 +661,23 @@ const references = [
       <div class="shell boundary-story__grid">
         <div data-reveal>
           <p class="eyebrow">What stays / what goes</p>
-          <h2>全部消すことが、<br />正解ではない。</h2>
+          <h2>管理基盤と、<br />一時環境を分ける。</h2>
         </div>
         <div class="state-boundaries" data-reveal>
           <article>
             <span class="state-boundaries__status state-boundaries__status--keep">Keep</span>
-            <h3>次回も使う管理基盤</h3>
-            <p>権限の仕組み、Terraformの状態置き場、空のイメージ置き場、片付け担当。</p>
+            <h3>再利用する管理基盤</h3>
+            <p>IAM、Terraform state用S3、空のECRリポジトリ、緊急destroy用CodeBuild。</p>
           </article>
           <article>
             <span class="state-boundaries__status state-boundaries__status--remove">Remove</span>
-            <h3>試験中だけ使う環境</h3>
-            <p>ネットワーク、アプリ、データベース、キュー、ログイン基盤、一時データ。</p>
+            <h3>一時環境</h3>
+            <p>VPC、アプリケーション、データベース、キュー、Cognito、一時データとログ。</p>
           </article>
           <article>
             <span class="state-boundaries__status state-boundaries__status--prove">Prove</span>
-            <h3>一回ごとの証拠</h3>
-            <p>合成文書、試験利用者、予約、チェックポイント、実行時だけのイメージ。</p>
+            <h3>実行ごとのアーティファクト</h3>
+            <p>合成文書、テストユーザー、Scheduler、チェックポイント、実行固有のイメージ。</p>
           </article>
         </div>
       </div>
@@ -687,7 +687,7 @@ const references = [
       <div class="shell story-limitations__grid">
         <div data-reveal>
           <p class="eyebrow">Honest boundary</p>
-          <h2>この実地試験が、<br />証明しないこと。</h2>
+          <h2>このAWS検証のScope外。</h2>
         </div>
         <ul class="plain-list" data-reveal>
           <li>常時稼働する本番サービスや、SLAを備えた商用運用ではありません。</li>
@@ -704,7 +704,7 @@ const references = [
         <div class="section-heading section-heading--split" data-reveal>
           <div>
             <p class="eyebrow eyebrow--accent">Sources &amp; verification</p>
-            <h2>分かりやすくする。<br />根拠は薄めない。</h2>
+            <h2>実AWS、Actionsの実行履歴、<br />公開実装を照合。</h2>
           </div>
           <p>
             本文は、2026年8月14日に確認した実AWSのIAM・Cost Explorerと、同日時点のPortfolio mainを基に再構成しました。秘密情報やアカウント固有値は公開していません。
@@ -730,14 +730,14 @@ const references = [
       <div class="shell story-next__inner" data-reveal>
         <div>
           <p class="eyebrow eyebrow--light">Choose your depth</p>
-          <h2>輪郭へ戻る。<br />または、証拠へ進む。</h2>
-          <p>3分解説は作品の全体像、GitHubはコードと英語の詳細資料です。</p>
+          <h2>システム全体、ML設計、<br />公開リポジトリへ。</h2>
+          <p>3分解説ではDocument Intelligence基盤の全体像、ML編ではモデルライフサイクル、GitHubでは実装と実行履歴を確認できます。</p>
         </div>
         <div class="story-next__actions">
           <a class="button button--ghost-light button--large" href="/portfolio/">3分解説へ戻る</a>
           <a class="button button--ghost-light button--large" href="/portfolio/ml/">MLの10分記事へ</a>
           <a class="button button--accent button--large" href="https://github.com/Kentaro-Ono-jp/Portfolio" target="_blank" rel="noreferrer">
-            GitHubで証拠を見る <span aria-hidden="true">↗</span>
+            GitHubで実装を見る <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>
