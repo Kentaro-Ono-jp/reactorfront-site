@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="ReactorFront"
-  description="設計・実装・運用の境界をまたぎ、複雑さを動く仕組みに変える。東京を拠点に活動する独立系ソフトウェアエンジニア、ReactorFrontの公式サイトです。"
+  description="業務システム開発、Linux運用、AWS・IaC、機械学習基盤。設計から実装、リリース後の運用までを一続きで扱うReactorFrontの公式サイトです。"
 >
   <section class="home-hero">
     <div class="home-hero__image" aria-hidden="true"></div>
@@ -17,8 +17,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <span>動く仕組み</span>に。
         </h1>
         <p class="home-hero__lead">
-          設計だけでも、実装だけでも、運用だけでも終わらせない。<br />
-          ソフトウェアとインフラの境界をまたぎ、現場で使い続けられる形までつくります。
+          業務要件の整理からアプリケーション実装、クラウド基盤、リリース後の運用まで。<br />
+          20年以上の開発経験とLinux運用の知見を基に、システムのライフサイクル全体を設計します。
         </p>
         <div class="button-row">
           <a class="button button--accent" href="/portfolio/">
@@ -60,11 +60,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="section-heading section-heading--split" data-reveal>
         <div>
           <p class="eyebrow">What I do</p>
-          <h2>境界に落ちる仕事を、<br />拾い上げる。</h2>
+          <h2>アプリケーションから運用まで、<br />一続きで設計する。</h2>
         </div>
         <p>
-          アプリケーション、基盤、運用は別々の専門領域に見えて、実際の障害や使いにくさはその境界で起こります。
-          ReactorFrontは、全体を見渡して「動く」から「任せられる」までをつなぎます。
+          業務システムは、画面やAPIだけでは成立しません。認証、データ設計、非同期処理、デプロイ、監視、障害復旧まで含めて初めて運用できます。
+          ReactorFrontは、各レイヤーの責務と境界を整理し、変更し続けられるシステムへまとめます。
         </p>
       </div>
 
@@ -75,7 +75,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             <svg viewBox="0 0 48 48"><path d="M8 12h32v24H8zM8 19h32M15 15h.1M20 15h.1" /></svg>
           </div>
           <h3>Product Engineering</h3>
-          <p>要件を整理し、Web画面・API・データベースまで、利用者の操作として一つにつなぎます。</p>
+          <p>業務要件をAPIとデータモデルへ落とし込み、Webフロントエンドからバックエンド、テストまで実装します。</p>
           <ul class="tag-list" aria-label="関連技術">
             <li>TypeScript</li><li>React</li><li>Python</li><li>API</li>
           </ul>
@@ -87,7 +87,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             <svg viewBox="0 0 48 48"><path d="M10 10h28v10H10zM10 28h28v10H10zM15 15h.1M15 33h.1M21 15h12M21 33h12" /></svg>
           </div>
           <h3>Platform &amp; Reliability</h3>
-          <p>Linux、コンテナ、クラウド、CI/CDを、復旧や安全な終了まで含む運用可能な基盤に整えます。</p>
+          <p>Linux、コンテナ、AWS、IaC、CI/CDを使い、監視・復旧・撤収まで含めた運用設計を行います。</p>
           <ul class="tag-list" aria-label="関連技術">
             <li>Linux</li><li>Docker</li><li>AWS</li><li>Terraform</li>
           </ul>
@@ -99,7 +99,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="6" /><path d="M24 5v8M24 35v8M5 24h8M35 24h8M10.6 10.6l5.7 5.7M31.7 31.7l5.7 5.7M37.4 10.6l-5.7 5.7M16.3 31.7l-5.7 5.7" /></svg>
           </div>
           <h3>Applied ML</h3>
-          <p>モデルの精度だけでなく、人の確認、データの由来、評価と更新までを製品の仕組みとして扱います。</p>
+          <p>推論APIだけで終わらせず、評価、データセット管理、Human-in-the-loop、モデル更新とロールバックまで設計します。</p>
           <ul class="tag-list" aria-label="関連技術">
             <li>PyTorch</li><li>Evaluation</li><li>Human Review</li>
           </ul>
@@ -113,10 +113,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="shell featured-work__inner">
       <div class="featured-work__copy" data-reveal>
         <p class="eyebrow eyebrow--accent">Featured Portfolio</p>
-        <h2>AIの答えを、<br />人が安心して扱える仕組みへ。</h2>
+        <h2>業務文書を、<br />AIと人が扱えるデータへ。</h2>
         <p>
-          PDFを受け付け、機械が種類を予測し、人が最終判断を行い、その履歴を残す。
-          一見単純な流れを、認証・非同期処理・監査・機械学習・クラウド運用まで含む一つの公開システムとして実装しました。
+          PDFの受付、非同期解析、Human-in-the-loopによるレビュー、監査ログ、モデルの評価・更新までを統合したDocument Intelligence基盤です。
+          公開版では最小のVertical Sliceとして文書分類を実装し、業務文書の分析や項目抽出、設計図面の読み取りへ拡張できるアーキテクチャを示しています。
         </p>
         <a class="text-link text-link--light" href="/portfolio/">
           3分でわかる日本語解説へ
@@ -129,26 +129,26 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <div class="mini-flow__step">
           <span>01</span>
           <div class="mini-flow__glyph mini-flow__glyph--document" aria-hidden="true"></div>
-          <h3>受付</h3>
-          <p>PDFを安全に預かる</p>
+          <h3>Ingest</h3>
+          <p>認証付きでPDFを受け付ける</p>
         </div>
         <div class="mini-flow__step">
           <span>02</span>
           <div class="mini-flow__glyph mini-flow__glyph--machine" aria-hidden="true"></div>
-          <h3>機械処理</h3>
-          <p>裏側で種類を予測</p>
+          <h3>Analyze</h3>
+          <p>非同期ワーカーで解析する</p>
         </div>
         <div class="mini-flow__step">
           <span>03</span>
           <div class="mini-flow__glyph mini-flow__glyph--review" aria-hidden="true"></div>
-          <h3>人の判断</h3>
-          <p>承認または訂正</p>
+          <h3>Review</h3>
+          <p>人が承認または訂正する</p>
         </div>
         <div class="mini-flow__step">
           <span>04</span>
           <div class="mini-flow__glyph mini-flow__glyph--audit" aria-hidden="true"></div>
-          <h3>記録</h3>
-          <p>誰が何を決めたか残す</p>
+          <h3>Audit</h3>
+          <p>推論と判断の履歴を残す</p>
         </div>
       </div>
     </div>
@@ -166,10 +166,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
       <div class="infrastructure-teaser__copy" data-reveal>
         <p class="eyebrow">Open knowledge</p>
-        <h2>独立した日に、<br />本当に必要だったIT基盤。</h2>
+        <h2>フリーランスの事業基盤を、<br />実構成から解説。</h2>
         <p>
           独自ドメイン、Webサイト、仕事用メール、DNS、メール認証。
-          ReactorFront自身が整備した最小構成を、同じ場所で迷うフリーランスのために一般化して公開します。
+          開業時にReactorFront自身が構築したXServerドメイン、GitHub Pages、Google Workspaceの構成を、公開可能な範囲で解説しています。
         </p>
         <ul class="check-list">
           <li>契約先と実際の役割を切り分ける</li>
@@ -195,7 +195,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </div>
       </div>
       <blockquote data-reveal>
-        「動いた」で終えず、<br />次に触る人が判断できるところまで。
+        実装だけでなく、<br />運用と次の変更まで見通して設計する。
       </blockquote>
       <div class="profile-teaser__body" data-reveal>
         <p>
@@ -211,8 +211,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="shell contact-band__inner" data-reveal>
       <div>
         <p class="eyebrow eyebrow--light">Start a conversation</p>
-        <h2>まずは、状況を聞かせてください。</h2>
-        <p>技術相談、将来の協業、案件のご連絡。整理前の段階でも構いません。</p>
+        <h2>案件・技術相談のご連絡はこちら。</h2>
+        <p>業務システム、クラウド基盤、機械学習エンジニアリングに関するご相談を承ります。</p>
       </div>
       <a class="button button--accent button--large" href="mailto:kentaro.ono@reactorfront.jp">
         kentaro.ono@reactorfront.jp
