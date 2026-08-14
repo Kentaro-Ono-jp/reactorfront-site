@@ -1274,6 +1274,10 @@ code {
   font-size: clamp(2.4rem, 5.3vw, 4.7rem);
 }
 
+.career-section .section-heading h2 {
+  text-wrap: balance;
+}
+
 .career-timeline {
   padding: 0;
   margin: 0;
@@ -1281,7 +1285,7 @@ code {
   list-style: none;
 }
 
-.career-timeline li {
+.career-timeline > li {
   display: grid;
   grid-template-columns: 0.4fr 1fr;
   gap: 2rem;
@@ -1302,6 +1306,76 @@ code {
 
 .career-timeline p {
   max-width: 760px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.career-timeline p.career-timeline__phase {
+  margin-bottom: 0.45rem;
+  color: #587078;
+  font-family: "Cascadia Code", monospace;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.career-timeline__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0;
+  margin: 1.25rem 0 0;
+  list-style: none;
+}
+
+.career-timeline__facts li {
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #bacac7;
+  border-radius: 999px;
+  color: #405a61;
+  background: rgba(255, 255, 255, 0.38);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.experience-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.experience-proof-grid article {
+  min-height: 26rem;
+  padding: clamp(1.5rem, 3.5vw, 3rem);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-raised);
+}
+
+.experience-proof-grid__number {
+  display: block;
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+  color: #84969b;
+  font-family: "Cascadia Code", monospace;
+  font-size: 0.7rem;
+}
+
+.experience-proof-grid strong {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: #173f49;
+  font-size: clamp(1.75rem, 3.2vw, 3rem);
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.experience-proof-grid h3 {
+  margin-bottom: 1.25rem;
+}
+
+.experience-proof-grid p {
   margin-bottom: 0;
   color: var(--muted);
 }
@@ -4293,6 +4367,9 @@ code {
   .breadcrumbs { margin-bottom: 4.5rem; }
   .page-hero__grid { align-items: start; gap: 2rem; }
   .profile-card { max-width: 480px; }
+  .experience-proof-grid { grid-template-columns: 1fr; }
+  .experience-proof-grid article { min-height: auto; }
+  .experience-proof-grid__number { margin-bottom: 2.5rem; }
   .why-section__sticky,
   .guide-index { position: static; }
   .discipline-grid { grid-template-columns: 1fr; }
@@ -4350,7 +4427,7 @@ code {
   .contact-band .button,
   .repository-cta .button,
   .guide-closing .button { width: 100%; font-size: .78rem; }
-  .career-timeline li { grid-template-columns: 1fr; gap: .75rem; }
+  .career-timeline > li { grid-template-columns: 1fr; gap: .75rem; }
   .principle-grid { grid-template-columns: 1fr; }
   .principle-grid article { min-height: auto; }
   .principle-grid article > span { margin-bottom: 2rem; }
