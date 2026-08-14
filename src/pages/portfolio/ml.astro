@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { articleReadingMinutes } from "../../reading-times";
 
 const portfolioCommit = "708056f33d56f1affe2dbe8e1b58f4a722895b88";
 
@@ -152,7 +153,7 @@ const references = [
 ---
 
 <BaseLayout
-  title="機械学習を継続改善する設計｜10分で読むポートフォリオ"
+  title={`機械学習を継続改善する設計｜約${articleReadingMinutes.ml}分で読むポートフォリオ`}
   description="データセット、評価指標、Champion/Candidate、model lineage、人の訂正、ロールバック。ReactorFront PortfolioのMLエンジニアリングを解説します。"
 >
   <article class="ml-story">
@@ -169,7 +170,7 @@ const references = [
         </div>
         <div class="page-hero__grid">
           <div>
-            <p class="eyebrow eyebrow--accent">10-minute engineering note</p>
+            <p class="eyebrow eyebrow--accent">{articleReadingMinutes.ml}-minute engineering note</p>
             <h1>評価・昇格・ロールバックを、<br />再現可能に。</h1>
           </div>
           <div class="page-hero__lead">
@@ -177,7 +178,7 @@ const references = [
               機械学習は、モデルを一度学習して終わる仕事ではありません。
               同じ条件で評価し、ChampionとCandidateを比較し、採用根拠を残して安全に切り替える。その開発・運用基盤を解説します。
             </p>
-            <span class="reading-time">約10分で読めます</span>
+            <span class="reading-time">約{articleReadingMinutes.ml}分で読めます</span>
           </div>
         </div>
       </div>
@@ -220,6 +221,21 @@ const references = [
           </p>
         </div>
       </div>
+
+      <aside class="reader-bridge shell" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>この章の全体像</strong>
+        </div>
+        <div>
+          <h3>新しいAIを作ることより、採用できる版を安全に選び続ける話です。</h3>
+          <p>
+            モデルは更新するたびに結果が変わります。そのため、前と同じ条件で試験し、悪くなった点がないかを確認し、採用した理由を残してから切り替えます。
+            問題があれば、審査済みの以前の版へ戻せる状態も用意します。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>AIの変更を担当者の感覚だけで決めず、比較できる試験結果と承認記録を使って管理できます。</p>
+        </div>
+      </aside>
     </section>
 
     <section class="section ml-workload-section" id="document-intelligence">
@@ -262,6 +278,21 @@ const references = [
             </p>
           </div>
         </div>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>分類を使う理由</strong>
+          </div>
+          <div>
+            <h3>文書分類は、仕組み全体を小さく確かめるための題材です。</h3>
+            <p>
+              現在のAIが答えるのは「請求書か報告書か」ですが、ここで実証しているのは分類精度だけではありません。
+              文書を受け取り、人が確認し、評価した版だけを採用し、判断の履歴を残すという周辺の流れです。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>項目抽出や図面解析へ進む場合も、AIの種類は作り直しつつ、審査・記録・運用の考え方を再利用できます。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -291,6 +322,21 @@ const references = [
             ))
           }
         </div>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>比較できる条件</strong>
+          </div>
+          <div>
+            <h3>毎回違う問題集で試験したら、前回より賢くなったかは分かりません。</h3>
+            <p>
+              AIの版を比べる時も、評価に使う文書、正解、分け方、採点基準を揃える必要があります。
+              全体の点数だけでなく、請求書を見落としていないかなど、仕事上重要な項目も同じ条件で見ます。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>点数の変化がモデルによるものか、試験条件が変わっただけなのかを切り分けられます。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -317,6 +363,21 @@ const references = [
             ))
           }
         </ol>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>lineageとは</strong>
+          </div>
+          <div>
+            <h3>モデルに、材料・作り方・検査結果を示す製造記録を付けます。</h3>
+            <p>
+              モデルファイルだけを保存しても、どの文書で学習し、どんな前処理を行い、どの基準で合格したかは分かりません。
+              それらを一つの版として結び、実際の推論結果にも使用した版の識別情報を残します。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>後から結果の根拠を調べられ、問題が起きた時も戻すべき一式を特定できます。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -443,6 +504,20 @@ const references = [
           今回のCandidateはChampionを大幅に上回ったのではなく、絶対基準を満たし、この限定的なtest setで性能劣化がないと確認されたものです。
           「改善」と「昇格可能」を区別して記録しています。
         </p>
+
+        <aside class="reader-bridge" data-reveal>
+          <div class="reader-bridge__label">
+            <span>理解の補助線</span>
+            <strong>昇格とは</strong>
+          </div>
+          <div>
+            <h3>新しく作った版を、そのまま現場で使うわけではありません。</h3>
+            <p>
+              Candidateは試作品、Championは現在採用中の版です。候補版が最低条件を満たし、現行版より許容範囲を超えて悪化していないことを確認して、初めて利用先を切り替えます。
+            </p>
+            <p class="reader-bridge__meaning"><strong>実務上の意味</strong>「新しいから採用する」のではなく、事前に決めた条件を通った版だけを本番候補にできます。</p>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -557,6 +632,21 @@ const references = [
           <p><span aria-hidden="true">×</span> 自動再学習・無審査のモデル昇格は行わない</p>
         </div>
       </div>
+
+      <aside class="reader-bridge shell" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>人の訂正の扱い</strong>
+        </div>
+        <div>
+          <h3>利用者の訂正は有力な手掛かりですが、そのまま正解データにはしません。</h3>
+          <p>
+            訂正には入力ミス、重複、個人情報、利用できない文書が混ざる可能性があります。
+            まず業務上の判断として保存し、学習に使ってよいかを別の審査で確認したものだけを次のデータセットへ入れます。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>現場の知見を改善へ生かしつつ、誤った訂正や扱えないデータでモデルを汚すことを防ぎます。</p>
+        </div>
+      </aside>
     </section>
 
     <section class="section ml-proof-story">
@@ -640,11 +730,11 @@ const references = [
         <div>
           <p class="eyebrow eyebrow--light">Choose your next view</p>
           <h2>システム全体、AWS実地検証、<br />公開リポジトリへ。</h2>
-          <p>3分解説ではDocument Intelligence基盤の全体像、AWS編ではデプロイから撤収、GitHubでは実装と評価アーティファクトを確認できます。</p>
+          <p>約{articleReadingMinutes.overview}分の概説ではDocument Intelligence基盤の全体像、AWS編ではデプロイから撤収、GitHubでは実装と評価アーティファクトを確認できます。</p>
         </div>
         <div class="story-next__actions">
-          <a class="button button--ghost-light button--large" href="/portfolio/">3分解説へ戻る</a>
-          <a class="button button--ghost-light button--large" href="/portfolio/aws/">AWSの10分記事へ</a>
+          <a class="button button--ghost-light button--large" href="/portfolio/">約{articleReadingMinutes.overview}分の概説へ戻る</a>
+          <a class="button button--ghost-light button--large" href="/portfolio/aws/">AWSの約{articleReadingMinutes.aws}分記事へ</a>
           <a class="button button--accent button--large" href="https://github.com/Kentaro-Ono-jp/Portfolio" target="_blank" rel="noreferrer">
             GitHubで実装を見る <span aria-hidden="true">↗</span>
           </a>

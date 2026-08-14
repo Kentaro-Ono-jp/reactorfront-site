@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { articleReadingMinutes } from "../reading-times";
 ---
 
 <BaseLayout
@@ -119,7 +120,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           公開版では最小のVertical Sliceとして文書分類を実装し、業務文書の分析や項目抽出、設計図面の読み取りへ拡張できるアーキテクチャを示しています。
         </p>
         <a class="text-link text-link--light" href="/portfolio/">
-          3分でわかる日本語解説へ
+          約{articleReadingMinutes.overview}分でわかる日本語解説へ
           <span aria-hidden="true">→</span>
         </a>
       </div>
