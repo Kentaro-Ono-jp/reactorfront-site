@@ -2,11 +2,17 @@
 import BrandMark from "./BrandMark.astro";
 
 const path = Astro.url.pathname;
-const nav = [
+type NavItem = {
+  href: string;
+  label: string;
+  coffee?: boolean;
+};
+
+const nav: NavItem[] = [
   { href: "/", label: "ホーム" },
   { href: "/profile/", label: "プロフィール" },
   { href: "/portfolio/", label: "ポートフォリオ" },
-  { href: "/infrastructure/", label: "独立インフラ入門" },
+  { href: "/infrastructure/", label: "インフラ入門", coffee: true },
 ];
 
 const isActive = (href: string) =>
@@ -40,7 +46,16 @@ const isActive = (href: string) =>
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
               >
-                {item.label}
+                {
+                  item.coffee && (
+                    <span class="nav-coffee" aria-hidden="true">
+                      <span class="nav-coffee__steam nav-coffee__steam--one"></span>
+                      <span class="nav-coffee__steam nav-coffee__steam--two"></span>
+                      <span class="nav-coffee__cup">☕</span>
+                    </span>
+                  )
+                }
+                <span>{item.label}</span>
               </a>
             </li>
           ))

@@ -382,7 +382,9 @@ code {
 
 .site-nav ul a {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
   padding-block: 0.5rem;
   color: #314a52;
   font-size: 0.78rem;
@@ -411,6 +413,59 @@ code {
 
 .site-nav ul a[aria-current="page"] {
   color: var(--ink);
+}
+
+.nav-coffee {
+  position: relative;
+  display: inline-block;
+  width: 1.3rem;
+  height: 1.55rem;
+  flex: none;
+  margin-top: -0.28rem;
+}
+
+.nav-coffee__cup {
+  position: absolute;
+  right: 0;
+  bottom: -0.05rem;
+  left: 0;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.nav-coffee__steam {
+  position: absolute;
+  z-index: 1;
+  top: 0.02rem;
+  width: 0.24rem;
+  height: 0.46rem;
+  border-left: 1px solid #70868c;
+  border-radius: 50%;
+  opacity: 0;
+  animation: coffee-steam 2.8s ease-in-out infinite;
+}
+
+.nav-coffee__steam--one {
+  left: 0.48rem;
+}
+
+.nav-coffee__steam--two {
+  left: 0.78rem;
+  animation-delay: 0.8s;
+}
+
+@keyframes coffee-steam {
+  0% {
+    opacity: 0;
+    transform: translateY(0.28rem) translateX(0) scaleX(0.85);
+  }
+  28% { opacity: 0.7; }
+  72% { opacity: 0.2; }
+  100% {
+    opacity: 0;
+    transform: translateY(-0.4rem) translateX(0.08rem) scaleX(1.15);
+  }
 }
 
 .menu-button {
@@ -4616,6 +4671,7 @@ code {
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+  .nav-coffee__steam { display: none; }
   .js [data-reveal] { opacity: 1; transform: none; }
 }
 

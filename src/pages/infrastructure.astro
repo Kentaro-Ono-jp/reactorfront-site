@@ -10,8 +10,8 @@ const records = [
 ---
 
 <BaseLayout
-  title="フリーランスの独立インフラ入門"
-  description="独自ドメイン、GitHub Pages、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontが実際に整えた最小構成を一般化し、フリーランス向けに安全な範囲で解説します。"
+  title="フリーランスのインフラ入門"
+  description="開業届を出した後に整えた、独自ドメイン、GitHub Pages、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontの実構成を一般化し、安全な範囲で解説します。"
 >
   <section class="page-hero page-hero--infrastructure">
     <div class="page-hero__circuit" aria-hidden="true"></div>
@@ -22,7 +22,7 @@ const records = [
       <div class="page-hero__grid">
         <div>
           <p class="eyebrow eyebrow--accent">Freelance infrastructure guide</p>
-          <h1>独立したら<br />整えたい、<br />最小のIT基盤。</h1>
+          <h1>開業届を出した。<br />その後に整えた、<br />仕事のIT基盤。</h1>
         </div>
         <div class="page-hero__lead">
           <p>
@@ -122,7 +122,7 @@ const records = [
       </div>
     </div>
 
-    <div class="infra-architecture shell" data-reveal aria-label="独立インフラの構成図">
+    <div class="infra-architecture shell" data-reveal aria-label="フリーランス向けインフラの構成図">
       <div class="infra-architecture__source">
         <span>契約・名前の管理</span>
         <strong>XServerドメイン</strong>
@@ -149,6 +149,21 @@ const records = [
         <path d="M270 120H385" /><path d="M515 120H610V64H650" /><path d="M610 120v56h40" />
       </svg>
     </div>
+
+    <aside class="reader-bridge shell" data-reveal>
+      <div class="reader-bridge__label">
+        <span>理解の補助線</span>
+        <strong>要するに</strong>
+      </div>
+      <div>
+        <h3>一つの「ホームページ契約」で、Webもメールも全部動いているわけではありません。</h3>
+        <p>
+          独自ドメインという共通の名前を持ち、DNSでWebはGitHub Pages、メールはGoogle Workspaceへ案内しています。
+          XServerドメインは、その名前と案内先を管理する場所です。見た目は一つの屋号でも、裏側では役割の異なるサービスを組み合わせています。
+        </p>
+        <p class="reader-bridge__meaning"><strong>実務上の意味</strong>問題が起きた時に契約先を総当たりせず、ドメイン、DNS、Web、メールのどこを確認すべきか切り分けられます。</p>
+      </div>
+    </aside>
   </section>
 
   <section class="section section--soft role-section">
@@ -214,6 +229,21 @@ const records = [
           ))
         }
       </div>
+
+      <aside class="reader-bridge" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>DNSレコードとは</strong>
+        </div>
+        <div>
+          <h3>DNSレコードは、Webサイトやメールの本体ではなく、行き先を示す「案内票」です。</h3>
+          <p>
+            A・AAAA・CNAMEは主にWebの行き先、MXはメールの届け先、TXTは所有確認や送信ルールを知らせます。
+            案内票を書いただけではサービスは動かないため、GitHub PagesやGoogle Workspace側の準備と対にして設定します。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>レコードの文字列だけでなく、案内先のサービスが受け入れ可能かまで確認する必要があります。</p>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -326,6 +356,21 @@ const records = [
             <a href="https://support.google.com/a/answer/174124" target="_blank" rel="noreferrer">Google公式: DKIM ↗</a>
             <a href="https://support.google.com/a/answer/10032473" target="_blank" rel="noreferrer">Google公式: DMARC導入手順 ↗</a>
           </p>
+
+          <aside class="reader-bridge" data-reveal>
+            <div class="reader-bridge__label">
+              <span>理解の補助線</span>
+              <strong>三つの違い</strong>
+            </div>
+            <div>
+              <h3>三つとも「なりすまし対策」ですが、確認しているものは別です。</h3>
+              <p>
+                SPFは許可された送信経路か、DKIMは正しい署名があり途中で改変されていないか、DMARCは送信元として名乗るドメインと認証結果がそろっているかを確認します。
+                DMARCは、失敗したメールをどう扱い、誰へ報告するかも受信側へ伝えます。
+              </p>
+              <p class="reader-bridge__meaning"><strong>実務上の意味</strong>どれか一つのPASSだけで安心せず、三つの結果と正規の送信サービスを合わせて確認します。</p>
+            </div>
+          </aside>
         </article>
 
         <article id="step-5" data-reveal>
@@ -350,6 +395,21 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
             <li>外部メールの「メッセージのソース」でSPF / DKIM / DMARCが <code>PASS</code></li>
             <li>DMARCレポートが届き、未知の送信元がない</li>
           </ul>
+
+          <aside class="reader-bridge" data-reveal>
+            <div class="reader-bridge__label">
+              <span>理解の補助線</span>
+              <strong>保存と反映</strong>
+            </div>
+            <div>
+              <h3>管理画面で「保存できた」と、利用者側から「使える」は同じではありません。</h3>
+              <p>
+                DNSには反映やキャッシュの時間差があり、WebにはHTTPS証明書、メールには実際の配送と認証があります。
+                最後は設定した管理画面ではなく、外部のDNS問い合わせ、ブラウザ、別のメールボックスから確かめます。
+              </p>
+              <p class="reader-bridge__meaning"><strong>実務上の意味</strong>設定者の画面だけで完了とせず、実際の利用経路からWebとメールが機能することを確認できます。</p>
+            </div>
+          </aside>
         </article>
       </div>
     </div>
@@ -390,6 +450,21 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
           </ul>
         </article>
       </div>
+
+      <aside class="reader-bridge" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>公開情報と秘密</strong>
+        </div>
+        <div>
+          <h3>外から確認できるDNS情報と、管理画面を丸ごと公開することは別です。</h3>
+          <p>
+            DNSレコードは名前解決のために公開されています。一方、管理画面には契約者情報、請求、操作権限、確認トークンなど、説明には不要な情報も並びます。
+            公開する時は、仕組みと確認方法を残し、本人の操作に使える値は伏せます。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>読者が構成を理解できる情報量を保ちながら、アカウントを操作される手掛かりは渡さずに済みます。</p>
+        </div>
+      </aside>
     </div>
   </section>
 
