@@ -1274,6 +1274,70 @@ code {
   font-size: clamp(2.4rem, 5.3vw, 4.7rem);
 }
 
+.findy-proof-section {
+  padding-top: 0;
+}
+
+.findy-proof {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  padding: clamp(2rem, 5vw, 4.5rem);
+  color: var(--white);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(94, 234, 212, 0.12), transparent 34%),
+    var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.findy-proof h2 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(2.15rem, 4vw, 3.8rem);
+}
+
+.findy-proof__body > p:not(.eyebrow, .findy-proof__note) {
+  color: #c4d3d6;
+  font-size: 0.92rem;
+}
+
+.findy-proof__note {
+  margin: 1.4rem 0 0;
+  color: var(--muted-light);
+  font-size: 0.72rem;
+}
+
+.findy-proof__link {
+  display: block;
+  color: var(--ink);
+  background: var(--paper-raised);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.findy-proof__link img {
+  width: 100%;
+  height: auto;
+  transition: transform 240ms ease;
+}
+
+.findy-proof__link > span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.72rem;
+  font-weight: 760;
+  letter-spacing: 0.06em;
+}
+
+.findy-proof__link:hover img {
+  transform: scale(1.012);
+}
+
 .career-section .section-heading h2 {
   text-wrap: balance;
 }
@@ -4421,6 +4485,7 @@ code {
   .section-heading--split,
   .page-hero__grid,
   .profile-overview__grid,
+  .findy-proof,
   .portfolio-summary__grid,
   .guide-intro__grid,
   .infra-prologue__heading,

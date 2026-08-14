@@ -28,3 +28,13 @@
 > two-thirds and darker negative space on the left. Deep midnight navy, blue-gray, muted
 > cyan, warm ivory, and dark wood. No readable text, code, logos, trademarks, watermark,
 > company branding, fantasy elements, neon cyberpunk, excessive RGB lighting, or clutter.
+
+## `public/images/findy-skill-score-2026-08-14.png`
+
+- 用途: プロフィールページで、Findyスキル偏差値Ver.3の取得時点の記録を表示
+- 取得日: 2026-08-14
+- 提供者: ReactorFront代表 小野賢太郎
+- 内容: Findyの認証済みマイページに表示されたTotal 71.0、Python 71.3の画面キャプチャ
+- 加工: ユーザー提供時点で必要箇所のみ切り抜き済み。サイト側での画像加工なし
+- 外部サービスの表示・意匠: Findy（ファインディ株式会社）
+- リンク先: `https://findy-code.io/home`
