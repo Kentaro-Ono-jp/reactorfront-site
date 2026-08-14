@@ -38,7 +38,7 @@ const journey = [
     number: "06",
     verb: "消す",
     title: "片付けた後も残骸を探す",
-    body: "destroy後にもう一度AWSを調べ、課金対象や一時データが残っていないか確認します。",
+    body: "destroy後にもう一度AWSを調べ、課金対象や一時データが残っていないことまで技術的に証明します。",
   },
 ];
 
@@ -84,6 +84,48 @@ const references = [
     title: "AWS Operations Guide（英語）",
     href: `https://github.com/Kentaro-Ono-jp/Portfolio/blob/${portfolioCommit}/AWS_OPERATIONS_GUIDE.md`,
     note: "設計・検証記録の一次資料",
+  },
+  {
+    label: "AWS official",
+    title: "ECSのFargateとEC2",
+    href: "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/capacity-launch-type-comparison.html",
+    note: "実行基盤の違いに関するAWS公式説明",
+  },
+  {
+    label: "AWS official",
+    title: "AWS Fargateの料金",
+    href: "https://aws.amazon.com/fargate/pricing/",
+    note: "タスクの利用時間に基づくAWS公式料金",
+  },
+  {
+    label: "AWS official",
+    title: "Amazon MQの料金",
+    href: "https://aws.amazon.com/amazon-mq/pricing/",
+    note: "ブローカーと保存領域のAWS公式料金",
+  },
+  {
+    label: "GitHub official",
+    title: "GitHub Actionsの定期実行",
+    href: "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onschedule",
+    note: "scheduleとタイムゾーンの公式仕様",
+  },
+  {
+    label: "GitHub official",
+    title: "AWSとOIDCで安全につなぐ",
+    href: "https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws",
+    note: "長期アクセスキーを置かない公式ガイド",
+  },
+  {
+    label: "AWS official",
+    title: "SchedulerからCodeBuildを起動する",
+    href: "https://docs.aws.amazon.com/scheduler/latest/UserGuide/managing-targets-templated.html",
+    note: "自動片付けの非常経路に使うAWS公式仕様",
+  },
+  {
+    label: "AWS official",
+    title: "予期しない請求を理解する",
+    href: "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/checklistforunwantedcharges.html",
+    note: "消した後も請求が残る代表例と確認方法",
   },
   {
     label: "AWS official",
@@ -304,12 +346,157 @@ const references = [
           </article>
         </div>
 
-        <div class="deployment-note" data-reveal>
-          <strong>実地試験用の短命な構成</strong>
-          <p>
-            これは常時公開する本番サービスではありません。高可用性や一般利用者登録を広げず、作品の境界がAWSでも成立するかを確かめるための、期間限定の試験場です。
+        <div class="runtime-choice" data-reveal>
+          <div class="runtime-choice__lead">
+            <p class="eyebrow">Why Fargate</p>
+            <h3>常設サーバーを持たず、<br />仕事だけを起動する。</h3>
+            <p>
+              この作品はWeb、API、AI処理を3つのコンテナに分けています。その分担を実AWSでも保ちつつ、短時間の試験が終われば丸ごと止めやすいことから、ECSのFargateを選びました。
+            </p>
+          </div>
+          <div class="runtime-choice__comparison">
+            <article>
+              <span>EC2で考えると</span>
+              <strong>先に「サーバー」を用意する</strong>
+              <p>台数、容量、OS、更新、コンテナを載せる余白まで、自分たちで面倒を見る領域が増えます。</p>
+            </article>
+            <article class="runtime-choice__selected">
+              <span>Fargateで考えると</span>
+              <strong>必要な「仕事」を渡す</strong>
+              <p>使うCPUとメモリを決めてコンテナを起動し、実証後はタスクと環境を片付けます。短命な使い方と相性がよい選択でした。</p>
+            </article>
+          </div>
+          <p class="runtime-choice__boundary">
+            Fargateを「常時稼働で必ず最安の方式」として選んだわけではありません。サーバーの維持を作品の目的にせず、作る・試す・消すという実証へ集中するための判断です。
           </p>
         </div>
+      </div>
+    </section>
+
+    <section class="section cost-story" id="cost">
+      <div class="shell">
+        <div class="section-heading section-heading--split" data-reveal>
+          <div>
+            <p class="eyebrow">Cost is architecture</p>
+            <h2>見せるために、<br />24時間は動かさない。</h2>
+          </div>
+          <p>
+            このAWS環境の目的は、常時サービスを提供することではありません。実際に配置でき、利用者の流れを試せ、最後まで片付けられることを証明するための試験場です。
+          </p>
+        </div>
+
+        <div class="cost-story__grid">
+          <figure class="cost-observation" data-reveal>
+            <figcaption>
+              <span>Observed / AWS Cost Explorer</span>
+              <strong>5回のデプロイ試行を中心に、当月ここまで$2.40。</strong>
+            </figcaption>
+            <a class="cost-observation__screen" href="/images/aws-cost-explorer-2026-08-14.png" target="_blank" rel="noreferrer" aria-label="AWS Cost Explorerの元画面を原寸で見る">
+              <span class="cost-observation__crop">
+                <img
+                  src="/images/aws-cost-explorer-2026-08-14.png"
+                  width="1078"
+                  height="464"
+                  loading="lazy"
+                  decoding="async"
+                  alt="2026年8月のAWS Cost Explorerをサービス別に表示した画面。内訳はAmazon MQ 1.57ドル、Amazon Elastic Container Service 0.29ドル、税0.22ドル、Amazon Relational Database Service 0.14ドル、CodeBuild 0.08ドル、その他0.11ドル。"
+                />
+              </span>
+              <span class="cost-observation__open">元画面を原寸で見る <em aria-hidden="true">↗</em></span>
+            </a>
+            <a class="run-accounting" href="https://github.com/Kentaro-Ono-jp/Portfolio/actions/workflows/aws-deploy.yml" target="_blank" rel="noreferrer" aria-label="GitHub ActionsのAWSデプロイ実行履歴を見る">
+              <div><span>Actions起動</span><strong>8</strong></div>
+              <i aria-hidden="true">−</i>
+              <div><span>作成前に停止</span><strong>3</strong></div>
+              <i aria-hidden="true">＝</i>
+              <div class="run-accounting__primary"><span>デプロイ試行</span><strong>5</strong></div>
+              <small>途中失敗 3 / 全工程完走 2 <em aria-hidden="true">↗</em></small>
+            </a>
+            <p class="cost-observation__note">
+              所有者のCost Explorerを読み取り専用で確認した値です。Actions外の実地検証、片付け経路の調整、意図的に残す管理基盤、税、Cost Explorer自身の$0.03も含みます。照会回数は断定せず、アカウント識別子や生の管理画面は公開しません。
+            </p>
+          </figure>
+
+          <div class="cost-decisions">
+            <article data-reveal>
+              <span>01 / Measure</span>
+              <h3>「何回」を、記録から数える。</h3>
+              <p>
+                公開されたActions記録は8回。そのうちAWS配置の工程へ到達した5回だけをデプロイ試行と数えました。3回は途中失敗後もdestroyと残存確認に成功し、2回はE2Eまで含む全工程を完走しています。
+              </p>
+            </article>
+            <article data-reveal>
+              <span>02 / Notice</span>
+              <h3>一番大きかったのは、MQ。</h3>
+              <p>
+                短い実証でもAmazon MQだけで当月総額の約65%でした。本番向けの冗長化を足せばさらに増えます。作品の説明だけのために動かし続ける合理性はありません。
+              </p>
+            </article>
+            <article data-reveal>
+              <span>03 / Decide</span>
+              <h3>必要な時だけ、全部を通す。</h3>
+              <p>
+                $2.40は24時間稼働の月額試算ではありません。料金が変わる将来額を断定せず、月に一度だけ環境を作り、E2Eを完走し、すぐに消す。可用性ではなく、ライフサイクル全体を繰り返せることへ費用を使います。
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark automation-story" id="automation">
+      <div class="shell">
+        <div class="section-heading section-heading--split" data-reveal>
+          <div>
+            <p class="eyebrow eyebrow--accent">Two clocks</p>
+            <h2>月に一度の実地試験。<br />60分後の非常口。</h2>
+          </div>
+          <p>
+            「定期的に作る時計」と「途中で止まっても消す時計」は別々です。一方の失敗で、高価な一時環境が置き去りにならないようにしています。
+          </p>
+        </div>
+
+        <div class="automation-clocks">
+          <article class="automation-clock automation-clock--monthly" data-reveal>
+            <header>
+              <span>Clock 01 / GitHub</span>
+              <strong>毎月1日 13:00 JST</strong>
+            </header>
+            <h3>一度だけ、全工程を再演する。</h3>
+            <ol aria-label="月次AWS実証の流れ">
+              <li><span>01</span><strong>短期のAWS権限を借りる</strong><small>OIDC / 長期アクセスキーなし</small></li>
+              <li><span>02</span><strong>設計図から配置する</strong><small>Build / Terraform apply</small></li>
+              <li><span>03</span><strong>利用者として試す</strong><small>Login / PDF / AI / Review</small></li>
+              <li><span>04</span><strong>即時に消して数え直す</strong><small>Destroy / 27-category sweep</small></li>
+            </ol>
+            <p>
+              普段のpushやPull RequestではAWSを起動しません。所有者の手動実行か、既定ブランチの月次予定だけがこの経路へ入ります。
+            </p>
+          </article>
+
+          <article class="automation-clock automation-clock--fallback" data-reveal>
+            <header>
+              <span>Clock 02 / AWS</span>
+              <strong>作成前 + 60 min</strong>
+            </header>
+            <h3>人もGitHubも止まる前提で、先に撤収を予約する。</h3>
+            <p>
+              課金対象を作り始める前に、EventBridge Schedulerへ一度限りの片付けを登録し、内容を読み返します。通常はE2E直後に消すため、この時計を待ちません。
+            </p>
+            <div class="fallback-route" aria-label="非常時の自動片付け経路">
+              <span>Scheduler</span><i aria-hidden="true">→</i><span>CodeBuild</span><i aria-hidden="true">→</i><span>Destroy</span><i aria-hidden="true">→</i><span>Sweep</span>
+            </div>
+            <p>
+              GitHubの処理や作業者が途中で止まった時だけ、AWS側の時計が独立した片付け担当を起動します。予約をした事実ではなく、最後の残存確認までが合格条件です。
+            </p>
+          </article>
+        </div>
+
+        <a class="schedule-proof" href="https://github.com/Kentaro-Ono-jp/Portfolio/actions/runs/31489580926" target="_blank" rel="noreferrer" data-reveal>
+          <span>Accepted schedule proof</span>
+          <strong>実際のschedule経路で、配置・E2E・即時destroy・27分類の残存ゼロまで完走。</strong>
+          <small>約29分の実行記録をGitHub Actionsで公開しています <em aria-hidden="true">↗</em></small>
+        </a>
       </div>
     </section>
 
@@ -393,8 +580,26 @@ const references = [
             <h2>消した、ではなく、<br />残っていない。</h2>
           </div>
           <p>
-            Terraformのdestroyは大切ですが、それだけでAWS全体の空白を証明したことにはなりません。この作品では、別の棚卸しを重ねます。
+            作れることと同じくらい、正しく消せることも技術力です。Terraformのdestroyだけを信じず、別の棚卸しを重ねてAWS全体の空白を確かめます。
           </p>
+        </div>
+
+        <div class="deletion-proof" data-reveal>
+          <div>
+            <p class="eyebrow">Deletion is engineering</p>
+            <h3>「消したつもり」は、<br />請求を止めない。</h3>
+          </div>
+          <div>
+            <p>
+              AWS公式にも「予期しない請求」の確認ページがあります。例えばEC2本体を止めても、保存領域やスナップショット、IPアドレス、別リージョンの資源、他サービスが自動で作った資源などは、別に残ることがあります。
+            </p>
+            <p>
+              だからこの作品では、一つの削除命令が成功したことを完了条件にしません。自分が作ったものの範囲を把握し、安全な順序で消し、別経路で残骸を探すところまでを、AWSデプロイ技術の証明に含めました。
+            </p>
+            <div class="deletion-proof__risks" aria-label="一般的に確認が必要な残存リソースの例">
+              <span>保存領域</span><span>スナップショット</span><span>IPアドレス</span><span>別リージョン</span><span>自動作成された資源</span>
+            </div>
+          </div>
         </div>
 
         <div class="cleanup-timeline" data-reveal>
@@ -502,7 +707,7 @@ const references = [
             <h2>分かりやすくする。<br />根拠は薄めない。</h2>
           </div>
           <p>
-            本文は、2026年8月14日に確認した実AWSのIAM設定と、同日時点のPortfolio mainを基に再構成しました。固有値は公開していません。
+            本文は、2026年8月14日に確認した実AWSのIAM・Cost Explorerと、同日時点のPortfolio mainを基に再構成しました。秘密情報やアカウント固有値は公開していません。
           </p>
         </div>
 
