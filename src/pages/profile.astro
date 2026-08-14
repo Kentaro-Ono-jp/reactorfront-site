@@ -18,11 +18,67 @@ const disciplines = [
     items: ["PyTorch", "Document Intelligence", "Model Evaluation", "Human-in-the-loop"],
   },
 ];
+
+const careerPeriods = [
+  {
+    period: "2001–2020",
+    label: "Enterprise systems / operations",
+    title: "業務システムと運用の土台",
+    description:
+      "半導体設計支援、官公庁、銀行、自動車製造、医療機器管理のシステムに携わりました。既存改修、DB設計、性能改善、Linux運用、サーバー移行まで、長期運用されるシステムの変更と保守を経験しています。",
+    facts: ["半導体設計支援 6年", "官公庁システム 6年", "Linux専任運用 5年", "代打PM 2年"],
+  },
+  {
+    period: "2020–2025",
+    label: "Modern web / cloud",
+    title: "大規模業務Webのモダナイズ",
+    description:
+      "全国のディーラーが利用する自動車リコール対応支援システムへ4年半参画。国への届出、対象車両、部品在庫、作業管理、帳票、通知を扱う業務を、React / Next.js、Java、SQL、Linux、AWSをまたいで開発しました。",
+    facts: ["長期参画 4年半", "要件定義〜デプロイ", "React / Next.js", "Java / SQL / AWS"],
+  },
+  {
+    period: "2025–2026",
+    label: "Documents / OCR",
+    title: "帳票・OCR・クラウドを横断",
+    description:
+      "医療機関向けWeb問診で、React / TypeScriptのUI、Python / FlaskのAPI、QRコード・差分表示を含むPDF生成を担当。帳票構造を先に確定し、OCR結果を既知のフィールドに対して検証するSchema-firstの処理へつなげました。",
+    facts: ["React / TypeScript", "Python / Flask", "PDF / OCR", "AWS / Azure"],
+  },
+  {
+    period: "2026–現在",
+    label: "Machine learning R&D",
+    title: "開発・運用経験を機械学習へ",
+    description:
+      "現在は機械学習の研究開発案件に業務委託で参画し、画像解析、OCR、モデル評価・改善に取り組んでいます。モデル単体ではなく、入力データ、評価、人による確認、更新、監査までを業務システムとして捉えます。",
+    facts: ["画像解析 / OCR", "Model Evaluation", "Human-in-the-loop", "Document Intelligence"],
+  },
+];
+
+const experienceEvidence = [
+  {
+    metric: "約2万人",
+    title: "Windows Serverの老朽更新",
+    description:
+      "社内ユーザー約2万人の環境で、サーバーのインストール、各種設定、プログラム置き換え、チューニング、全動作確認を専任で8か月担当しました。",
+  },
+  {
+    metric: "4年半",
+    title: "自動車リコール対応支援",
+    description:
+      "全国拠点、行政への届出、車両・部品・作業・帳票を扱うWebシステムで、ヒアリングから設計、実装、性能試験、デプロイまで継続して担当しました。",
+  },
+  {
+    metric: "Schema-first",
+    title: "帳票構造とOCR",
+    description:
+      "Word帳票から罫線、セル、入力フィールドを抽出して構造化。レイアウト、フィールド特定、OCR、Validationを分け、結果を検証可能にしました。",
+  },
+];
 ---
 
 <BaseLayout
   title="プロフィール"
-  description="ReactorFront代表・小野賢太郎のプロフィール。システム開発20年以上、Linux運用保守5年の経験を土台に、現在は機械学習の研究開発に取り組んでいます。"
+  description="ReactorFront代表・小野賢太郎のプロフィール。システム開発25年以上、Linux専任運用保守5年の経験を土台に、現在は機械学習の研究開発に取り組んでいます。"
 >
   <section class="page-hero page-hero--profile">
     <div class="shell page-hero__inner">
@@ -35,8 +91,8 @@ const disciplines = [
           <h1>業務要件から、<br />本番運用まで。</h1>
         </div>
         <p class="page-hero__lead">
-          システム開発20年以上、Linuxを中心とした運用保守5年。
-          現在は、これまでの開発・運用経験を機械学習の研究開発に生かしています。
+          システム開発25年以上、Linux専任の運用保守5年。
+          半導体、官公庁、銀行、自動車、医療で積み上げた経験を、現在の機械学習R&amp;Dへつないでいます。
         </p>
       </div>
     </div>
@@ -64,19 +120,19 @@ const disciplines = [
 
       <div class="profile-story" data-reveal>
         <p class="eyebrow">About</p>
-        <h2>20年以上、システムの<br />ライフサイクルに関わってきた。</h2>
+        <h2>25年、業務システムを<br />作り、直し、運用してきた。</h2>
         <div class="prose prose--large">
           <p>
-            業務システムを中心に、要件整理、設計、実装、テスト、リリース後の保守まで経験してきました。
-            特定のフレームワークを使うことより、業務上の責務をどこへ置き、変更に耐えられる境界をどう作るかを重視しています。
+            半導体設計支援、官公庁の道路交通量・帳票、銀行口座開設、自動車の在庫・リコール対応、医療機器管理とWeb問診。
+            業界も技術も異なりますが、複雑な業務とデータを整理し、利用者が継続して使えるシステムへ落とし込む仕事を続けてきました。
           </p>
           <p>
-            Linux運用保守では、ログ調査、障害切り分け、復旧、定常運用に携わりました。
-            その経験から、アプリケーションの仕様だけでなく、デプロイ方法、可観測性、ロールバック、運用担当者の作業まで含めて設計を判断します。
+            新規開発だけでなく、既存コードの改修、DB設計、性能改善、Linux運用、約2万人規模のサーバー更新も経験しました。
+            要件定義から実装、テスト、デプロイ、障害調査までを一人称で追えるため、レイヤー間の引継ぎと認識のずれを減らせます。
           </p>
           <p>
-            現在取り組んでいる機械学習R&amp;Dでも考え方は同じです。
-            推論精度だけを切り出さず、データセットとモデルの来歴、再現可能な評価、人によるレビュー、リリース判断、障害時の復旧までを一つのシステムとして扱います。
+            現在の機械学習R&amp;Dでも、モデル精度だけを切り出してはいません。
+            入力データ、評価条件、人によるレビュー、モデル更新、監査、障害時の復旧までを、一つの業務システムとして扱います。
           </p>
         </div>
       </div>
@@ -87,38 +143,59 @@ const disciplines = [
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">Career layers</p>
-          <h2>開発と運用の経験を、<br />機械学習R&amp;Dへ。</h2>
+          <p class="eyebrow">Career timeline</p>
+          <h2>25年を、四つの期間で見る。</h2>
         </div>
         <p>
-          アプリケーション、インフラ、運用、機械学習を別々の経歴にはせず、
-          システム全体を判断するための経験として積み上げています。
+          古い技術名を並べるための年表ではありません。
+          業務、データ、アプリケーション、運用へと、担当範囲を広げてきた経過です。
         </p>
       </div>
 
       <ol class="career-timeline">
-        <li data-reveal>
-          <span class="career-timeline__year">20+ years</span>
-          <div>
-            <h3>システム開発</h3>
-            <p>業務システムを中心に、要件整理、基本・詳細設計、実装、テスト、保守を担当。長期運用されるコードとデータに向き合ってきました。</p>
-          </div>
-        </li>
-        <li data-reveal>
-          <span class="career-timeline__year">5 years</span>
-          <div>
-            <h3>Linux運用保守</h3>
-            <p>Linuxサーバーの運用、ログ調査、障害切り分け、復旧、定常作業を経験。実運用で必要になる情報と手順を学びました。</p>
-          </div>
-        </li>
-        <li data-reveal>
-          <span class="career-timeline__year">Current</span>
-          <div>
-            <h3>機械学習の研究開発</h3>
-            <p>モデル評価の再現性、データ・モデルの来歴管理、Human-in-the-loopを含むプロダクト実装に取り組んでいます。</p>
-          </div>
-        </li>
+        {
+          careerPeriods.map((career) => (
+            <li data-reveal>
+              <span class="career-timeline__year">{career.period}</span>
+              <div>
+                <p class="career-timeline__phase">{career.label}</p>
+                <h3>{career.title}</h3>
+                <p>{career.description}</p>
+                <ul class="career-timeline__facts" aria-label={`${career.title}の主な経験`}>
+                  {career.facts.map((fact) => <li>{fact}</li>)}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
       </ol>
+    </div>
+  </section>
+
+  <section class="section experience-evidence">
+    <div class="shell">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow">Selected evidence</p>
+          <h2>年数ではなく、<br />任された範囲で示す。</h2>
+        </div>
+        <p>
+          案件名や顧客情報ではなく、規模、期間、担当範囲を公開します。
+          長期運用、既存システム、業務データを扱ってきた経験の一部です。
+        </p>
+      </div>
+      <div class="experience-proof-grid">
+        {
+          experienceEvidence.map((evidence, index) => (
+            <article data-reveal>
+              <span class="experience-proof-grid__number">0{index + 1}</span>
+              <strong>{evidence.metric}</strong>
+              <h3>{evidence.title}</h3>
+              <p>{evidence.description}</p>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 
@@ -142,10 +219,11 @@ const disciplines = [
       <div class="section-heading section-heading--split" data-reveal>
         <div>
           <p class="eyebrow eyebrow--accent">Technical range</p>
-          <h2>複数のレイヤーを、<br />一つのシステムとして扱う。</h2>
+          <h2>技術世代を越えて、<br />システム全体を扱う。</h2>
         </div>
         <p>
-          採用技術そのものだけでなく、責務分割、インターフェース、テスト方法、運用主体まで説明できる設計を目指します。
+          PL/I、Delphi、Java、Oracleから、React、Python、AWS、機械学習まで。
+          過去の技術を現在の主力として並べるのではなく、既存資産を読み解き、次の構成へ接続するための経験として使います。
         </p>
       </div>
       <div class="discipline-grid">
@@ -171,7 +249,8 @@ const disciplines = [
         <p class="eyebrow">Evidence, not adjectives</p>
         <h2>設計と検証の記録を、公開ポートフォリオで示す。</h2>
         <p>
-          顧客情報に触れずに技術判断を確認できるよう、アプリケーション、機械学習、AWS運用の設計と検証結果を公開しています。
+          25年の実務で得た業務設計、データ、運用の視点を、公開可能なDocument Intelligence基盤として再構成しました。
+          アプリケーション、機械学習、AWS運用の設計判断と検証結果を、コードと日本語解説で公開しています。
         </p>
       </div>
       <a class="button button--dark" href="/portfolio/">ポートフォリオ解説へ <span aria-hidden="true">→</span></a>
