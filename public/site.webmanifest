@@ -8,7 +8,7 @@
   "theme_color": "#071b24",
   "icons": [
     {
-      "src": "/images/reactorfront-logo.png",
+      "src": "/favicon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
