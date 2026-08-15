@@ -31,19 +31,26 @@ const socialImage = new URL(image, Astro.site);
 const organization = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
+  "@id": "https://www.reactorfront.jp/#organization",
   name: "ReactorFront",
+  legalName: "リアクターフロント",
   alternateName: "リアクターフロント",
   url: "https://www.reactorfront.jp/",
   logo: "https://www.reactorfront.jp/images/reactorfront-logo.png",
   email: "mailto:kentaro.ono@reactorfront.jp",
   founder: {
     "@type": "Person",
-    name: "Kentaro Ono",
+    "@id": "https://www.reactorfront.jp/#kentaro-ono",
+    name: "小野賢太郎",
+    alternateName: "Kentaro Ono",
     jobTitle: "Software Engineer",
     url: "https://www.reactorfront.jp/profile/",
+    sameAs: [
+      "https://www.linkedin.com/in/kentaro-ono/",
+      "https://github.com/Kentaro-Ono-jp",
+    ],
   },
   sameAs: [
-    "https://github.com/Kentaro-Ono-jp",
     "https://github.com/Kentaro-Ono-jp/Portfolio",
   ],
 };
