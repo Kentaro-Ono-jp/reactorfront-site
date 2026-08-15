@@ -7,6 +7,10 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
   noindex?: boolean;
 }
 
@@ -14,6 +18,10 @@ const {
   title,
   description,
   image = "/images/reactorfront-workspace.webp",
+  imageAlt = "東京の夜景を望む窓辺のソフトウェア開発用ワークスペース",
+  imageWidth = 1536,
+  imageHeight = 1024,
+  imageType = "image/webp",
   noindex = false,
 } = Astro.props;
 
@@ -39,6 +47,23 @@ const organization = {
     "https://github.com/Kentaro-Ono-jp/Portfolio",
   ],
 };
+const webPage = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: pageTitle,
+  url: canonical.href,
+  description,
+  inLanguage: "ja-JP",
+  primaryImageOfPage: {
+    "@type": "ImageObject",
+    url: socialImage.href,
+    contentUrl: socialImage.href,
+    width: imageWidth,
+    height: imageHeight,
+    caption: imageAlt,
+    representativeOfPage: true,
+  },
+};
 ---
 
 <!doctype html>
@@ -54,7 +79,7 @@ const organization = {
     <link rel="apple-touch-icon" href="/images/reactorfront-logo.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#071b24" />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "max-image-preview:large"} />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
@@ -63,13 +88,18 @@ const organization = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:alt" content="夜のワークスペースを描いたReactorFrontのイメージビジュアル" />
+    <meta property="og:image:type" content={imageType} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(organization)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(webPage)} />
     <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
   <body>
