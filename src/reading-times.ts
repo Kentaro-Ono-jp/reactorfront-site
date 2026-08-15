@@ -6,4 +6,5 @@ export const articleReadingMinutes = {
   overview: 10,
   aws: 20,
   ml: 15,
+  googleSearch: 15,
 } as const;

@@ -7,6 +7,7 @@ const routes = [
   "/portfolio/aws/",
   "/portfolio/ml/",
   "/infrastructure/",
+  "/infrastructure/google-search/",
 ];
 
 export const GET: APIRoute = ({ site }) => {
