@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { articleReadingMinutes } from "../reading-times";
+
+const verifiedAt = "2026-08-16";
 
 const records = [
   { type: "A / AAAA", role: "ホスト名をIPアドレスへ対応付ける", example: "example.com → GitHub PagesのIP", note: "IPv4 / IPv6" },
@@ -11,7 +14,7 @@ const records = [
 
 <BaseLayout
   title="フリーランスのインフラ入門"
-  description="開業届を出した後に整えた、独自ドメイン、GitHub Pages、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontの実構成を一般化し、安全な範囲で解説します。"
+  description="開業届を出した後に整えた、独自ドメイン、GitHub Pages、GitHub Actions、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontの実構成と選定理由を一般化し、安全な範囲で解説します。"
 >
   <section class="page-hero page-hero--infrastructure">
     <div class="page-hero__circuit" aria-hidden="true"></div>
@@ -29,7 +32,7 @@ const records = [
             独自ドメイン、仕事用メール、Webサイト。
             ドメイン契約、権威DNS、Webホスティング、メールサービスの責務を分け、ReactorFrontの実構成に沿って解説します。
           </p>
-          <span class="reading-time">実地確認: 2026-08-14</span>
+          <span class="reading-time">約{articleReadingMinutes.infrastructure}分 / 実地確認: {verifiedAt}</span>
         </div>
       </div>
     </div>
@@ -202,6 +205,109 @@ const records = [
     </div>
   </section>
 
+  <section class="section section--dark pages-platform-section" aria-labelledby="pages-platform-title">
+    <div class="shell">
+      <div class="section-heading section-heading--split" data-reveal>
+        <div>
+          <p class="eyebrow eyebrow--accent">Why GitHub Pages</p>
+          <h2 id="pages-platform-title">無料だから、だけでは<br />選ばなかった。</h2>
+        </div>
+        <p>
+          開業時に必要だったのは、会社案内、プロフィール、実績、技術記事を公開する場所でした。
+          コメントや会員機能よりも、更新の履歴を残し、壊れた時に戻せて、サーバーを抱えず公開できることを優先しました。
+        </p>
+      </div>
+
+      <div class="pages-decision-grid" data-reveal>
+        <article>
+          <span>01 / Static hosting</span>
+          <h3>静的サイトを、追加のサーバー契約なしで公開する</h3>
+          <p>Astroが生成したHTML、CSS、JavaScriptをGitHub Pagesから配信します。公開リポジトリならGitHub Freeで利用でき、OSやWebサーバーを自分で保守しません。</p>
+        </article>
+        <article>
+          <span>02 / History</span>
+          <h3>更新した事実と、変更前の状態を残す</h3>
+          <p>commit、diff、Pull Requestで、いつ何を変えたかを追えます。不具合があれば、履歴を消さずにrevertして戻せます。</p>
+        </article>
+        <article>
+          <span>03 / Delivery</span>
+          <h3>ビルドと公開を、同じ場所で自動化する</h3>
+          <p>mainへ反映するとGitHub Actionsが検査・ビルドし、成功した静的成果物だけをPagesへ公開します。失敗した工程と対象commitも実行履歴に残ります。</p>
+        </article>
+        <article>
+          <span>04 / Boundary</span>
+          <h3>動的機能を持たないことも、設計として選ぶ</h3>
+          <p>Pages単体にはDB、ログイン、コメント、いいね、フォーム受付APIがありません。必要なら外部サービスを足せますが、今は保守対象を増やさない方を選びました。</p>
+        </article>
+      </div>
+
+      <div class="pages-pipeline" data-reveal aria-label="ReactorFrontサイトの更新から公開までの流れ">
+        <article><span>Source</span><strong>Astro / Git</strong><small>本文と実装を変更</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>Review</span><strong>Pull Request</strong><small>差分と判断を確認</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>Build</span><strong>GitHub Actions</strong><small>検査・静的生成</small></article>
+        <i aria-hidden="true">→</i>
+        <article><span>Delivery</span><strong>Pages + CDN</strong><small>HTTPSで公開</small></article>
+      </div>
+
+      <div class="pages-edge-proof" data-reveal>
+        <div class="pages-edge-proof__copy">
+          <p class="eyebrow">Delivery architecture</p>
+          <h3>一台を持たず、GitHubの配信基盤を借りる。</h3>
+          <p>
+            個人で一台のWebサーバーを立てる構成では、アクセスはその一台へ集中します。
+            GitHub PagesはGitHubの配信基盤とCDNを通じて静的ファイルを返すため、同じページへのアクセスが続いても、毎回配信元まで到達するとは限りません。
+          </p>
+          <p>
+            GitHubは、Pagesを世界各地のデータセンターから配信し、DDoS攻撃への追加防御も提供すると説明しています。
+            通常のアクセス集中や、単純な連続再読み込みを、個人管理の一台構成より受け止めやすいことも採用理由でした。
+          </p>
+        </div>
+        <div class="pages-edge-proof__observed">
+          <span>Observed / {verifiedAt}</span>
+          <h3>ReactorFront本番の応答</h3>
+          <dl>
+            <div><dt>DNS</dt><dd>複数のPages用IPへ解決</dd></div>
+            <div><dt>Edge</dt><dd><code>japaneast</code> / <code>cache-nrt</code></dd></div>
+            <div><dt>Cache</dt><dd><code>X-Cache: HIT</code></dd></div>
+          </dl>
+          <p>確認時点では、東京・成田側のFastlyキャッシュから配信されました。ヘッダー名や内部構成は変更され得るため、恒久仕様としては扱いません。</p>
+        </div>
+      </div>
+
+      <div class="warning-note pages-platform__limit" data-reveal>
+        <strong>堅牢であることと、無敵であることは別</strong>
+        <p>
+          GitHub Pagesには月間帯域のソフトリミットとレート制限があり、HTTP 429やサービス障害も起こり得ます。
+          あらゆる規模のDDoSへ耐える保証ではありません。決済、認証、SaaS提供などへ用途が変わる場合は、別の基盤を再検討します。
+        </p>
+      </div>
+
+      <aside class="reader-bridge" data-reveal>
+        <div class="reader-bridge__label">
+          <span>理解の補助線</span>
+          <strong>要するに</strong>
+        </div>
+        <div>
+          <h3>Webサーバー一台を無料で借りたのではなく、GitHubの開発・公開基盤へサイトを載せました。</h3>
+          <p>
+            ソース、変更履歴、レビュー、ビルド、公開、失敗時のログが一つにつながり、静的ファイルの配信はCDNへ任せられます。
+            その代わり、コメントや会員機能のような動的処理は持ちません。
+          </p>
+          <p class="reader-bridge__meaning"><strong>実務上の意味</strong>今の目的に不要な機能を足さず、障害点と保守対象を小さくしたまま、更新可能な公式サイトを運用できます。</p>
+        </div>
+      </aside>
+
+      <p class="official-links pages-platform__links" data-reveal>
+        <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages" target="_blank" rel="noreferrer">GitHub公式: GitHub Pagesとは ↗</a>
+        <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages" target="_blank" rel="noreferrer">GitHub公式: Actionsによる公開 ↗</a>
+        <a href="https://github.blog/news-insights/product-news/github-pages-custom-domains-https/" target="_blank" rel="noreferrer">GitHub公式: CDNとDDoS防御 ↗</a>
+        <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits" target="_blank" rel="noreferrer">GitHub公式: 利用上限 ↗</a>
+      </p>
+    </div>
+  </section>
+
   <section class="section record-section">
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
@@ -283,9 +389,30 @@ const records = [
         <article id="step-2" data-reveal>
           <span class="guide-steps__number">02</span>
           <p class="eyebrow">Website</p>
-          <h3>GitHub PagesへWebの行き先を向ける。</h3>
+          <h3>GitHub Pagesで、ビルドと公開をつなぐ。</h3>
           <p>
-            GitHub側でカスタムドメインを登録・検証してから、DNSへA / AAAA / CNAMEを追加します。
+            先にリポジトリの <strong>Settings &gt; Pages</strong> で公開元をGitHub Actionsにします。
+            ReactorFrontでは、mainへの反映または手動実行を起点にAstroを静的ビルドし、成功した成果物を <code>github-pages</code> environmentから公開します。
+          </p>
+          <div class="pages-settings" aria-label="ReactorFrontで使用しているGitHub Pagesの主要設定">
+            <div><span>01</span><strong>Repository</strong><small>公開リポジトリ</small></div>
+            <div><span>02</span><strong>Source</strong><small>GitHub Actions</small></div>
+            <div><span>03</span><strong>Custom domain</strong><small><code>www.reactorfront.jp</code></small></div>
+            <div><span>04</span><strong>HTTPS</strong><small>Enforce HTTPS</small></div>
+          </div>
+          <p>
+            workflowでは、ソースのcheckout、依存関係の導入、Astroの検査・ビルド、Pages artifactのupload、deployを順に分担します。
+            公開権限は <code>contents: read</code>、<code>pages: write</code>、<code>id-token: write</code> に絞り、buildが成功した後だけdeployを開始します。
+          </p>
+          <ul class="task-list">
+            <li>mainへ反映したcommitと、Actionsの実行対象が一致する</li>
+            <li>buildとdeployの両方が成功している</li>
+            <li>Pages設定に正しいカスタムドメインが表示される</li>
+            <li><strong>Enforce HTTPS</strong> が有効で、本番URLがHTTPSで開く</li>
+            <li>問題があれば、失敗した工程を確認し、必要に応じてrevertする</li>
+          </ul>
+          <p>
+            次にGitHub側でカスタムドメインを登録・検証し、DNSへA / AAAA / CNAMEを追加します。
             ルートドメインと <code>www</code> のどちらを正規URLにするかも決めます。
           </p>
           <div class="dns-example" aria-label="GitHub Pages向けDNSの一般例">
@@ -297,9 +424,16 @@ const records = [
             <strong>値をこの記事から丸写ししない</strong>
             <p>IPや確認手順は変更され得ます。設定時点のGitHub公式文書と、自分のリポジトリ設定画面を正としてください。ワイルドカードDNSは使いません。</p>
           </div>
+          <div class="warning-note warning-note--accent">
+            <strong>公開リポジトリと静的成果物へ、秘密を入れない</strong>
+            <p>APIキー、復旧コード、秘密鍵、管理画面の確認値をcommitしません。ブラウザへ配信するJavaScriptや環境変数も、利用者から見える前提で扱います。</p>
+          </div>
           <p class="official-links">
+            <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noreferrer">GitHub公式: 公開元の設定 ↗</a>
+            <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages" target="_blank" rel="noreferrer">GitHub公式: Actions workflow ↗</a>
             <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site" target="_blank" rel="noreferrer">GitHub公式: カスタムドメイン設定 ↗</a>
             <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages" target="_blank" rel="noreferrer">GitHub公式: ドメイン所有確認 ↗</a>
+            <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https" target="_blank" rel="noreferrer">GitHub公式: HTTPS ↗</a>
           </p>
         </article>
 
@@ -433,6 +567,7 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
           <p><span aria-hidden="true">✓</span> 公開してよい</p>
           <ul>
             <li>サービスごとの役割と構成図</li>
+            <li>公開リポジトリのソースコードと変更履歴</li>
             <li>A / AAAA / MXなど公開DNSの一般例</li>
             <li>SPF・DKIM・DMARCの考え方</li>
             <li>値を伏せた管理画面の手順</li>
@@ -443,7 +578,7 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
           <p><span aria-hidden="true">×</span> 公開しない</p>
           <ul>
             <li>アカウントID、請求・契約情報</li>
-            <li>パスワード、二要素認証、復旧コード</li>
+            <li>パスワード、APIキー、二要素認証、復旧コード</li>
             <li>認証コード、EPP/AuthCode</li>
             <li>GitHub / Googleの実際の確認トークン</li>
             <li>DKIM鍵の実値や管理画面のセッションURL</li>
@@ -460,7 +595,7 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
           <h3>外から確認できるDNS情報と、管理画面を丸ごと公開することは別です。</h3>
           <p>
             DNSレコードは名前解決のために公開されています。一方、管理画面には契約者情報、請求、操作権限、確認トークンなど、説明には不要な情報も並びます。
-            公開する時は、仕組みと確認方法を残し、本人の操作に使える値は伏せます。
+            公開する時は、仕組みと確認方法を残し、本人の操作に使える値は伏せます。Gitの履歴へ一度入れた秘密は、現在のファイルから消すだけでは回収できません。
           </p>
           <p class="reader-bridge__meaning"><strong>実務上の意味</strong>読者が構成を理解できる情報量を保ちながら、アカウントを操作される手掛かりは渡さずに済みます。</p>
         </div>
@@ -476,6 +611,7 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
       </div>
       <div class="operations-list">
         <article data-reveal><span>Monthly</span><h3>期限と請求を確認</h3><p>ドメイン、Google Workspace、支払い手段、管理者への通知を確認します。</p></article>
+        <article data-reveal><span>After merge</span><h3>buildとdeployを確認</h3><p>mainへ反映したcommit、GitHub Actionsのbuild、Pagesへのdeploy、本番URLを順に確認します。</p></article>
         <article data-reveal><span>After change</span><h3>DNSを外部確認</h3><p>レコード変更後は、権威DNSと一般の名前解決の両方を確認します。</p></article>
         <article data-reveal><span>Weekly at first</span><h3>DMARCレポートを見る</h3><p>導入直後は未知の送信元や認証失敗がないか確認し、方針強化の判断材料にします。</p></article>
         <article data-reveal><span>Quarterly</span><h3>管理権限を棚卸し</h3><p>使っていないアカウント、古い回復先、不要なDNSレコードを整理します。</p></article>
