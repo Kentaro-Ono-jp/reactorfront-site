@@ -3,7 +3,15 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "0 15 * * *"
   workflow_dispatch:
+    inputs:
+      refresh_findy:
+        description: Refresh the Findy skill score image
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -21,10 +29,73 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Install, build, and upload
-        uses: withastro/action@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
         with:
           node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          npm ci
+
+      - name: Reuse the current production Findy skill score image
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+
+          readonly image_url="https://www.reactorfront.jp/images/findy-skill-score-current.png"
+          readonly image_path="public/images/findy-skill-score-current.png"
+          temp_path="$(mktemp "${image_path}.download.XXXXXX")"
+          readonly temp_path
+          trap 'rm -f -- "${temp_path}"' EXIT
+
+          if ! curl \
+            --fail \
+            --silent \
+            --show-error \
+            --location \
+            --retry 3 \
+            --retry-all-errors \
+            --connect-timeout 10 \
+            --max-time 60 \
+            --output "${temp_path}" \
+            "${image_url}"; then
+            echo "::warning::Could not download the production Findy image; keeping the repository version."
+            exit 0
+          fi
+
+          if ! npm run validate:findy-score -- "${temp_path}"; then
+            echo "::warning::The production Findy image failed validation; keeping the repository version."
+            exit 0
+          fi
+
+          mv -- "${temp_path}" "${image_path}"
+          echo "Reused the validated production Findy image."
+
+      - name: Refresh Findy skill score image
+        if: ${{ github.event_name == 'schedule' || inputs.refresh_findy == true }}
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          npx playwright install --with-deps chromium
+          npm run capture:findy-score
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Build
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          npm run build
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./dist
 
   deploy:
     needs: build
