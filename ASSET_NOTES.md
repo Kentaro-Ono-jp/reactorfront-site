@@ -13,7 +13,7 @@
 - `public/brand/reactorfront-mark-48.png`: 小サイズfavicon、ブラウザ互換向け
 - `public/brand/reactorfront-mark-180.png`: Apple Touch Icon向け
 - `public/brand/reactorfront-mark-192.png`: ヘッダー、フッター、高解像度favicon、Google検索、Web App Manifest向け
-- `public/favicon.ico`: 16px、32px、48pxを格納したブラウザ互換用アイコン
+- `public/favicon.ico`: 16px、32px、48px、64pxを格納したブラウザ互換用アイコン
 - `public/favicon.png`: 旧favicon URLとの後方互換用512×512px PNG
 - `public/images/reactorfront-logo.png`: 旧正式ロゴURLとの後方互換用512×512px PNG（内容は丸型RFロゴへ更新済み）
 
