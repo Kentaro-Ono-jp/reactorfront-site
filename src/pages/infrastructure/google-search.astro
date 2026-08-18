@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
 
-const verifiedAt = "2026-08-16";
+const verifiedAt = "2026-08-18";
 
 const searchStages = [
   {
@@ -458,21 +458,21 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
         </article>
         <article data-reveal>
           <span>03 / Favicon</span>
-          <h3>正式ロゴと、小さな表示用アイコンを分離</h3>
-          <p>サイト内の正式ロゴは変えず、検索結果で識別しやすい丸形RFアイコンを512×512の透過PNGとして <code>/favicon.png</code> へ置きました。</p>
+          <h3>正式ロゴとfaviconを同じ意匠へ統一</h3>
+          <p>丸型RFアイコンを正式ロゴとして採用し、ヘッダー、フッター、構造化データ、faviconで同じブランド表現を使います。</p>
         </article>
       </div>
 
       <div class="search-favicon-proof" data-reveal>
-        <img src="/favicon.png" width="512" height="512" alt="ReactorFrontの丸形RF favicon" loading="lazy" decoding="async" />
+        <img src="/brand/reactorfront-mark-512.png" width="512" height="512" alt="ReactorFrontの正式な丸型RFロゴ" loading="lazy" decoding="async" />
         <div>
-          <p class="eyebrow">One icon per hostname</p>
-          <h3>記事ごとではなく、サイト全体で一つ。</h3>
+          <p class="eyebrow">One mark across the site</p>
+          <h3>正式ロゴからfaviconまで、一つの顔に。</h3>
           <p>
             Google検索のfaviconはホスト名単位です。AWS記事だけに別アイコンを付けるのではなく、www.reactorfront.jp全体を表すアイコンとして設定します。
-            正方形、十分な解像度、クロール可能な安定URLを満たしても、実際の採用と反映時期は保証されません。
+            正方形で48pxより大きい画像、クロール可能な安定URL、HTMLの画像要素を使い、サイト内外で同じ意匠を示します。実際の採用と反映時期はGoogleの判断です。
           </p>
-          <code>&lt;link rel="icon" href="/favicon.png" sizes="512x512" /&gt;</code>
+          <code>&lt;link rel="icon" href="/brand/reactorfront-mark-192.png" sizes="192x192" /&gt;</code>
         </div>
       </div>
     </div>
