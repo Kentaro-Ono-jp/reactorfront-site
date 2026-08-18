@@ -1,12 +1,21 @@
 # Asset notes
 
-## `public/images/reactorfront-logo.png`
+## `public/brand/reactorfront-mark-512.png`
 
-- 用途: ヘッダー、フッター、プロフィール、favicon、Webアプリアイコン
+- 用途: ReactorFrontの正式ロゴ正本、プロフィール、構造化データ、Webアプリアイコン
 - 著作者・権利者: ReactorFront代表 小野賢太郎
 - 外部素材: なし
-- Web向け処理: 原画の外周余白を除去し、縦横比を維持して512×512pxのPNGへ縮小
+- Web向け処理: 丸型RFアイコンを512×512pxの透過PNGとして配置
 - 意匠上の変更: なし
+
+派生アセット:
+
+- `public/brand/reactorfront-mark-48.png`: 小サイズfavicon、ブラウザ互換向け
+- `public/brand/reactorfront-mark-180.png`: Apple Touch Icon向け
+- `public/brand/reactorfront-mark-192.png`: ヘッダー、フッター、高解像度favicon、Google検索、Web App Manifest向け
+- `public/favicon.ico`: 16px、32px、48pxを格納したブラウザ互換用アイコン
+- `public/favicon.png`: 旧favicon URLとの後方互換用512×512px PNG
+- `public/images/reactorfront-logo.png`: 旧正式ロゴURLとの後方互換用512×512px PNG（内容は丸型RFロゴへ更新済み）
 
 ## `public/images/reactorfront-workspace.webp`
 
