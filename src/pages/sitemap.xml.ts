@@ -5,6 +5,7 @@ const routes = [
   "/profile/",
   "/portfolio/",
   "/portfolio/aws/",
+  "/portfolio/aws/one-cent-ecr/",
   "/portfolio/ml/",
   "/infrastructure/",
   "/infrastructure/google-search/",
