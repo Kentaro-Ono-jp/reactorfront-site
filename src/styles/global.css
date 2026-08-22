@@ -5511,6 +5511,13 @@ code {
   box-shadow: var(--shadow);
 }
 
+.ecr-cost-screen > a > img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 787 / 627;
+  object-fit: contain;
+}
+
 .ecr-cost-screen > a > span {
   position: absolute;
   right: 1.1rem;
@@ -5712,7 +5719,8 @@ code {
 .ecr-cost-closing__inner { display: flex; align-items: center; justify-content: space-between; gap: clamp(2rem, 8vw, 8rem); }
 .ecr-cost-closing h2 { margin-bottom: .8rem; font-size: clamp(2rem, 4.5vw, 4rem); }
 .ecr-cost-closing p:last-child { max-width: 720px; margin-bottom: 0; color: var(--muted-light); }
-.ecr-cost-closing .button { flex: none; }
+.ecr-cost-closing__actions { display: flex; width: min(100%, 22rem); flex: none; flex-direction: column; gap: .75rem; }
+.ecr-cost-closing__actions .button { width: 100%; }
 
 .aws-sequel .infra-sequel__card {
   background:
