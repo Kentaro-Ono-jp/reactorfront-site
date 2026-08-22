@@ -17,6 +17,15 @@
 - `public/favicon.png`: 旧favicon URLとの後方互換用512×512px PNG
 - `public/images/reactorfront-logo.png`: 旧正式ロゴURLとの後方互換用512×512px PNG（内容は丸型RFロゴへ更新済み）
 
+## `public/images/aws-cost-explorer-2026-08-23.png`
+
+- 用途: AWS実地検証ページで、5回のデプロイ試行に伴う2026年8月の実コストを表示
+- 取得日: 2026-08-23
+- 提供者: ReactorFront代表 小野賢太郎
+- 内容: AWS Cost Explorerのサービス別コスト。合計2.43ドル
+- 加工: 提供時点でコストグラフと内訳だけを切り抜き済み。サイト側での画像加工なし
+- 非公開情報: アカウント識別子、請求先情報、認証情報を含まない
+
 ## `public/images/reactorfront-workspace.webp`
 
 - 用途: トップページのヒーロービジュアル、OGP画像

@@ -435,17 +435,17 @@ const references = [
           <figure class="cost-observation" data-reveal>
             <figcaption>
               <span>Observed / AWS Cost Explorer</span>
-              <strong>5回のデプロイ試行を中心に、当月ここまで$2.40。</strong>
+              <strong>5回のデプロイ試行後、2週間以上追加操作なしで再確認した当月実績は$2.43。</strong>
             </figcaption>
-            <a class="cost-observation__screen" href="/images/aws-cost-explorer-2026-08-14.png" target="_blank" rel="noreferrer" aria-label="AWS Cost Explorerの元画面を原寸で見る">
+            <a class="cost-observation__screen" href="/images/aws-cost-explorer-2026-08-23.png" target="_blank" rel="noreferrer" aria-label="2026年8月23日に再確認したAWS Cost Explorerの画面を原寸で見る">
               <span class="cost-observation__crop">
                 <img
-                  src="/images/aws-cost-explorer-2026-08-14.png"
-                  width="1078"
-                  height="464"
+                  src="/images/aws-cost-explorer-2026-08-23.png"
+                  width="787"
+                  height="627"
                   loading="lazy"
                   decoding="async"
-                  alt="2026年8月のAWS Cost Explorerをサービス別に表示した画面。内訳はAmazon MQ 1.57ドル、Amazon Elastic Container Service 0.29ドル、税0.22ドル、Amazon Relational Database Service 0.14ドル、CodeBuild 0.08ドル、その他0.11ドル。"
+                  alt="2026年8月23日にAWS Cost Explorerのサービス別コストを再確認した画面。合計2.43ドル。内訳はMQ 1.57ドル、Elastic Container Service 0.29ドル、税0.22ドル、Relational Database Service 0.14ドル、CodeBuild 0.07ドル、VPC 0.05ドル、EC2 Container Registry 0.04ドル、Cost Explorer 0.03ドル、Secrets Manager 0.01ドル、その他0.01ドル。"
                 />
               </span>
               <span class="cost-observation__open">元画面を原寸で見る <em aria-hidden="true">↗</em></span>
@@ -459,7 +459,7 @@ const references = [
               <small>途中失敗 3 / 全工程完走 2 <em aria-hidden="true">↗</em></small>
             </a>
             <p class="cost-observation__note">
-              所有者のCost Explorerを読み取り専用で確認した値です。Actions外の実地検証、片付け経路の調整、意図的に残す管理基盤、税、Cost Explorer自身の$0.03も含みます。照会回数は断定せず、アカウント識別子や生の管理画面は公開しません。
+              所有者のCost Explorerを読み取り専用で確認した値です。デプロイ試行から2週間以上追加操作を行わず、請求反映を待って再確認しました。Actions外の実地検証、片付け経路の調整、意図的に残す管理基盤、税、Cost Explorer自身の$0.03も含みます。照会回数は断定せず、アカウント識別子や生の管理画面は公開しません。
             </p>
           </figure>
 
@@ -482,7 +482,7 @@ const references = [
               <span>03 / Decide</span>
               <h3>月次でFull Lifecycleを実行する。</h3>
               <p>
-                $2.40は24時間稼働の月額試算ではありません。月に一度だけ環境を構築し、E2E完走後に即時撤収します。Portfolioで証明したいのは可用性ではなく、Lifecycle全体の再現性です。
+                $2.43は24時間稼働の月額試算ではなく、5回のデプロイ試行後に2週間以上の反映期間を置いて確認した実績です。月に一度だけ環境を構築し、E2E完走後に即時撤収します。Portfolioで証明したいのは可用性ではなく、Lifecycle全体の再現性です。
               </p>
             </article>
           </div>
