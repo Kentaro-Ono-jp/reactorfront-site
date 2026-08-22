@@ -2581,19 +2581,16 @@ code {
 .cost-observation__crop {
   position: relative;
   display: block;
-  aspect-ratio: 343 / 254;
+  aspect-ratio: 787 / 627;
   overflow: hidden;
   background: #f7f7f8;
 }
 
 .cost-observation__crop img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 314.29%;
-  max-width: none;
-  height: auto;
-  transform: translateY(-45.26%);
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .cost-observation__open {
