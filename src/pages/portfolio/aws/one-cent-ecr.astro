@@ -2,6 +2,7 @@
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../../reading-times";
+import { getArticleRouteMetadata, SITE_URL } from "../../../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../../../structured-data";
 
 const breadcrumbs = [
@@ -14,10 +15,10 @@ const breadcrumbs = [
 const verifiedAt = "2026-08-23";
 const articleTitle = "たかが1セント、されど1セント。AWSマイクロ請求の追跡記録";
 const articleDescription = "触っていないのにAWS利用額が1セント増えた。ECRの約0.003ドル/日の保管料から、sweepが見逃した9イメージとzero-residue判定の盲点を発見・修正した記録です。";
-const canonical = "https://www.reactorfront.jp/portfolio/aws/one-cent-ecr/";
+const articleMetadata = getArticleRouteMetadata("/portfolio/aws/one-cent-ecr/");
+const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImage = "https://www.reactorfront.jp/images/aws-cost-explorer-2026-08-23.png";
-const datePublished = "2026-08-23T03:58:20+09:00";
-const dateModified = "2026-08-23T11:11:31+09:00";
+const { datePublished, lastModified: dateModified } = articleMetadata;
 const articleSchema = createArticle({
   canonical,
   headline: articleTitle,

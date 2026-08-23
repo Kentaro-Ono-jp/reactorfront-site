@@ -3,6 +3,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ArticleCover from "../../components/ArticleCover.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
+import { getArticleRouteMetadata, SITE_URL } from "../../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../../structured-data";
 
 const breadcrumbs = [
@@ -14,12 +15,12 @@ const breadcrumbs = [
 const pageTitle = `機械学習を継続改善する設計｜約${articleReadingMinutes.ml}分で読むポートフォリオ`;
 const articleHeadline = "機械学習を継続改善する設計｜評価・昇格・ロールバックを再現可能に";
 const articleDescription = "データセット、評価指標、Champion/Candidate、model lineage、人の訂正、ロールバック。ReactorFront PortfolioのMLエンジニアリングを解説します。";
-const canonical = "https://www.reactorfront.jp/portfolio/ml/";
+const articleMetadata = getArticleRouteMetadata("/portfolio/ml/");
+const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImagePath = "/images/article-ml-lifecycle.webp";
 const representativeImage = new URL(representativeImagePath, canonical).href;
 const representativeImageAlt = "データセットからモデル評価、人によるレビュー、運用フィードバックまでを結ぶ機械学習ライフサイクルの概念図";
-const datePublished = "2026-08-14T11:22:21+09:00";
-const dateModified = "2026-08-23T11:21:05+09:00";
+const { datePublished, lastModified: dateModified } = articleMetadata;
 const articleSchema = createArticle({
   canonical,
   headline: articleHeadline,

@@ -1,6 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { indexableRoutes } from "../src/site-metadata.ts";
 
 const distDirectory = fileURLToPath(new URL("../dist/", import.meta.url));
 
@@ -21,13 +22,9 @@ let jsonLdCount = 0;
 let breadcrumbCount = 0;
 let articleCount = 0;
 
-const expectedArticlePaths = new Set([
-  "infrastructure/index.html",
-  "infrastructure/google-search/index.html",
-  "portfolio/aws/index.html",
-  "portfolio/aws/one-cent-ecr/index.html",
-  "portfolio/ml/index.html",
-]);
+const expectedArticlePaths = new Set(indexableRoutes
+  .filter((route) => "datePublished" in route)
+  .map((route) => route.path === "/" ? "index.html" : `${route.path.slice(1)}index.html`));
 const representativeImages = new Map();
 
 const hasType = (schema, type) => {

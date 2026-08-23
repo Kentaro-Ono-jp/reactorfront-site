@@ -3,6 +3,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ArticleCover from "../../components/ArticleCover.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
+import { getArticleRouteMetadata, SITE_URL } from "../../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../../structured-data";
 
 const breadcrumbs = [
@@ -13,12 +14,12 @@ const breadcrumbs = [
 
 const articleTitle = "サイトを公開し、Googleに正しく伝わるまで。";
 const articleDescription = "Search Console、サイトマップ、構造化データ、代表画像、favicon。ReactorFront公式サイトをGoogleが取得・理解できる状態へ整えた技術対応と観測結果を解説します。";
-const canonical = "https://www.reactorfront.jp/infrastructure/google-search/";
+const articleMetadata = getArticleRouteMetadata("/infrastructure/google-search/");
+const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImagePath = "/images/article-google-search.webp";
 const representativeImage = new URL(representativeImagePath, canonical).href;
 const representativeImageAlt = "Webページのクロールから索引化、検索結果配信、人物・組織・記事の関連付けまでを表す概念図";
-const datePublished = "2026-08-16T07:48:04+09:00";
-const dateModified = "2026-08-23T11:21:05+09:00";
+const { datePublished, lastModified: dateModified } = articleMetadata;
 const articleSchema = createArticle({
   canonical,
   headline: articleTitle,

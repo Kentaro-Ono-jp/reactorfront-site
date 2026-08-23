@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && npm run validate:structured-data",
+    "build": "astro check && astro build && npm run validate:structured-data && npm run validate:sitemap",
     "capture:findy-score": "node scripts/capture-findy-score.mjs",
     "check": "astro check",
     "preview": "astro preview",
     "validate:structured-data": "node scripts/validate-structured-data.mjs",
+    "validate:sitemap": "node scripts/validate-sitemap.mjs",
     "validate:findy-score": "node scripts/capture-findy-score.mjs --validate"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
   "devDependencies": {
     "@astrojs/check": "0.9.10",
     "playwright": "^1.62.1",
+    "sax": "^1.6.1",
     "typescript": "6.0.3"
   },
   "engines": {
