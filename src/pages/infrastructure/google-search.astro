@@ -1,6 +1,14 @@
 ---
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
+import type { BreadcrumbItem } from "../../structured-data";
+
+const breadcrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Infrastructure", href: "/infrastructure/" },
+  { name: "Google Search", href: "/infrastructure/google-search/" },
+] satisfies BreadcrumbItem[];
 
 const verifiedAt = "2026-08-18";
 
@@ -134,12 +142,11 @@ const websiteSchema = `{
 <BaseLayout
   title="サイトを公開し、Googleに正しく伝わるまで。"
   description="Search Console、サイトマップ、構造化データ、代表画像、favicon。ReactorFront公式サイトをGoogleが取得・理解できる状態へ整えた技術対応と観測結果を解説します。"
+  breadcrumbs={breadcrumbs}
 >
   <section class="page-hero page-hero--search-story">
     <div class="shell page-hero__inner">
-      <div class="breadcrumbs" aria-label="パンくずリスト">
-        <a href="/">Home</a><span aria-hidden="true">/</span><a href="/infrastructure/">Infrastructure</a><span aria-hidden="true">/</span><span>Google Search</span>
-      </div>
+      <Breadcrumbs items={breadcrumbs} />
       <div class="page-hero__grid">
         <div>
           <p class="eyebrow eyebrow--accent">Google Search / Field notes</p>

@@ -1,6 +1,15 @@
 ---
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../../reading-times";
+import type { BreadcrumbItem } from "../../../structured-data";
+
+const breadcrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Portfolio", href: "/portfolio/" },
+  { name: "AWS", href: "/portfolio/aws/" },
+  { name: "One cent", href: "/portfolio/aws/one-cent-ecr/" },
+] satisfies BreadcrumbItem[];
 
 const verifiedAt = "2026-08-23";
 
@@ -117,6 +126,7 @@ const sources = [
   imageWidth={787}
   imageHeight={627}
   imageType="image/png"
+  breadcrumbs={breadcrumbs}
 >
   <article class="ecr-cost-story">
     <header class="page-hero page-hero--ecr-cost">
@@ -126,12 +136,7 @@ const sources = [
         <strong>$0.04</strong>
       </div>
       <div class="shell page-hero__inner">
-        <div class="breadcrumbs" aria-label="パンくずリスト">
-          <a href="/">Home</a><span aria-hidden="true">/</span>
-          <a href="/portfolio/">Portfolio</a><span aria-hidden="true">/</span>
-          <a href="/portfolio/aws/">AWS</a><span aria-hidden="true">/</span>
-          <span>One cent</span>
-        </div>
+        <Breadcrumbs items={breadcrumbs} />
         <div class="page-hero__grid">
           <div>
             <p class="eyebrow eyebrow--accent">AWS cost forensics / Field notes</p>

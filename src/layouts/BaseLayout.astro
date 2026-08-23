@@ -1,6 +1,12 @@
 ---
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import {
+  createBreadcrumbList,
+  serializeJsonLd,
+  type BreadcrumbItem,
+  type JsonLd,
+} from "../structured-data";
 import "../styles/global.css";
 
 interface Props {
@@ -12,6 +18,8 @@ interface Props {
   imageHeight?: number;
   imageType?: string;
   noindex?: boolean;
+  breadcrumbs?: readonly BreadcrumbItem[];
+  structuredData?: JsonLd | readonly JsonLd[];
 }
 
 const {
@@ -23,11 +31,15 @@ const {
   imageHeight = 1024,
   imageType = "image/webp",
   noindex = false,
+  breadcrumbs = [],
+  structuredData = [],
 } = Astro.props;
 
+const site = Astro.site ?? new URL("https://www.reactorfront.jp/");
 const pageTitle = title === "ReactorFront" ? title : `${title} | ReactorFront`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const socialImage = new URL(image, Astro.site);
+const canonical = new URL(Astro.url.pathname, site);
+const socialImage = new URL(image, site);
+const pageStructuredData = Array.isArray(structuredData) ? structuredData : [structuredData];
 const organization = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -89,6 +101,9 @@ const webPage = {
     representativeOfPage: true,
   },
 };
+const breadcrumbList = breadcrumbs.length >= 2
+  ? createBreadcrumbList(breadcrumbs, site)
+  : undefined;
 ---
 
 <!doctype html>
@@ -125,9 +140,11 @@ const webPage = {
     <meta name="twitter:image" content={socialImage} />
     <meta name="twitter:image:alt" content={imageAlt} />
 
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(organization)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(website)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(webPage)} />
+    <script is:inline type="application/ld+json" set:html={serializeJsonLd(organization)} />
+    <script is:inline type="application/ld+json" set:html={serializeJsonLd(website)} />
+    <script is:inline type="application/ld+json" set:html={serializeJsonLd(webPage)} />
+    {breadcrumbList && <script is:inline type="application/ld+json" set:html={serializeJsonLd(breadcrumbList)} />}
+    {pageStructuredData.map((item) => <script is:inline type="application/ld+json" set:html={serializeJsonLd(item)} />)}
     <script is:inline>document.documentElement.classList.add("js");</script>
   </head>
   <body>

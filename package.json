@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro check && astro build && npm run validate:structured-data",
     "capture:findy-score": "node scripts/capture-findy-score.mjs",
     "check": "astro check",
     "preview": "astro preview",
+    "validate:structured-data": "node scripts/validate-structured-data.mjs",
     "validate:findy-score": "node scripts/capture-findy-score.mjs --validate"
   },
   "dependencies": {

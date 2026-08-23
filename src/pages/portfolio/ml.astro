@@ -1,6 +1,14 @@
 ---
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
+import type { BreadcrumbItem } from "../../structured-data";
+
+const breadcrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Portfolio", href: "/portfolio/" },
+  { name: "ML engineering", href: "/portfolio/ml/" },
+] satisfies BreadcrumbItem[];
 
 const portfolioCommit = "708056f33d56f1affe2dbe8e1b58f4a722895b88";
 
@@ -155,6 +163,7 @@ const references = [
 <BaseLayout
   title={`機械学習を継続改善する設計｜約${articleReadingMinutes.ml}分で読むポートフォリオ`}
   description="データセット、評価指標、Champion/Candidate、model lineage、人の訂正、ロールバック。ReactorFront PortfolioのMLエンジニアリングを解説します。"
+  breadcrumbs={breadcrumbs}
 >
   <article class="ml-story">
     <header class="page-hero page-hero--ml-story">
@@ -163,11 +172,7 @@ const references = [
         <span></span><span></span><span></span><span></span><span></span><span></span>
       </div>
       <div class="shell page-hero__inner">
-        <div class="breadcrumbs" aria-label="パンくずリスト">
-          <a href="/">Home</a><span aria-hidden="true">/</span>
-          <a href="/portfolio/">Portfolio</a><span aria-hidden="true">/</span>
-          <span>ML engineering</span>
-        </div>
+        <Breadcrumbs items={breadcrumbs} />
         <div class="page-hero__grid">
           <div>
             <p class="eyebrow eyebrow--accent">{articleReadingMinutes.ml}-minute engineering note</p>
