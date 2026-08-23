@@ -30,3 +30,8 @@ GitHub の `Settings → Pages → Build and deployment → Source` を
 静的サイトをビルドし、GitHub Pages へ公開します。
 
 画像の由来と生成条件は [ASSET_NOTES.md](ASSET_NOTES.md) に記録しています。
+
+## 文面と表現監査
+
+- [ReactorFront 文面ガイド](docs/content-writing-guide.md)
+- [全ページ表現監査表](docs/content-audit.md)
