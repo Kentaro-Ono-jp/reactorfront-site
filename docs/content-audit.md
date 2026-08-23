@@ -20,7 +20,7 @@
 | --- | --- | --- | --- | --- |
 | 共通header / footer / 404 | 全読者 | 現在地、移動先、連絡方法、存在しないpageから戻る方法 | #53 | 完了 |
 | `/` | 顧客、エージェント | ReactorFrontの業務領域、実績、相談方法 | #53 | 完了 |
-| `/profile/` | エージェント、採用担当、顧客 | 小野賢太郎の経歴、専門領域、第三者証拠、働き方 | #54 | 未着手 |
+| `/profile/` | エージェント、採用担当、顧客 | 小野賢太郎の経歴、専門領域、第三者証拠、働き方 | #54 | 完了 |
 | `/portfolio/` | 顧客、技術者 | Document Intelligence基盤の全体像、業務価値、確認できる証拠 | #55 | 未着手 |
 | `/portfolio/ml/` | 技術者、顧客 | MLモデルを評価、採用、追跡、rollbackする工程 | #56 | 未着手 |
 | `/portfolio/aws/` | 技術者、顧客 | AWS環境を構築、検証、監視、撤収する一連の工程 | #57 | 未着手 |
@@ -47,11 +47,11 @@
 
 | Page / component | Section / 位置 | 想定読者 | 現行表現 | 分かりにくい理由 | 分類 | 改稿方向 | 維持する事実・証拠 | meta / Schema / altへの影響 | Issue / 状態 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/profile/` | hero / section labels | エージェント、顧客 | `Profile`、`About`、`Career timeline` | 英語labelを読まないと節の役割を掴みにくい | 日本語化 | 「プロフィール」「これまでの経験」「経歴」 | 経歴の順序と期間 | title、description、ProfilePage | #54 / 未着手 |
-| `/profile/` | 第三者証拠 | エージェント、採用担当 | `Third-party signal`、`Selected evidence`、`Evidence, not adjectives` | 何を誰が確認した証拠かが曖昧 | 日本語化 | Findy等の第三者情報と一次資料を具体的に示す | Findyの表示値、取得日、画像 | caption、alt、ProfilePage description | #54 / 未着手 |
-| `/profile/` | 方針・技術範囲 | 顧客、技術者 | `Working principles`、`Technical range` | 抽象名詞だけで実務上の行動が分からない | 日本語化 | 判断方針と扱える範囲を作業単位で示す | 公開済みの専門領域 | WebPage text | #54 / 未着手 |
-| `/profile/` | 技術分類 | 技術者 | `Enterprise systems / operations`、`Modern web / cloud`、`Documents / OCR`、`Machine learning R&D` | 日本語の経歴との関係が分かりにくい | 説明 / 日本語化 | 業務システム、運用保守、Web・cloud、文書処理、ML研究開発へ展開 | 年数、技術名、担当範囲 | description | #54 / 未着手 |
-| `/profile/` | 人物と所属 | 全読者 | `Kentaro Ono`、`ReactorFront`、GitHub、LinkedIn | 人物名と事業者名の別名関係を分けて示す必要がある | 維持 / 説明 | 人物三表記とブランド三表記を別nodeで接続 | `Person @id`、`worksFor`、`sameAs` | ProfilePage、Person、ProfessionalService | #54 / 未着手 |
+| `/profile/` | hero / section labels | エージェント、顧客 | `Profile`、`About`、`Career timeline` | 英語labelを読まないと節の役割を掴みにくい | 日本語化 | 「プロフィール」「これまでの経験」「経歴」 | 経歴の順序と期間 | title、description、ProfilePage | #54 / 完了 |
+| `/profile/` | 第三者証拠 | エージェント、採用担当 | `Third-party signal`、`Selected evidence`、`Evidence, not adjectives` | 何を誰が確認した証拠かが曖昧 | 日本語化 | Findy等の第三者情報と一次資料を具体的に示す | Findyの表示値、取得日、画像 | caption、alt、ProfilePage description | #54 / 完了 |
+| `/profile/` | 方針・技術範囲 | 顧客、技術者 | `Working principles`、`Technical range` | 抽象名詞だけで実務上の行動が分からない | 日本語化 | 判断方針と扱える範囲を作業単位で示す | 公開済みの専門領域 | WebPage text | #54 / 完了 |
+| `/profile/` | 技術分類 | 技術者 | `Enterprise systems / operations`、`Modern web / cloud`、`Documents / OCR`、`Machine learning R&D` | 日本語の経歴との関係が分かりにくい | 説明 / 日本語化 | 業務システム、運用保守、Web・cloud、文書処理、ML研究開発へ展開 | 年数、技術名、担当範囲 | description | #54 / 完了 |
+| `/profile/` | 人物と所属 | 全読者 | `Kentaro Ono`、`ReactorFront`、GitHub、LinkedIn | 人物名と事業者名の別名関係を分けて示す必要がある | 維持 / 説明 | 人物三表記とブランド三表記を別nodeで接続 | `Person @id`、`worksFor`、`sameAs` | ProfilePage、Person、ProfessionalService | #54 / 完了 |
 
 ## ポートフォリオ全体像
 

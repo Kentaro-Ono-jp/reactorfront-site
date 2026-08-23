@@ -218,6 +218,12 @@ for (const htmlFile of htmlFiles) {
       if (person?.name !== "小野賢太郎") {
         errors.push(`${relativePath}: Person nameが小野賢太郎ではありません`);
       }
+      if (person?.jobTitle !== "ソフトウェアエンジニア") {
+        errors.push(`${relativePath}: Person jobTitleが画面の日本語表記と一致しません`);
+      }
+      if (person?.worksFor?.["@id"] !== "https://www.reactorfront.jp/#organization") {
+        errors.push(`${relativePath}: Person worksForがReactorFrontの事業者nodeではありません`);
+      }
       for (const expectedName of ["小野 賢太郎", "Kentaro Ono"]) {
         if (!alternateNames.includes(expectedName)) {
           errors.push(`${relativePath}: Person alternateNameに${expectedName}がありません`);
@@ -237,6 +243,25 @@ for (const htmlFile of htmlFiles) {
       for (const visibleName of ["小野賢太郎", "小野 賢太郎", "Kentaro Ono"]) {
         if (!html.includes(visibleName)) {
           errors.push(`${relativePath}: 画面上に${visibleName}がありません`);
+        }
+      }
+      for (const visibleProfileLabel of ["GitHubプロフィール", "LinkedInプロフィール"]) {
+        if (!html.includes(visibleProfileLabel)) {
+          errors.push(`${relativePath}: 画面上に${visibleProfileLabel}がありません`);
+        }
+      }
+      if (!html.includes("ReactorFront（リアクターフロント）代表")) {
+        errors.push(`${relativePath}: 画面上の所属にReactorFrontの日本語表記がありません`);
+      }
+      const organizationProfiles = Array.isArray(organizations[0]?.sameAs)
+        ? organizations[0].sameAs
+        : [organizations[0]?.sameAs];
+      for (const personalProfile of [
+        "https://github.com/Kentaro-Ono-jp",
+        "https://www.linkedin.com/in/kentaro-ono/",
+      ]) {
+        if (organizationProfiles.includes(personalProfile)) {
+          errors.push(`${relativePath}: 個人profileがProfessionalService sameAsへ混入しています`);
         }
       }
     }

@@ -4,8 +4,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { kentaroOno, type BreadcrumbItem } from "../structured-data";
 
 const breadcrumbs = [
-  { name: "Home", href: "/" },
-  { name: "Profile", href: "/profile/" },
+  { name: "ホーム", href: "/" },
+  { name: "プロフィール", href: "/profile/" },
 ] satisfies BreadcrumbItem[];
 
 const disciplines = [
@@ -16,20 +16,20 @@ const disciplines = [
   },
   {
     title: "基盤と運用",
-    description: "IaC、CI/CD、監視、障害復旧、リソース撤収までをシステムの設計範囲として扱います。",
+    description: "コードによる基盤管理（IaC）、変更の自動確認・公開（CI/CD）、監視、障害復旧、resource撤収までを設計範囲として扱います。",
     items: ["Linux", "Docker", "AWS", "Terraform", "GitHub Actions", "RabbitMQ"],
   },
   {
     title: "機械学習",
-    description: "モデル評価、データの来歴、Human-in-the-loop、更新とロールバックをアプリケーションへ統合します。",
-    items: ["PyTorch", "Document Intelligence", "Model Evaluation", "Human-in-the-loop"],
+    description: "モデル評価、入力データと出力の追跡、AIの結果を人が確認・修正する工程、更新と以前のモデルへ戻す手順をアプリケーションへ統合します。",
+    items: ["PyTorch", "文書処理", "モデル評価", "人による確認"],
   },
 ];
 
 const careerPeriods = [
   {
     period: "2001–2020",
-    label: "Enterprise systems / operations",
+    label: "業務システム開発と運用保守",
     title: "業務システムと運用の土台",
     description:
       "半導体設計支援、官公庁、銀行、自動車製造、医療機器管理のシステムに携わりました。既存改修、DB設計、性能改善、Linux運用、サーバー移行まで、長期運用されるシステムの変更と保守を経験しています。",
@@ -37,7 +37,7 @@ const careerPeriods = [
   },
   {
     period: "2020–2025",
-    label: "Modern web / cloud",
+    label: "大規模Webシステムとクラウド",
     title: "大規模業務Webのモダナイズ",
     description:
       "全国のディーラーが利用する自動車リコール対応支援システムへ4年半参画。国への届出、対象車両、部品在庫、作業管理、帳票、通知を扱う業務を、React / Next.js、Java、SQL、Linux、AWSをまたいで開発しました。",
@@ -45,7 +45,7 @@ const careerPeriods = [
   },
   {
     period: "2025–2026",
-    label: "Documents / OCR",
+    label: "帳票・OCR・クラウド",
     title: "帳票・OCR・クラウドを横断",
     description:
       "医療機関向けWeb問診で、React / TypeScriptのUI、Python / FlaskのAPI、QRコード・差分表示を含むPDF生成を担当。帳票構造を先に確定し、OCR結果を既知のフィールドに対して検証するSchema-firstの処理へつなげました。",
@@ -53,11 +53,11 @@ const careerPeriods = [
   },
   {
     period: "2026–現在",
-    label: "Machine learning R&D",
+    label: "機械学習の研究開発",
     title: "開発・運用経験を機械学習へ",
     description:
       "現在は機械学習の研究開発案件に業務委託で参画し、画像解析、OCR、モデル評価・改善に取り組んでいます。モデル単体ではなく、入力データ、評価、人による確認、更新、監査までを業務システムとして捉えます。",
-    facts: ["画像解析 / OCR", "Model Evaluation", "Human-in-the-loop", "Document Intelligence"],
+    facts: ["画像解析 / OCR", "モデル評価", "人による確認", "文書処理基盤"],
   },
 ];
 
@@ -87,23 +87,23 @@ const experienceEvidence = [
       "プロジェクトマネージャーの引継ぎ役として、2年間マネジメントに専任。開発者としてだけでなく、案件を継続させる立場も担いました。",
   },
   {
-    metric: "UI → Cloud",
+    metric: "画面からクラウドまで",
     title: "医療Web問診を横断",
     description:
       "React / TypeScriptのUI、Python / FlaskのAPI、QRコード・差分表示付きPDF、AWS / Azureでのデプロイ・ログ確認・障害調査まで担当しました。",
   },
   {
-    metric: "Schema-first",
+    metric: "帳票構造を先に確定",
     title: "帳票構造とOCR",
     description:
-      "Word帳票から罫線、セル、入力フィールドを抽出して構造化。レイアウト、フィールド特定、OCR、Validationを分け、結果を検証可能にしました。",
+      "Word帳票から罫線、セル、入力フィールドを抽出して構造化。レイアウト、フィールド特定、OCR、検証処理を分け、結果を確認できる形にしました。",
   },
 ];
 ---
 
 <BaseLayout
   title="プロフィール"
-  description="ReactorFront代表・小野賢太郎のプロフィール。システム開発25年以上、Linux専任運用保守5年の経験を土台に、現在は機械学習の研究開発に取り組んでいます。"
+  description="ReactorFront（リアクターフロント）代表・小野賢太郎のプロフィール。システム開発25年以上、Linux専任運用保守5年の経験、現在の機械学習研究開発、公開証拠を紹介します。"
   breadcrumbs={breadcrumbs}
   webPageType="ProfilePage"
   webPageMainEntity={kentaroOno}
@@ -113,12 +113,12 @@ const experienceEvidence = [
       <Breadcrumbs items={breadcrumbs} />
       <div class="page-hero__grid">
         <div>
-          <p class="eyebrow eyebrow--light">Profile</p>
+          <p class="eyebrow eyebrow--light">プロフィール</p>
           <h1>業務要件から、<br />本番運用まで。</h1>
         </div>
         <p class="page-hero__lead">
           システム開発25年以上、Linux専任の運用保守5年。
-          半導体、官公庁、銀行、自動車、医療で積み上げた経験を、現在の機械学習R&amp;Dへつないでいます。
+          半導体、官公庁、銀行、自動車、医療で積み上げた経験を、現在の機械学習研究開発へつないでいます。
         </p>
       </div>
     </div>
@@ -132,28 +132,28 @@ const experienceEvidence = [
           src="/brand/reactorfront-mark-512.png"
           width="512"
           height="512"
-          alt="ReactorFrontの丸型RFロゴ"
+          alt="ReactorFront（リアクターフロント）の丸型RFロゴ"
           decoding="async"
         />
         <p class="profile-card__name">小野賢太郎 <span>Kentaro Ono</span></p>
-        <p>ReactorFront 代表<br />Independent Software Engineer</p>
+        <p>ReactorFront（リアクターフロント）代表<br />独立系ソフトウェアエンジニア</p>
         <dl>
           <div><dt>別表記</dt><dd>小野 賢太郎<br />Kentaro Ono</dd></div>
           <div><dt>拠点</dt><dd>東京 / フルリモート</dd></div>
-          <div><dt>現在</dt><dd>機械学習 R&amp;D</dd></div>
-          <div><dt>連絡</dt><dd><a href="mailto:kentaro.ono@reactorfront.jp">Email ↗</a></dd></div>
+          <div><dt>現在</dt><dd>機械学習の研究開発</dd></div>
+          <div><dt>連絡</dt><dd><a href="mailto:kentaro.ono@reactorfront.jp">メール ↗</a></dd></div>
           <div>
             <dt>公開プロフィール</dt>
             <dd class="profile-card__external-links">
-              <a href="https://github.com/Kentaro-Ono-jp" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-              <a href="https://www.linkedin.com/in/kentaro-ono/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+              <a href="https://github.com/Kentaro-Ono-jp" target="_blank" rel="noopener noreferrer">GitHubプロフィール ↗</a>
+              <a href="https://www.linkedin.com/in/kentaro-ono/" target="_blank" rel="noopener noreferrer">LinkedInプロフィール ↗</a>
             </dd>
           </div>
         </dl>
       </aside>
 
       <div class="profile-story" data-reveal>
-        <p class="eyebrow">About</p>
+        <p class="eyebrow">これまでの経験</p>
         <h2>25年、業務システムを<br />作り、直し、運用してきた。</h2>
         <div class="prose prose--large">
           <p>
@@ -165,8 +165,8 @@ const experienceEvidence = [
             要件定義から実装、テスト、デプロイ、障害調査までを一人称で追えるため、レイヤー間の引継ぎと認識のずれを減らせます。
           </p>
           <p>
-            現在の機械学習R&amp;Dでも、モデル精度だけを切り出してはいません。
-            入力データ、評価条件、人によるレビュー、モデル更新、監査、障害時の復旧までを、一つの業務システムとして扱います。
+            現在の機械学習研究開発でも、モデル精度だけを切り出してはいません。
+            入力データ、評価条件、人による確認・修正、モデル更新、監査、障害時の復旧までを、一つの業務システムとして扱います。
           </p>
         </div>
       </div>
@@ -176,7 +176,7 @@ const experienceEvidence = [
   <section class="section findy-proof-section" aria-labelledby="findy-score-heading">
     <div class="shell findy-proof" data-reveal>
       <div class="findy-proof__body">
-        <p class="eyebrow eyebrow--accent">Third-party signal</p>
+        <p class="eyebrow eyebrow--accent">第三者による公開コード評価</p>
         <h2 id="findy-score-heading">公開コードを、<br />第三者の指標でも。</h2>
         <p>
           Findyが公開GitHubリポジトリを独自に解析して算出した、スキル偏差値です。
@@ -218,7 +218,7 @@ const experienceEvidence = [
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">Career timeline</p>
+          <p class="eyebrow">経歴</p>
           <h2>25年を、四つの期間で見る。</h2>
         </div>
         <p>
@@ -251,7 +251,7 @@ const experienceEvidence = [
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">Selected evidence</p>
+          <p class="eyebrow">確認できる実績</p>
           <h2>規模・期間・担当範囲で、<br />経験を示す。</h2>
         </div>
         <p>
@@ -277,13 +277,13 @@ const experienceEvidence = [
   <section class="section">
     <div class="shell">
       <div class="section-heading" data-reveal>
-        <p class="eyebrow">Working principles</p>
+        <p class="eyebrow">設計・実装の判断基準</p>
         <h2>設計・実装で重視すること。</h2>
       </div>
       <div class="principle-grid">
         <article data-reveal><span>01</span><h3>事実と仮説を分ける</h3><p>ログや計測で確認した事実、現時点の仮説、未確認事項を明確に分けます。</p></article>
-        <article data-reveal><span>02</span><h3>失敗経路を先に考える</h3><p>正常系だけでなく、再実行、ロールバック、タイムアウト、安全な終了を設計します。</p></article>
-        <article data-reveal><span>03</span><h3>意思決定を記録する</h3><p>コードに表れない制約やトレードオフは、ADRや運用資料として残します。</p></article>
+        <article data-reveal><span>02</span><h3>失敗経路を先に考える</h3><p>正常系だけでなく、再実行、以前の状態へ戻す手順、時間切れ、安全な終了を設計します。</p></article>
+        <article data-reveal><span>03</span><h3>意思決定を記録する</h3><p>codeに表れない制約や選択理由は、設計判断記録（ADR）や運用資料として残します。</p></article>
         <article data-reveal><span>04</span><h3>必要な複雑さだけを持つ</h3><p>現在の要件を満たす最小構成から始め、将来の拡張点を明示します。</p></article>
       </div>
     </div>
@@ -293,7 +293,7 @@ const experienceEvidence = [
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow eyebrow--accent">Technical range</p>
+          <p class="eyebrow eyebrow--accent">扱える技術領域</p>
           <h2>技術世代を越えて、<br />システム全体を扱う。</h2>
         </div>
         <p>
@@ -321,14 +321,14 @@ const experienceEvidence = [
   <section class="section next-step">
     <div class="shell next-step__inner" data-reveal>
       <div>
-        <p class="eyebrow">Evidence, not adjectives</p>
+        <p class="eyebrow">形容詞ではなく証拠で示す</p>
         <h2>設計と検証の記録を、公開ポートフォリオで示す。</h2>
         <p>
-          25年の実務で得た業務設計、データ、運用の視点を、公開可能なDocument Intelligence基盤として再構成しました。
+          25年の実務で得た業務設計、データ、運用の視点を、公開可能な文書処理（Document Intelligence）基盤として再構成しました。
           アプリケーション、機械学習、AWS運用の設計判断と検証結果を、コードと日本語解説で公開しています。
         </p>
       </div>
-      <a class="button button--dark" href="/portfolio/">ポートフォリオ解説へ <span aria-hidden="true">→</span></a>
+      <a class="button button--dark" href="/portfolio/">実装と検証の解説を見る <span aria-hidden="true">→</span></a>
     </div>
   </section>
 </BaseLayout>

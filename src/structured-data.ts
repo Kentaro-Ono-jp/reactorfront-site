@@ -9,7 +9,7 @@ export const kentaroOno: JsonLd = {
   "@id": PERSON_ID,
   name: "小野賢太郎",
   alternateName: ["小野 賢太郎", "Kentaro Ono"],
-  jobTitle: "Software Engineer",
+  jobTitle: "ソフトウェアエンジニア",
   url: "https://www.reactorfront.jp/profile/",
   worksFor: {
     "@id": ORGANIZATION_ID,
