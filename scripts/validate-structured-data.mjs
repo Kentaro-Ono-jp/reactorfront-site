@@ -362,6 +362,55 @@ for (const htmlFile of htmlFiles) {
       }
     }
   }
+
+  if (relativePath === "portfolio/aws/one-cent-ecr/index.html") {
+    const article = articleSchemas[0];
+    if (article?.headline !== "AWSの1セント増加からECRの残存9 imageを特定・削除した記録") {
+      errors.push(`${relativePath}: Article headlineが画面の主題と一致しません`);
+    }
+    if (!article?.description?.includes("ReactorFront（リアクターフロント）")) {
+      errors.push(`${relativePath}: Article descriptionに運営主体の日本語表記がありません`);
+    }
+    if (article?.isPartOf?.["@id"] !== "https://www.reactorfront.jp/#website") {
+      errors.push(`${relativePath}: Article isPartOfが共通WebSiteではありません`);
+    }
+    for (const expectedText of [
+      "請求の誤りではなく、残っていたECR imageの正しい保管料",
+      "$2.42",
+      "$2.43",
+      "$0.003241094",
+      "$0.034983709",
+      "$0.038224803",
+      "3 repository × 3世代",
+      "削除してよい範囲",
+      "存在を確認する範囲",
+      "9個を明示削除し",
+      "0 image",
+    ]) {
+      if (!html.includes(expectedText)) {
+        errors.push(`${relativePath}: 画面上に「${expectedText}」がありません`);
+      }
+    }
+    for (const repositoryName of ["reactorfront/web", "reactorfront/api", "reactorfront/ml"]) {
+      if (!html.includes(repositoryName)) {
+        errors.push(`${relativePath}: ECR repository識別子 ${repositoryName} がありません`);
+      }
+    }
+    for (const imageTag of ["issue110-0580ae23", "sha-860c4c9ac91d", "sha-a1bad6a7af7d"]) {
+      if (!html.includes(imageTag)) {
+        errors.push(`${relativePath}: ECR image tag ${imageTag} がありません`);
+      }
+    }
+    for (const expectedHref of [
+      "https://github.com/Kentaro-Ono-jp/Portfolio/issues/133",
+      "https://github.com/Kentaro-Ono-jp/Portfolio/pull/134",
+      "https://github.com/Kentaro-Ono-jp/Portfolio/commit/eac250a38e3e",
+    ]) {
+      if (!html.includes(`href="${expectedHref}"`)) {
+        errors.push(`${relativePath}: 証拠link ${expectedHref} がありません`);
+      }
+    }
+  }
 }
 
 if (errors.length > 0) {

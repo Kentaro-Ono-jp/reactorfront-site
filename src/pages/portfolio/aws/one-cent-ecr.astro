@@ -6,15 +6,15 @@ import { getArticleRouteMetadata, SITE_URL } from "../../../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../../../structured-data";
 
 const breadcrumbs = [
-  { name: "Home", href: "/" },
-  { name: "Portfolio", href: "/portfolio/" },
-  { name: "AWS", href: "/portfolio/aws/" },
-  { name: "One cent", href: "/portfolio/aws/one-cent-ecr/" },
+  { name: "ホーム", href: "/" },
+  { name: "ポートフォリオ", href: "/portfolio/" },
+  { name: "AWS実地検証", href: "/portfolio/aws/" },
+  { name: "ECR 1セント追跡", href: "/portfolio/aws/one-cent-ecr/" },
 ] satisfies BreadcrumbItem[];
 
 const verifiedAt = "2026-08-23";
-const articleTitle = "たかが1セント、されど1セント。AWSマイクロ請求の追跡記録";
-const articleDescription = "触っていないのにAWS利用額が1セント増えた。ECRの約0.003ドル/日の保管料から、sweepが見逃した9イメージとzero-residue判定の盲点を発見・修正した記録です。";
+const articleTitle = "AWSの1セント増加からECRの残存9 imageを特定・削除した記録";
+const articleDescription = "操作していない期間に増えた正しいECR保管料を追跡し、3 repository × 3世代の残存9 imageを安全に0件へ戻したReactorFront（リアクターフロント）の調査記録です。";
 const articleMetadata = getArticleRouteMetadata("/portfolio/aws/one-cent-ecr/");
 const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImage = "https://www.reactorfront.jp/images/aws-cost-explorer-2026-08-23.png";
@@ -30,19 +30,19 @@ const articleSchema = createArticle({
 
 const imageGenerations = [
   {
-    label: "Generation 01",
+    label: "世代 01",
     tag: "issue110-0580ae23",
-    note: "managed environmentの初期実地検証",
+    note: "管理対象環境の初回実地検証",
   },
   {
-    label: "Generation 02",
+    label: "世代 02",
     tag: "sha-860c4c9ac91d",
-    note: "TTL lifecycle proofの試行",
+    note: "有効期限付き環境を確かめた試行",
   },
   {
-    label: "Generation 03",
+    label: "世代 03",
     tag: "sha-a1bad6a7af7d",
-    note: "RabbitMQ topology修正時の試行",
+    note: "RabbitMQの接続構成を修正した試行",
   },
 ];
 
@@ -54,17 +54,17 @@ const repositories = [
 
 const investigationSignals = [
   {
-    label: "Cost Explorer",
+    label: "料金 / Cost Explorer",
     title: "保管料だけが積み上がった",
     body: "ECRのusage typeはTimedStorage-ByteHrsのみ。データ転送や新しい実行料金ではありませんでした。",
   },
   {
-    label: "CloudTrail",
+    label: "操作履歴 / CloudTrail",
     title: "新しい書き込みはなかった",
     body: "木曜から金曜の変化に対応するPutImageやBatchDeleteImageはなく、最後のECR書き込みはそれ以前でした。",
   },
   {
-    label: "ECR inventory",
+    label: "現在の実体 / ECR inventory",
     title: "9個のタグ付きイメージが残っていた",
     body: "3つの永続リポジトリに、過去3世代のコンテナが同じ構成で残っていました。",
   },
@@ -74,12 +74,12 @@ const broadDeleteRisks = [
   {
     number: "01",
     title: "別実行のイメージ",
-    body: "manual / monthlyや別の試行が同じ永続リポジトリを使います。残ったタグの所有元を確認せず消すことはできません。",
+    body: "手動実行、月次実行、別の試行が同じ永続repositoryを使います。残ったtagの所有元を確認せず消すことはできません。",
   },
   {
     number: "02",
     title: "中断からの復旧",
-    body: "push後、checkpoint前に止まったイメージは、再開時に正しいdigestとして採用できる可能性があります。",
+    body: "push後、復旧用の記録（checkpoint）を残す前に止まったimageは、再開時に正しい内容識別子（digest）として採用できる可能性があります。",
   },
   {
     number: "03",
@@ -95,7 +95,7 @@ const broadDeleteRisks = [
 
 const sources = [
   {
-    label: "ReactorFront",
+    label: "ReactorFrontの親記事",
     title: "AWSデプロイと撤収",
     href: "/portfolio/aws/",
     note: "本記事の親となる実AWS検証記事",
@@ -119,13 +119,13 @@ const sources = [
     note: "mainへ反映された公開実装",
   },
   {
-    label: "AWS official",
+    label: "AWS公式資料",
     title: "Amazon ECR pricing",
     href: "https://aws.amazon.com/ecr/pricing/",
     note: "保存データ量に基づく公式料金",
   },
   {
-    label: "AWS official",
+    label: "AWS公式資料",
     title: "Cost Explorer resource-level data",
     href: "https://docs.aws.amazon.com/cost-management/latest/userguide/ce-resource-daily.html",
     note: "日次・リソース粒度と反映境界の公式資料",
@@ -155,13 +155,13 @@ const sources = [
         <Breadcrumbs items={breadcrumbs} />
         <div class="page-hero__grid">
           <div>
-            <p class="eyebrow eyebrow--accent">AWS cost forensics / Field notes</p>
+            <p class="eyebrow eyebrow--accent">AWS費用と残存imageの追跡記録</p>
             <h1>たかが1セント。<br />されど1セント。</h1>
           </div>
           <div class="page-hero__lead">
             <p>
-              ポートフォリオには2週間以上触っていない。それでもAWSの当月合計は、ある日1セント増えました。
-              正当なマイクロ請求を追い、zero-residue sweepの盲点へたどり着いた記録です。
+              Portfolioには2週間以上触っていない。それでもAWSの当月合計は、ある日1セント増えました。
+              請求の誤りではなく、残っていたECR imageの正しい保管料でした。その原因と、残存0件の判定が見逃していた範囲を特定し、安全に削除した記録です。
             </p>
             <div class="article-byline" aria-label="記事情報">
               <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
@@ -176,17 +176,17 @@ const sources = [
 
     <section class="story-meta" aria-label="記事の要点">
       <div class="shell story-meta__inner">
-        <div><span>Observed total</span><strong>$2.42 → $2.43</strong></div>
-        <div><span>ECR per day</span><strong>$0.003241094</strong></div>
-        <div><span>Residue</span><strong>3 repositories × 3 generations</strong></div>
-        <div><span>After cleanup</span><strong>0 images</strong></div>
+        <div><span>観測したAWS合計</span><strong>$2.42 → $2.43</strong></div>
+        <div><span>ECRの日次増加額</span><strong>$0.003241094</strong></div>
+        <div><span>残っていたimage</span><strong>3 repository × 3世代</strong></div>
+        <div><span>削除後の再確認</span><strong>0 image</strong></div>
       </div>
     </section>
 
     <section class="section ecr-cost-prologue" aria-labelledby="ecr-prologue-title">
       <div class="shell ecr-cost-prologue__grid">
         <div data-reveal>
-          <p class="eyebrow">Prologue / No new operation</p>
+          <p class="eyebrow">追加操作がない期間の変化</p>
           <h2 id="ecr-prologue-title">触っていない。<br />なのに、増えた。</h2>
         </div>
         <div class="prose prose--large" data-reveal>
@@ -200,7 +200,7 @@ const sources = [
           </p>
           <blockquote class="one-cent-thesis">
             <span>01¢</span>
-            <p><strong>料金は正しかった。</strong>zero-residueという言葉の方を、もう一度疑う必要があった。</p>
+            <p><strong>料金は正しかった。</strong>「残存0件」という完了判定の方を、もう一度疑う必要があった。</p>
           </blockquote>
         </div>
       </div>
@@ -210,7 +210,7 @@ const sources = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow eyebrow--accent">Rounding / A lucky boundary</p>
+            <p class="eyebrow eyebrow--accent">画面上の丸めと内部の正確な金額</p>
             <h2 id="micro-cost-title">約0.003ドル/日。<br />普通は、1日では見えない。</h2>
           </div>
           <p>
@@ -224,13 +224,13 @@ const sources = [
             <span>2桁表示の境界</span><code>$0.035</code>
           </div>
           <article>
-            <span>Aug 20 / exact</span>
+            <span>8月20日 / 内部の正確な値</span>
             <code>$0.034983709</code>
             <strong>画面表示 $0.03</strong>
             <i style="--position: 49.8%"></i>
           </article>
           <article>
-            <span>Aug 21 / exact</span>
+            <span>8月21日 / 内部の正確な値</span>
             <code>$0.038224803</code>
             <strong>画面表示 $0.04</strong>
             <i style="--position: 82%"></i>
@@ -238,11 +238,11 @@ const sources = [
         </div>
 
         <div class="micro-cost-math" data-reveal>
-          <div><span>Daily increase</span><strong>$0.003241094</strong></div>
+          <div><span>1日あたりの増加</span><strong>$0.003241094</strong></div>
           <i aria-hidden="true">×</i>
-          <div><span>About</span><strong>3.09 days</strong></div>
+          <div><span>約</span><strong>3.09日</strong></div>
           <i aria-hidden="true">→</i>
-          <div class="micro-cost-math__result"><span>Visible step</span><strong>約1セント</strong></div>
+          <div class="micro-cost-math__result"><span>画面に見える変化</span><strong>約1セント</strong></div>
         </div>
 
         <aside class="reader-bridge reader-bridge--dark" data-reveal>
@@ -266,7 +266,7 @@ const sources = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">Attribution / Three different records</p>
+            <p class="eyebrow">料金・操作履歴・現在の実体を照合</p>
             <h2 id="attribution-title">操作ではなく、<br />保管だった。</h2>
           </div>
           <p>
@@ -299,7 +299,7 @@ const sources = [
             <span>原寸で確認 <i aria-hidden="true">↗</i></span>
           </a>
           <figcaption>
-            <span>Observed / 2026-08-23</span>
+            <span>2026年8月23日の観測</span>
             <strong>ECRの$0.04は、新しいデプロイではなく、残っていたイメージの保管料でした。</strong>
           </figcaption>
         </figure>
@@ -310,11 +310,11 @@ const sources = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">Nine images / Three by three</p>
+            <p class="eyebrow">3 repository × 3世代の内訳</p>
             <h2 id="image-inventory-title">3サービス × 3世代。<br />合計9イメージ。</h2>
           </div>
           <p>
-            ここでいうイメージはIAMロール、Policy、Quotaではありません。Web、API、MLを動かすDockerコンテナです。
+            ここでいうimageはIAM Role、Policy、Quotaではありません。Web、API、MLを動かすDocker containerです。
           </p>
         </div>
 
@@ -323,7 +323,7 @@ const sources = [
             <caption class="sr-only">ECRの3リポジトリに残っていた3世代、合計9コンテナイメージ</caption>
             <thead>
               <tr>
-                <th scope="col">Repository</th>
+                <th scope="col">repository</th>
                 {imageGenerations.map((generation) => <th scope="col"><span>{generation.label}</span><code>{generation.tag}</code></th>)}
               </tr>
             </thead>
@@ -332,7 +332,7 @@ const sources = [
                 repositories.map((repository) => (
                   <tr>
                     <th scope="row"><strong>{repository.name}</strong><span>{repository.role}</span></th>
-                    {imageGenerations.map(() => <td><span aria-hidden="true">●</span><strong>Tagged image</strong></td>)}
+                    {imageGenerations.map(() => <td><span aria-hidden="true">●</span><strong>tag付きimage</strong></td>)}
                   </tr>
                 ))
               }
@@ -342,15 +342,15 @@ const sources = [
 
         <div class="retention-facts">
           <article data-reveal>
-            <span>Rule 01</span><strong>Untagged / 7 days</strong>
+            <span>自動削除条件 01</span><strong>tagなし / 7日後</strong>
             <p>9個はすべてタグ付きでした。この自動削除条件には入りません。</p>
           </article>
           <article data-reveal>
-            <span>Rule 02</span><strong>Tagged / keep 20</strong>
+            <span>自動削除条件 02</span><strong>tag付き / 20個まで保持</strong>
             <p>各リポジトリは3個だけ。保持上限20を超えないため削除されません。</p>
           </article>
           <article data-reveal>
-            <span>Boundary</span><strong>Repository stays / Images go</strong>
+            <span>残す物と消す物の境界</span><strong>空のrepositoryは残し、imageは消す</strong>
             <p>次回も使う空の置き場は永続。実行ごとの中身は撤収対象です。</p>
           </article>
         </div>
@@ -361,18 +361,18 @@ const sources = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">Sweep gap / Exact, but too narrow</p>
+            <p class="eyebrow">残存確認が見ていた範囲の抜け</p>
             <h2 id="sweep-gap-title">今回のタグは消した。<br />過去タグは見ていなかった。</h2>
           </div>
           <p>
-            既存sweepは、その実行の <code>config.image_tag</code> が消えたことを正しく確認していました。
+            既存の残存確認は、その実行の <code>config.image_tag</code> が消えたことを正しく確認していました。
             しかし、別の試行で残ったタグは問い合わせ対象に入っていませんでした。
           </p>
         </div>
 
         <div class="query-change" data-reveal>
           <article>
-            <span>Before / current run only</span>
+            <span>修正前 / 今回の実行だけを確認</span>
             <pre><code>describe-images
   --repository-name exact-repository
   --image-ids imageTag=config.image_tag</code></pre>
@@ -380,26 +380,26 @@ const sources = [
           </article>
           <i aria-hidden="true">→</i>
           <article class="query-change__after">
-            <span>After / repository inventory</span>
+            <span>修正後 / repository内をすべて確認</span>
             <pre><code>describe-images
   --repository-name exact-repository</code></pre>
-            <p>全image detailsを数え、1個でもあればzero-residueを拒否します。</p>
+            <p>repository内の全imageを数え、1個でもあれば「残存0件」と判定しません。</p>
           </article>
         </div>
 
         <div class="scope-split" data-reveal>
           <article class="scope-split__mutation">
-            <span>Mutation scope</span>
+            <span>削除してよい範囲</span>
             <h3>消す範囲は、狭く。</h3>
-            <strong>Current tag + checkpoint digest</strong>
-            <p>自分の実行が所有し、digestまで一致したイメージだけを削除します。</p>
+            <strong>今回のtag + 復旧記録のdigest</strong>
+            <p>自分の実行が所有し、内容識別子（digest）まで一致したimageだけを削除します。</p>
           </article>
-          <div aria-hidden="true"><span>≠</span><small>separate responsibility</small></div>
+          <div aria-hidden="true"><span>≠</span><small>役割を分ける</small></div>
           <article class="scope-split__observation">
-            <span>Observation scope</span>
+            <span>存在を確認する範囲</span>
             <h3>見る範囲は、広く。</h3>
-            <strong>All images in 3 exact repositories</strong>
-            <p>不明な残存物を黙認せず、sweepを止めて調査へ回します。</p>
+            <strong>指定した3 repository内の全image</strong>
+            <p>不明な残存物を黙認せず、残存確認を失敗させて人の調査へ回します。</p>
           </article>
         </div>
       </div>
@@ -408,10 +408,10 @@ const sources = [
     <section class="section section--dark broad-delete-section" aria-labelledby="broad-delete-title">
       <div class="shell">
         <div class="broad-delete-lead" data-reveal>
-          <p class="eyebrow eyebrow--accent">Why detection only?</p>
+          <p class="eyebrow eyebrow--accent">検知で止め、自動で全削除しない理由</p>
           <h2 id="broad-delete-title">なぜタグを外して、<br />全部消さないのか。</h2>
           <p>
-            技術的に全削除できないからではありません。cleanupへ「この置き場にあるものは、所有元を問わず消してよい」という判断を持たせないためです。
+            技術的に全削除できないからではありません。自動cleanupへ「この置き場にあるものは、所有元を問わず消してよい」という判断を持たせないためです。
           </p>
         </div>
 
@@ -428,8 +428,8 @@ const sources = [
         </div>
 
         <blockquote class="design-verdict" data-reveal>
-          <p><span>Detect</span> 全部見る。残っていれば止める。</p>
-          <p><span>Delete</span> 所有権を証明できるものだけ消す。</p>
+          <p><span>検知</span> 全部見る。残っていれば止める。</p>
+          <p><span>削除</span> 所有権を証明できるものだけ消す。</p>
           <strong>できないからではなく、させない。</strong>
         </blockquote>
 
@@ -439,10 +439,10 @@ const sources = [
             <strong>安全側の不便</strong>
           </div>
           <div>
-            <h3>残存が見つかれば、sweepは赤くなり、人が正体を確かめます。</h3>
+            <h3>残存imageが見つかれば、自動確認を失敗させ、人が正体を確かめます。</h3>
             <p>
               その一手間は自動化の失敗ではなく、調整破壊を避ける安全コストです。
-              将来、意図的な保持物を置くなら、先に環境・実行・参照中digestを識別できる所有権モデルが必要です。
+              将来、意図的な保持物を置くなら、先に環境・実行・参照中のdigestを識別できる所有権の記録が必要です。
             </p>
             <p class="reader-bridge__meaning"><strong>実務上の意味</strong>「空であるべき」と「何でも消してよい」を同じ意味にしません。</p>
           </div>
@@ -454,11 +454,11 @@ const sources = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">One-time cleanup / Exact targets</p>
+            <p class="eyebrow">対象を照合した一度限りの削除</p>
             <h2 id="cleanup-result-title">9個を明示削除し、<br />0を読み返す。</h2>
           </div>
           <p>
-            既存の9個は、3リポジトリと3タグが事前確認と完全一致した場合だけ、専用destroyロールで削除しました。
+            既存の9個は、3 repositoryと3 tagが事前確認と完全一致した場合だけ、専用のdestroy Roleで削除しました。
           </p>
         </div>
 
@@ -468,14 +468,14 @@ const sources = [
               <article>
                 <span>reactorfront/{repository.name}</span>
                 <div><strong>3</strong><i aria-hidden="true">→</i><strong>0</strong></div>
-                <p>image details / image IDs</p>
+                <p>imageの一覧 / 識別子</p>
               </article>
             ))
           }
           <article class="cleanup-result-grid__total">
-            <span>Total</span>
+            <span>合計</span>
             <div><strong>9</strong><i aria-hidden="true">→</i><strong>0</strong></div>
-            <p>tagged / untaggedとも残存なし</p>
+            <p>tag付き / tagなしの両方で残存なし</p>
           </article>
         </div>
 
@@ -490,12 +490,12 @@ const sources = [
     <section class="section section--soft one-cent-lessons" aria-labelledby="one-cent-lessons-title">
       <div class="shell one-cent-lessons__grid">
         <div data-reveal>
-          <p class="eyebrow">Epilogue / Small signal, real gap</p>
+          <p class="eyebrow">小さな金額から見つけた実際の抜け</p>
           <h2 id="one-cent-lessons-title">たかが1セント。<br />されど1セント。</h2>
         </div>
         <div class="one-cent-lessons__list" data-reveal>
           <article><span>01</span><h3>金額の大小と、異常の重要度を分ける。</h3><p>1セントでも、説明できない変化なら確認する価値があります。</p></article>
-          <article><span>02</span><h3>billingを完了証拠にしない。</h3><p>料金は遅く、丸められます。実体の有無はサービスAPIで確認します。</p></article>
+          <article><span>02</span><h3>請求額を撤収完了の証拠にしない。</h3><p>料金は遅れて反映され、画面では丸められます。実体の有無はservice APIで確認します。</p></article>
           <article><span>03</span><h3>自動化の観測範囲と削除範囲を分ける。</h3><p>全部見つけても、全部を自動で消してよいとは限りません。</p></article>
         </div>
       </div>
@@ -505,11 +505,11 @@ const sources = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow eyebrow--accent">Sources &amp; verification</p>
+            <p class="eyebrow eyebrow--accent">参照資料と検証方法</p>
             <h2 id="ecr-sources-title">請求、実体、公開実装を照合。</h2>
           </div>
           <p>
-            本文は2026年8月23日の集計済みAWS観測と公開リポジトリを基にしています。アカウントID、認証情報、rawイベントは掲載していません。
+            本文は2026年8月23日の集計済みAWS観測と公開repositoryを基にしています。アカウントID、認証情報、加工前のeventは掲載していません。
           </p>
         </div>
         <div class="reference-list">
@@ -530,18 +530,18 @@ const sources = [
     <section class="ecr-cost-closing">
       <div class="shell ecr-cost-closing__inner" data-reveal>
         <div>
-          <p class="eyebrow eyebrow--light">Back to the full lifecycle</p>
+          <p class="eyebrow eyebrow--light">AWS検証の全工程へ戻る</p>
           <h2>1セントの入口から、<br />構築・E2E・撤収の全体へ。</h2>
           <p>
-            IAM、Terraform、ECS、認証付きE2E、automatic destroy。親記事では、この調査の前提となったAWS検証全体を、ML編ではモデルライフサイクルを解説しています。
+            IAM、Terraform、ECS、認証付きE2E、非常時の自動destroy。親記事では、この調査の前提となったAWS検証全体を、ML編ではモデルの評価・採用・復旧を解説しています。
           </p>
         </div>
         <div class="ecr-cost-closing__actions">
           <a class="button button--accent button--large" href="/portfolio/aws/">
-            AWS実地検証へ戻る <span aria-hidden="true">←</span>
+            AWS環境の構築・確認・撤収へ戻る <span aria-hidden="true">←</span>
           </a>
           <a class="button button--ghost-light button--large" href="/portfolio/ml/">
-            MLの約{articleReadingMinutes.ml}分記事へ <span aria-hidden="true">→</span>
+            MLモデルの評価・採用・復旧を読む <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
