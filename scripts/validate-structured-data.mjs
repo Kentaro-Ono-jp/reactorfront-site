@@ -59,6 +59,49 @@ for (const htmlFile of htmlFiles) {
     }
   }
 
+  const organizations = schemas.filter((schema) => hasType(schema, "ProfessionalService"));
+  const websites = schemas.filter((schema) => hasType(schema, "WebSite"));
+  const expectedBrandAliases = ["リアクターフロント", "reactorfront"];
+
+  if (organizations.length !== 1) {
+    errors.push(`${relativePath}: ProfessionalServiceが1件ではありません`);
+  } else {
+    const organization = organizations[0];
+    const aliases = Array.isArray(organization.alternateName)
+      ? organization.alternateName
+      : [organization.alternateName];
+    if (organization["@id"] !== "https://www.reactorfront.jp/#organization") {
+      errors.push(`${relativePath}: ProfessionalService @idが不正です`);
+    }
+    if (organization.name !== "ReactorFront" || organization.legalName !== "リアクターフロント") {
+      errors.push(`${relativePath}: ProfessionalServiceの正式名または屋号が不正です`);
+    }
+    if (JSON.stringify(aliases) !== JSON.stringify(expectedBrandAliases)) {
+      errors.push(`${relativePath}: ProfessionalService alternateNameの内容または優先順が不正です`);
+    }
+  }
+
+  if (websites.length !== 1) {
+    errors.push(`${relativePath}: WebSiteが1件ではありません`);
+  } else {
+    const website = websites[0];
+    const aliases = Array.isArray(website.alternateName)
+      ? website.alternateName
+      : [website.alternateName];
+    if (website["@id"] !== "https://www.reactorfront.jp/#website") {
+      errors.push(`${relativePath}: WebSite @idが不正です`);
+    }
+    if (website.name !== "ReactorFront") {
+      errors.push(`${relativePath}: WebSite nameがReactorFrontではありません`);
+    }
+    if (JSON.stringify(aliases) !== JSON.stringify(expectedBrandAliases)) {
+      errors.push(`${relativePath}: WebSite alternateNameの内容または優先順が不正です`);
+    }
+    if (website.publisher?.["@id"] !== "https://www.reactorfront.jp/#organization") {
+      errors.push(`${relativePath}: WebSite publisherがReactorFrontの事業者nodeではありません`);
+    }
+  }
+
   const breadcrumbSchemas = schemas.filter((schema) => hasType(schema, "BreadcrumbList"));
 
   if (hasVisibleBreadcrumbs && breadcrumbSchemas.length !== 1) {
