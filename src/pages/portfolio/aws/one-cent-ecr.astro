@@ -2,7 +2,7 @@
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../../reading-times";
-import type { BreadcrumbItem } from "../../../structured-data";
+import { createArticle, type BreadcrumbItem } from "../../../structured-data";
 
 const breadcrumbs = [
   { name: "Home", href: "/" },
@@ -12,6 +12,20 @@ const breadcrumbs = [
 ] satisfies BreadcrumbItem[];
 
 const verifiedAt = "2026-08-23";
+const articleTitle = "たかが1セント、されど1セント。AWSマイクロ請求の追跡記録";
+const articleDescription = "触っていないのにAWS利用額が1セント増えた。ECRの約0.003ドル/日の保管料から、sweepが見逃した9イメージとzero-residue判定の盲点を発見・修正した記録です。";
+const canonical = "https://www.reactorfront.jp/portfolio/aws/one-cent-ecr/";
+const representativeImage = "https://www.reactorfront.jp/images/aws-cost-explorer-2026-08-23.png";
+const datePublished = "2026-08-23";
+const dateModified = "2026-08-23";
+const articleSchema = createArticle({
+  canonical,
+  headline: articleTitle,
+  description: articleDescription,
+  images: [representativeImage],
+  datePublished,
+  dateModified,
+});
 
 const imageGenerations = [
   {
@@ -119,14 +133,15 @@ const sources = [
 ---
 
 <BaseLayout
-  title="たかが1セント、されど1セント。AWSマイクロ請求の追跡記録"
-  description="触っていないのにAWS利用額が1セント増えた。ECRの約0.003ドル/日の保管料から、sweepが見逃した9イメージとzero-residue判定の盲点を発見・修正した記録です。"
+  title={articleTitle}
+  description={articleDescription}
   image="/images/aws-cost-explorer-2026-08-23.png"
   imageAlt="AWS Cost Explorerで2026年8月の合計2.43ドルとECR 0.04ドルを確認した画面"
   imageWidth={787}
   imageHeight={627}
   imageType="image/png"
   breadcrumbs={breadcrumbs}
+  structuredData={articleSchema}
 >
   <article class="ecr-cost-story">
     <header class="page-hero page-hero--ecr-cost">
@@ -147,6 +162,11 @@ const sources = [
               ポートフォリオには2週間以上触っていない。それでもAWSの当月合計は、ある日1セント増えました。
               正当なマイクロ請求を追い、zero-residue sweepの盲点へたどり着いた記録です。
             </p>
+            <div class="article-byline" aria-label="記事情報">
+              <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
+              <span>公開 <time datetime={datePublished}>2026年8月23日</time></span>
+              <span>最終更新 <time datetime={dateModified}>2026年8月23日</time></span>
+            </div>
             <span class="reading-time">約{articleReadingMinutes.awsOneCent}分 / 実地確認: {verifiedAt}</span>
           </div>
         </div>

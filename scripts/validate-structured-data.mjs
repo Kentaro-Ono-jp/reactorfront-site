@@ -93,6 +93,45 @@ for (const htmlFile of htmlFiles) {
     }
   }
 
+  const articleSchemas = schemas.filter((schema) => hasType(schema, "Article"));
+  for (const article of articleSchemas) {
+    const canonical = canonicalMatch?.[1];
+    const images = Array.isArray(article.image) ? article.image : [article.image];
+    if (article.url !== canonical || article.mainEntityOfPage?.["@id"] !== `${canonical}#webpage`) {
+      errors.push(`${relativePath}: Article URL、mainEntityOfPage、canonicalが一致しません`);
+    }
+    if (typeof article.headline !== "string" || article.headline.length === 0) {
+      errors.push(`${relativePath}: Article headlineがありません`);
+    }
+    if (typeof article.description !== "string" || article.description.length === 0) {
+      errors.push(`${relativePath}: Article descriptionがありません`);
+    }
+    if (article.author?.["@id"] !== "https://www.reactorfront.jp/#kentaro-ono" || article.author?.name !== "小野賢太郎") {
+      errors.push(`${relativePath}: Article authorが共通Personではありません`);
+    }
+    if (article.publisher?.["@id"] !== "https://www.reactorfront.jp/#organization") {
+      errors.push(`${relativePath}: Article publisherがReactorFrontではありません`);
+    }
+    for (const property of ["datePublished", "dateModified"]) {
+      if (typeof article[property] !== "string" || Number.isNaN(Date.parse(article[property]))) {
+        errors.push(`${relativePath}: Article ${property}が有効な日付ではありません`);
+      }
+      if (!html.includes(`datetime="${article[property]}"`)) {
+        errors.push(`${relativePath}: 画面上にArticle ${property}がありません`);
+      }
+    }
+    if (!Array.isArray(images) || images.length === 0 || images.some((image) => typeof image !== "string" || !image.startsWith("https://"))) {
+      errors.push(`${relativePath}: Article imageが有効なHTTPS URLではありません`);
+    }
+    if (!html.includes('href="/profile/" rel="author"')) {
+      errors.push(`${relativePath}: 画面上に著者プロフィールへのリンクがありません`);
+    }
+  }
+
+  if (relativePath === "portfolio/aws/one-cent-ecr/index.html" && articleSchemas.length !== 1) {
+    errors.push(`${relativePath}: Articleが1件ではありません`);
+  }
+
   if (relativePath === "profile/index.html") {
     const profilePages = schemas.filter((schema) => hasType(schema, "ProfilePage"));
     if (profilePages.length !== 1) {
