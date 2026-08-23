@@ -1,13 +1,31 @@
 ---
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ArticleCover from "../components/ArticleCover.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../reading-times";
-import type { BreadcrumbItem } from "../structured-data";
+import { createArticle, type BreadcrumbItem } from "../structured-data";
 
 const breadcrumbs = [
   { name: "Home", href: "/" },
   { name: "Infrastructure", href: "/infrastructure/" },
 ] satisfies BreadcrumbItem[];
+
+const articleTitle = "フリーランスのインフラ入門｜独自ドメイン・Web・メールを自分で持つ";
+const articleDescription = "開業届を出した後に整えた、独自ドメイン、GitHub Pages、GitHub Actions、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontの実構成と選定理由を一般化し、安全な範囲で解説します。";
+const canonical = "https://www.reactorfront.jp/infrastructure/";
+const representativeImagePath = "/images/article-freelance-infrastructure.webp";
+const representativeImage = new URL(representativeImagePath, canonical).href;
+const representativeImageAlt = "独自ドメインを中枢にWebサイト、仕事用メール、クラウドサービスへ接続する事業用インフラの概念図";
+const datePublished = "2026-08-14T06:13:26+09:00";
+const dateModified = "2026-08-23T11:21:05+09:00";
+const articleSchema = createArticle({
+  canonical,
+  headline: articleTitle,
+  description: articleDescription,
+  images: [representativeImage],
+  datePublished,
+  dateModified,
+});
 
 const verifiedAt = "2026-08-16";
 
@@ -20,10 +38,17 @@ const records = [
 ---
 
 <BaseLayout
-  title="フリーランスのインフラ入門"
-  description="開業届を出した後に整えた、独自ドメイン、GitHub Pages、GitHub Actions、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontの実構成と選定理由を一般化し、安全な範囲で解説します。"
+  title={articleTitle}
+  description={articleDescription}
+  image={representativeImagePath}
+  imageAlt={representativeImageAlt}
+  imageWidth={1536}
+  imageHeight={1024}
+  imageType="image/webp"
   breadcrumbs={breadcrumbs}
+  structuredData={articleSchema}
 >
+  <article class="infrastructure-story">
   <section class="page-hero page-hero--infrastructure">
     <div class="page-hero__circuit" aria-hidden="true"></div>
     <div class="shell page-hero__inner">
@@ -38,11 +63,22 @@ const records = [
             独自ドメイン、仕事用メール、Webサイト。
             ドメイン契約、権威DNS、Webホスティング、メールサービスの責務を分け、ReactorFrontの実構成に沿って解説します。
           </p>
+          <div class="article-byline" aria-label="記事情報">
+            <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
+            <span>公開 <time datetime={datePublished}>2026年8月14日</time></span>
+            <span>最終更新 <time datetime={dateModified}>2026年8月23日</time></span>
+          </div>
           <span class="reading-time">約{articleReadingMinutes.infrastructure}分 / 実地確認: {verifiedAt}</span>
         </div>
       </div>
     </div>
   </section>
+
+  <ArticleCover
+    src={representativeImagePath}
+    alt={representativeImageAlt}
+    caption="独自ドメインを事業の基準点にし、Web、メール、クラウドの責務と経路を自分で管理する。"
+  />
 
   <section class="section infra-prologue" aria-labelledby="infra-prologue-title">
     <div class="shell">
@@ -657,4 +693,5 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
       </a>
     </div>
   </section>
+  </article>
 </BaseLayout>

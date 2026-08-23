@@ -19,6 +19,16 @@ const htmlFiles = await findHtmlFiles(distDirectory);
 const errors = [];
 let jsonLdCount = 0;
 let breadcrumbCount = 0;
+let articleCount = 0;
+
+const expectedArticlePaths = new Set([
+  "infrastructure/index.html",
+  "infrastructure/google-search/index.html",
+  "portfolio/aws/index.html",
+  "portfolio/aws/one-cent-ecr/index.html",
+  "portfolio/ml/index.html",
+]);
+const representativeImages = new Map();
 
 const hasType = (schema, type) => {
   const types = Array.isArray(schema?.["@type"]) ? schema["@type"] : [schema?.["@type"]];
@@ -95,6 +105,7 @@ for (const htmlFile of htmlFiles) {
 
   const articleSchemas = schemas.filter((schema) => hasType(schema, "Article"));
   for (const article of articleSchemas) {
+    articleCount += 1;
     const canonical = canonicalMatch?.[1];
     const images = Array.isArray(article.image) ? article.image : [article.image];
     if (article.url !== canonical || article.mainEntityOfPage?.["@id"] !== `${canonical}#webpage`) {
@@ -120,16 +131,37 @@ for (const htmlFile of htmlFiles) {
         errors.push(`${relativePath}: 画面上にArticle ${property}がありません`);
       }
     }
+    if (Date.parse(article.datePublished) > Date.parse(article.dateModified)) {
+      errors.push(`${relativePath}: Article dateModifiedがdatePublishedより前です`);
+    }
     if (!Array.isArray(images) || images.length === 0 || images.some((image) => typeof image !== "string" || !image.startsWith("https://"))) {
       errors.push(`${relativePath}: Article imageが有効なHTTPS URLではありません`);
+    } else {
+      const primaryImage = images[0];
+      const previousOwner = representativeImages.get(primaryImage);
+      if (previousOwner) {
+        errors.push(`${relativePath}: Article代表画像が${previousOwner}と重複しています`);
+      } else {
+        representativeImages.set(primaryImage, relativePath);
+      }
+      const imagePath = new URL(primaryImage).pathname;
+      if (!html.includes(`src="${imagePath}"`)) {
+        errors.push(`${relativePath}: Article代表画像が画面上にありません`);
+      }
     }
     if (!html.includes('href="/profile/" rel="author"')) {
       errors.push(`${relativePath}: 画面上に著者プロフィールへのリンクがありません`);
     }
+    if (!html.includes('<meta property="og:type" content="article">')) {
+      errors.push(`${relativePath}: Articleページのog:typeがarticleではありません`);
+    }
   }
 
-  if (relativePath === "portfolio/aws/one-cent-ecr/index.html" && articleSchemas.length !== 1) {
+  if (expectedArticlePaths.has(relativePath) && articleSchemas.length !== 1) {
     errors.push(`${relativePath}: Articleが1件ではありません`);
+  }
+  if (!expectedArticlePaths.has(relativePath) && articleSchemas.length > 0) {
+    errors.push(`${relativePath}: Article対象外ページにArticleが出力されています`);
   }
 
   if (relativePath === "profile/index.html") {
@@ -180,5 +212,5 @@ if (errors.length > 0) {
   console.error(errors.join("\n"));
   process.exitCode = 1;
 } else {
-  console.log(`Validated ${jsonLdCount} JSON-LD blocks across ${htmlFiles.length} HTML files (${breadcrumbCount} BreadcrumbList items).`);
+  console.log(`Validated ${jsonLdCount} JSON-LD blocks across ${htmlFiles.length} HTML files (${breadcrumbCount} BreadcrumbList items, ${articleCount} Article items).`);
 }

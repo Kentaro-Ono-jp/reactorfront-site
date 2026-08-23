@@ -1,14 +1,33 @@
 ---
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ArticleCover from "../../components/ArticleCover.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
-import type { BreadcrumbItem } from "../../structured-data";
+import { createArticle, type BreadcrumbItem } from "../../structured-data";
 
 const breadcrumbs = [
   { name: "Home", href: "/" },
   { name: "Portfolio", href: "/portfolio/" },
   { name: "AWS behind the scenes", href: "/portfolio/aws/" },
 ] satisfies BreadcrumbItem[];
+
+const pageTitle = `AWSデプロイと撤収｜約${articleReadingMinutes.aws}分で読むポートフォリオ`;
+const articleHeadline = "AWSデプロイと撤収｜構築・E2E・残存確認を通した実地検証";
+const articleDescription = "IAM、OIDC、Terraform、ECS/Fargate、認証付きE2E、CloudWatch Logs、destroy後の残存確認。ReactorFront Portfolioの実AWS検証を解説します。";
+const canonical = "https://www.reactorfront.jp/portfolio/aws/";
+const representativeImagePath = "/images/article-aws-lifecycle.webp";
+const representativeImage = new URL(representativeImagePath, canonical).href;
+const representativeImageAlt = "ソースからCI/CD、コンテナ、クラウド環境、監視、撤収までを結ぶAWS運用ライフサイクルの概念図";
+const datePublished = "2026-08-14T08:45:00+09:00";
+const dateModified = "2026-08-23T11:21:05+09:00";
+const articleSchema = createArticle({
+  canonical,
+  headline: articleHeadline,
+  description: articleDescription,
+  images: [representativeImage],
+  datePublished,
+  dateModified,
+});
 
 const portfolioCommit = "708056f33d56f1affe2dbe8e1b58f4a722895b88";
 
@@ -164,9 +183,15 @@ const references = [
 ---
 
 <BaseLayout
-  title={`AWSデプロイと撤収｜約${articleReadingMinutes.aws}分で読むポートフォリオ`}
-  description="IAM、OIDC、Terraform、ECS/Fargate、認証付きE2E、CloudWatch Logs、destroy後の残存確認。ReactorFront Portfolioの実AWS検証を解説します。"
+  title={pageTitle}
+  description={articleDescription}
+  image={representativeImagePath}
+  imageAlt={representativeImageAlt}
+  imageWidth={1536}
+  imageHeight={1024}
+  imageType="image/webp"
   breadcrumbs={breadcrumbs}
+  structuredData={articleSchema}
 >
   <article class="aws-story">
     <header class="page-hero page-hero--aws-story">
@@ -185,11 +210,22 @@ const references = [
               Terraformで実AWS環境を構築し、認証付きE2Eとログで動作を確認し、destroy後の残存リソースまで検査する。
               ReactorFront Portfolioで実行した一連の検証を解説します。
             </p>
+            <div class="article-byline" aria-label="記事情報">
+              <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
+              <span>公開 <time datetime={datePublished}>2026年8月14日</time></span>
+              <span>最終更新 <time datetime={dateModified}>2026年8月23日</time></span>
+            </div>
             <span class="reading-time">約{articleReadingMinutes.aws}分で読めます</span>
           </div>
         </div>
       </div>
     </header>
+
+    <ArticleCover
+      src={representativeImagePath}
+      alt={representativeImageAlt}
+      caption="構築、検証、監視、ロールバック、撤収までを、再実行できる一続きの運用として扱う。"
+    />
 
     <div class="story-meta">
       <div class="shell story-meta__inner">

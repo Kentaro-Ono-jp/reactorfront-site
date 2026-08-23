@@ -1,14 +1,32 @@
 ---
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ArticleCover from "../../components/ArticleCover.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
-import type { BreadcrumbItem } from "../../structured-data";
+import { createArticle, type BreadcrumbItem } from "../../structured-data";
 
 const breadcrumbs = [
   { name: "Home", href: "/" },
   { name: "Infrastructure", href: "/infrastructure/" },
   { name: "Google Search", href: "/infrastructure/google-search/" },
 ] satisfies BreadcrumbItem[];
+
+const articleTitle = "サイトを公開し、Googleに正しく伝わるまで。";
+const articleDescription = "Search Console、サイトマップ、構造化データ、代表画像、favicon。ReactorFront公式サイトをGoogleが取得・理解できる状態へ整えた技術対応と観測結果を解説します。";
+const canonical = "https://www.reactorfront.jp/infrastructure/google-search/";
+const representativeImagePath = "/images/article-google-search.webp";
+const representativeImage = new URL(representativeImagePath, canonical).href;
+const representativeImageAlt = "Webページのクロールから索引化、検索結果配信、人物・組織・記事の関連付けまでを表す概念図";
+const datePublished = "2026-08-16T07:48:04+09:00";
+const dateModified = "2026-08-23T11:21:05+09:00";
+const articleSchema = createArticle({
+  canonical,
+  headline: articleTitle,
+  description: articleDescription,
+  images: [representativeImage],
+  datePublished,
+  dateModified,
+});
 
 const verifiedAt = "2026-08-18";
 
@@ -140,10 +158,17 @@ const websiteSchema = `{
 ---
 
 <BaseLayout
-  title="サイトを公開し、Googleに正しく伝わるまで。"
-  description="Search Console、サイトマップ、構造化データ、代表画像、favicon。ReactorFront公式サイトをGoogleが取得・理解できる状態へ整えた技術対応と観測結果を解説します。"
+  title={articleTitle}
+  description={articleDescription}
+  image={representativeImagePath}
+  imageAlt={representativeImageAlt}
+  imageWidth={1536}
+  imageHeight={1024}
+  imageType="image/webp"
   breadcrumbs={breadcrumbs}
+  structuredData={articleSchema}
 >
+  <article class="google-search-story">
   <section class="page-hero page-hero--search-story">
     <div class="shell page-hero__inner">
       <Breadcrumbs items={breadcrumbs} />
@@ -157,11 +182,22 @@ const websiteSchema = `{
             Search Console、サイトマップ、構造化データ、代表画像、favicon。
             全面刷新したReactorFrontを、検索エンジンが取得・理解できる状態へ整えた記録です。
           </p>
+          <div class="article-byline" aria-label="記事情報">
+            <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
+            <span>公開 <time datetime={datePublished}>2026年8月16日</time></span>
+            <span>最終更新 <time datetime={dateModified}>2026年8月23日</time></span>
+          </div>
           <span class="reading-time">約{articleReadingMinutes.googleSearch}分 / 実地確認: {verifiedAt}</span>
         </div>
       </div>
     </div>
   </section>
+
+  <ArticleCover
+    src={representativeImagePath}
+    alt={representativeImageAlt}
+    caption="公開ページをクロール可能にし、内容と実体の関係を索引へ伝え、検索結果として配信されるまでを追う。"
+  />
 
   <section class="section search-prologue" aria-labelledby="search-prologue-title">
     <div class="shell search-prologue__grid">
@@ -644,4 +680,5 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
       </a>
     </div>
   </section>
+  </article>
 </BaseLayout>
