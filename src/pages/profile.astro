@@ -1,7 +1,7 @@
 ---
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import type { BreadcrumbItem } from "../structured-data";
+import { kentaroOno, type BreadcrumbItem } from "../structured-data";
 
 const breadcrumbs = [
   { name: "Home", href: "/" },
@@ -105,6 +105,8 @@ const experienceEvidence = [
   title="プロフィール"
   description="ReactorFront代表・小野賢太郎のプロフィール。システム開発25年以上、Linux専任運用保守5年の経験を土台に、現在は機械学習の研究開発に取り組んでいます。"
   breadcrumbs={breadcrumbs}
+  webPageType="ProfilePage"
+  webPageMainEntity={kentaroOno}
 >
   <section class="page-hero page-hero--profile">
     <div class="shell page-hero__inner">
@@ -136,9 +138,17 @@ const experienceEvidence = [
         <p class="profile-card__name">小野賢太郎 <span>Kentaro Ono</span></p>
         <p>ReactorFront 代表<br />Independent Software Engineer</p>
         <dl>
+          <div><dt>別表記</dt><dd>小野 賢太郎<br />Kentaro Ono</dd></div>
           <div><dt>拠点</dt><dd>東京 / フルリモート</dd></div>
           <div><dt>現在</dt><dd>機械学習 R&amp;D</dd></div>
           <div><dt>連絡</dt><dd><a href="mailto:kentaro.ono@reactorfront.jp">Email ↗</a></dd></div>
+          <div>
+            <dt>公開プロフィール</dt>
+            <dd class="profile-card__external-links">
+              <a href="https://github.com/Kentaro-Ono-jp" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+              <a href="https://www.linkedin.com/in/kentaro-ono/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            </dd>
+          </div>
         </dl>
       </aside>
 

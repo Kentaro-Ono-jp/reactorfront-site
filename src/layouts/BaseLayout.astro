@@ -3,7 +3,10 @@ import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import {
   createBreadcrumbList,
+  kentaroOno,
+  ORGANIZATION_ID,
   serializeJsonLd,
+  WEBSITE_ID,
   type BreadcrumbItem,
   type JsonLd,
 } from "../structured-data";
@@ -20,6 +23,8 @@ interface Props {
   noindex?: boolean;
   breadcrumbs?: readonly BreadcrumbItem[];
   structuredData?: JsonLd | readonly JsonLd[];
+  webPageType?: string | readonly string[];
+  webPageMainEntity?: JsonLd;
 }
 
 const {
@@ -33,6 +38,8 @@ const {
   noindex = false,
   breadcrumbs = [],
   structuredData = [],
+  webPageType = "WebPage",
+  webPageMainEntity,
 } = Astro.props;
 
 const site = Astro.site ?? new URL("https://www.reactorfront.jp/");
@@ -43,25 +50,14 @@ const pageStructuredData = Array.isArray(structuredData) ? structuredData : [str
 const organization = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  "@id": "https://www.reactorfront.jp/#organization",
+  "@id": ORGANIZATION_ID,
   name: "ReactorFront",
   legalName: "リアクターフロント",
   alternateName: "リアクターフロント",
   url: "https://www.reactorfront.jp/",
   logo: "https://www.reactorfront.jp/brand/reactorfront-mark-512.png",
   email: "mailto:kentaro.ono@reactorfront.jp",
-  founder: {
-    "@type": "Person",
-    "@id": "https://www.reactorfront.jp/#kentaro-ono",
-    name: "小野賢太郎",
-    alternateName: "Kentaro Ono",
-    jobTitle: "Software Engineer",
-    url: "https://www.reactorfront.jp/profile/",
-    sameAs: [
-      "https://www.linkedin.com/in/kentaro-ono/",
-      "https://github.com/Kentaro-Ono-jp",
-    ],
-  },
+  founder: kentaroOno,
   sameAs: [
     "https://github.com/Kentaro-Ono-jp/Portfolio",
   ],
@@ -69,28 +65,30 @@ const organization = {
 const website = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": "https://www.reactorfront.jp/#website",
+  "@id": WEBSITE_ID,
   url: "https://www.reactorfront.jp/",
   name: "ReactorFront",
   alternateName: "リアクターフロント",
   inLanguage: "ja-JP",
   publisher: {
-    "@id": "https://www.reactorfront.jp/#organization",
+    "@id": ORGANIZATION_ID,
   },
 };
 const webPage = {
   "@context": "https://schema.org",
-  "@type": "WebPage",
+  "@type": webPageType,
+  "@id": `${canonical.href}#webpage`,
   name: pageTitle,
   url: canonical.href,
   description,
   inLanguage: "ja-JP",
   isPartOf: {
-    "@id": "https://www.reactorfront.jp/#website",
+    "@id": WEBSITE_ID,
   },
   publisher: {
-    "@id": "https://www.reactorfront.jp/#organization",
+    "@id": ORGANIZATION_ID,
   },
+  ...(webPageMainEntity ? { mainEntity: webPageMainEntity } : {}),
   primaryImageOfPage: {
     "@type": "ImageObject",
     url: socialImage.href,

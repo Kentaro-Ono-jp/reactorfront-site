@@ -20,6 +20,21 @@ const errors = [];
 let jsonLdCount = 0;
 let breadcrumbCount = 0;
 
+const hasType = (schema, type) => {
+  const types = Array.isArray(schema?.["@type"]) ? schema["@type"] : [schema?.["@type"]];
+  return types.includes(type);
+};
+
+const collectTypedNodes = (value, type, nodes = []) => {
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectTypedNodes(item, type, nodes));
+  } else if (value && typeof value === "object") {
+    if (hasType(value, type)) nodes.push(value);
+    Object.values(value).forEach((item) => collectTypedNodes(item, type, nodes));
+  }
+  return nodes;
+};
+
 for (const htmlFile of htmlFiles) {
   const relativePath = path.relative(distDirectory, htmlFile).replaceAll("\\", "/");
   const html = await readFile(htmlFile, "utf8");
@@ -37,7 +52,7 @@ for (const htmlFile of htmlFiles) {
     }
   }
 
-  const breadcrumbSchemas = schemas.filter((schema) => schema["@type"] === "BreadcrumbList");
+  const breadcrumbSchemas = schemas.filter((schema) => hasType(schema, "BreadcrumbList"));
 
   if (hasVisibleBreadcrumbs && breadcrumbSchemas.length !== 1) {
     errors.push(`${relativePath}: 画面上のパンくずに対するBreadcrumbListが1件ではありません`);
@@ -75,6 +90,49 @@ for (const htmlFile of htmlFiles) {
     const finalItem = items.at(-1)?.item;
     if (canonicalMatch && finalItem !== canonicalMatch[1]) {
       errors.push(`${relativePath}: 最終パンくずとcanonical URLが一致しません`);
+    }
+  }
+
+  if (relativePath === "profile/index.html") {
+    const profilePages = schemas.filter((schema) => hasType(schema, "ProfilePage"));
+    if (profilePages.length !== 1) {
+      errors.push(`${relativePath}: ProfilePageが1件ではありません`);
+    } else {
+      const person = profilePages[0].mainEntity;
+      const alternateNames = Array.isArray(person?.alternateName) ? person.alternateName : [person?.alternateName];
+      const sameAs = Array.isArray(person?.sameAs) ? person.sameAs : [person?.sameAs];
+      if (person?.["@id"] !== "https://www.reactorfront.jp/#kentaro-ono") {
+        errors.push(`${relativePath}: ProfilePage mainEntityのPerson @idが不正です`);
+      }
+      if (person?.name !== "小野賢太郎") {
+        errors.push(`${relativePath}: Person nameが小野賢太郎ではありません`);
+      }
+      for (const expectedName of ["小野 賢太郎", "Kentaro Ono"]) {
+        if (!alternateNames.includes(expectedName)) {
+          errors.push(`${relativePath}: Person alternateNameに${expectedName}がありません`);
+        }
+      }
+      for (const expectedProfile of [
+        "https://github.com/Kentaro-Ono-jp",
+        "https://www.linkedin.com/in/kentaro-ono/",
+      ]) {
+        if (!sameAs.includes(expectedProfile)) {
+          errors.push(`${relativePath}: Person sameAsに${expectedProfile}がありません`);
+        }
+        if (!html.includes(`href="${expectedProfile}"`)) {
+          errors.push(`${relativePath}: 画面上に${expectedProfile}へのリンクがありません`);
+        }
+      }
+      for (const visibleName of ["小野賢太郎", "小野 賢太郎", "Kentaro Ono"]) {
+        if (!html.includes(visibleName)) {
+          errors.push(`${relativePath}: 画面上に${visibleName}がありません`);
+        }
+      }
+    }
+
+    const personIds = collectTypedNodes(schemas, "Person").map((person) => person["@id"]);
+    if (personIds.some((id) => id !== "https://www.reactorfront.jp/#kentaro-ono")) {
+      errors.push(`${relativePath}: 別のPerson @idが生成されています`);
     }
   }
 }
