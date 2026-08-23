@@ -1,14 +1,33 @@
 ---
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import ArticleCover from "../../components/ArticleCover.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
-import type { BreadcrumbItem } from "../../structured-data";
+import { createArticle, type BreadcrumbItem } from "../../structured-data";
 
 const breadcrumbs = [
   { name: "Home", href: "/" },
   { name: "Portfolio", href: "/portfolio/" },
   { name: "ML engineering", href: "/portfolio/ml/" },
 ] satisfies BreadcrumbItem[];
+
+const pageTitle = `機械学習を継続改善する設計｜約${articleReadingMinutes.ml}分で読むポートフォリオ`;
+const articleHeadline = "機械学習を継続改善する設計｜評価・昇格・ロールバックを再現可能に";
+const articleDescription = "データセット、評価指標、Champion/Candidate、model lineage、人の訂正、ロールバック。ReactorFront PortfolioのMLエンジニアリングを解説します。";
+const canonical = "https://www.reactorfront.jp/portfolio/ml/";
+const representativeImagePath = "/images/article-ml-lifecycle.webp";
+const representativeImage = new URL(representativeImagePath, canonical).href;
+const representativeImageAlt = "データセットからモデル評価、人によるレビュー、運用フィードバックまでを結ぶ機械学習ライフサイクルの概念図";
+const datePublished = "2026-08-14T11:22:21+09:00";
+const dateModified = "2026-08-23T11:21:05+09:00";
+const articleSchema = createArticle({
+  canonical,
+  headline: articleHeadline,
+  description: articleDescription,
+  images: [representativeImage],
+  datePublished,
+  dateModified,
+});
 
 const portfolioCommit = "708056f33d56f1affe2dbe8e1b58f4a722895b88";
 
@@ -161,9 +180,15 @@ const references = [
 ---
 
 <BaseLayout
-  title={`機械学習を継続改善する設計｜約${articleReadingMinutes.ml}分で読むポートフォリオ`}
-  description="データセット、評価指標、Champion/Candidate、model lineage、人の訂正、ロールバック。ReactorFront PortfolioのMLエンジニアリングを解説します。"
+  title={pageTitle}
+  description={articleDescription}
+  image={representativeImagePath}
+  imageAlt={representativeImageAlt}
+  imageWidth={1536}
+  imageHeight={1024}
+  imageType="image/webp"
   breadcrumbs={breadcrumbs}
+  structuredData={articleSchema}
 >
   <article class="ml-story">
     <header class="page-hero page-hero--ml-story">
@@ -183,11 +208,22 @@ const references = [
               機械学習は、モデルを一度学習して終わる仕事ではありません。
               同じ条件で評価し、ChampionとCandidateを比較し、採用根拠を残して安全に切り替える。その開発・運用基盤を解説します。
             </p>
+            <div class="article-byline" aria-label="記事情報">
+              <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
+              <span>公開 <time datetime={datePublished}>2026年8月14日</time></span>
+              <span>最終更新 <time datetime={dateModified}>2026年8月23日</time></span>
+            </div>
             <span class="reading-time">約{articleReadingMinutes.ml}分で読めます</span>
           </div>
         </div>
       </div>
     </header>
+
+    <ArticleCover
+      src={representativeImagePath}
+      alt={representativeImageAlt}
+      caption="データの来歴、モデル評価、人による判断、運用フィードバックを一つのライフサイクルとして設計する。"
+    />
 
     <div class="story-meta">
       <div class="shell story-meta__inner">

@@ -1301,6 +1301,31 @@ code {
   margin-top: 0.85rem;
 }
 
+.article-cover {
+  margin-top: clamp(1.5rem, 4vw, 3.5rem);
+  margin-bottom: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.article-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border: 1px solid rgba(111, 146, 155, 0.35);
+  border-radius: clamp(0.8rem, 2vw, 1.4rem);
+  background: #071b24;
+  box-shadow: 0 1.5rem 4rem rgba(7, 27, 36, 0.18);
+}
+
+.article-cover figcaption {
+  max-width: 62rem;
+  margin-top: 0.85rem;
+  color: var(--muted);
+  font-size: clamp(0.74rem, 1.2vw, 0.84rem);
+  line-height: 1.75;
+}
+
 /* Profile page */
 
 .profile-overview__grid {
