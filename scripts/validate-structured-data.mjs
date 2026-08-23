@@ -293,6 +293,37 @@ for (const htmlFile of htmlFiles) {
       errors.push(`${relativePath}: 公開Portfolio repositoryへのリンクがありません`);
     }
   }
+
+  if (relativePath === "portfolio/ml/index.html") {
+    const article = articleSchemas[0];
+    if (article?.headline !== "MLモデルを同じ条件で評価し、採用理由を残し、問題時に戻す設計") {
+      errors.push(`${relativePath}: Article headlineが画面の主題と一致しません`);
+    }
+    if (!article?.description?.includes("ReactorFront（リアクターフロント）")) {
+      errors.push(`${relativePath}: Article descriptionに運営主体の日本語表記がありません`);
+    }
+    if (article?.isPartOf?.["@id"] !== "https://www.reactorfront.jp/#website") {
+      errors.push(`${relativePath}: Article isPartOfが共通WebSiteではありません`);
+    }
+    for (const expectedText of [
+      "現在採用中のモデル（Champion）と更新候補（Candidate）",
+      "採用目録（promotion manifest）",
+      "作成・評価の来歴（lineage）",
+      "適合率（Precision）",
+      "再現率（Recall）",
+      "最終評価（holdout test）は公開用の合成文書4件",
+      "実データに対する精度100%を意味しません",
+      "対象commit",
+      "708056f",
+    ]) {
+      if (!html.includes(expectedText)) {
+        errors.push(`${relativePath}: 画面上に「${expectedText}」がありません`);
+      }
+    }
+    if (!html.includes('href="https://github.com/Kentaro-Ono-jp/Portfolio/commit/708056f33d56f1affe2dbe8e1b58f4a722895b88"')) {
+      errors.push(`${relativePath}: 確認したPortfolio commitへのリンクがありません`);
+    }
+  }
 }
 
 if (errors.length > 0) {

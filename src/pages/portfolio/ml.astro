@@ -7,19 +7,19 @@ import { getArticleRouteMetadata, SITE_URL } from "../../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../../structured-data";
 
 const breadcrumbs = [
-  { name: "Home", href: "/" },
-  { name: "Portfolio", href: "/portfolio/" },
-  { name: "ML engineering", href: "/portfolio/ml/" },
+  { name: "ホーム", href: "/" },
+  { name: "ポートフォリオ", href: "/portfolio/" },
+  { name: "MLモデルの評価と更新", href: "/portfolio/ml/" },
 ] satisfies BreadcrumbItem[];
 
-const pageTitle = `機械学習を継続改善する設計｜約${articleReadingMinutes.ml}分で読むポートフォリオ`;
-const articleHeadline = "機械学習を継続改善する設計｜評価・昇格・ロールバックを再現可能に";
-const articleDescription = "データセット、評価指標、Champion/Candidate、model lineage、人の訂正、ロールバック。ReactorFront PortfolioのMLエンジニアリングを解説します。";
+const pageTitle = `MLモデルを評価・採用・復旧する設計｜約${articleReadingMinutes.ml}分で読む`;
+const articleHeadline = "MLモデルを同じ条件で評価し、採用理由を残し、問題時に戻す設計";
+const articleDescription = "データの固定、現行モデルと更新候補の比較、採用記録、推論結果の追跡、問題時の復旧まで。ReactorFront（リアクターフロント）のMLモデル管理を解説します。";
 const articleMetadata = getArticleRouteMetadata("/portfolio/ml/");
 const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImagePath = "/images/article-ml-lifecycle.webp";
 const representativeImage = new URL(representativeImagePath, canonical).href;
-const representativeImageAlt = "データセットからモデル評価、人によるレビュー、運用フィードバックまでを結ぶ機械学習ライフサイクルの概念図";
+const representativeImageAlt = "データセットの固定、モデル評価、人による採用判断、運用時の記録を結ぶMLモデル管理の概念図";
 const { datePublished, lastModified: dateModified } = articleMetadata;
 const articleSchema = createArticle({
   canonical,
@@ -36,26 +36,26 @@ const problems = [
   {
     number: "01",
     title: "全体指標だけでは、クラス別の悪化を見落とす",
-    body: "Accuracyが上がっても、特定クラスのRecallが下がることはあります。採用基準が曖昧なままでは、モデル更新のたびに判断が変わります。",
+    body: "全体の正解率（Accuracy）が上がっても、特定クラスの再現率（Recall）が下がることはあります。採用条件が曖昧なままでは、モデル更新のたびに判断が変わります。",
     answer: "全体指標とクラス別指標を同じ評価レポートで確認する。",
   },
   {
     number: "02",
-    title: "データセットやSplitが変わると、公平に比較できない",
+    title: "評価データや分割条件が変わると、公平に比較できない",
     body: "前回と今回で評価データや分割条件が違えば、差分がモデルによるものか試験条件によるものか切り分けられません。",
-    answer: "データセットのスナップショットと分割マニフェストを固定して比較する。",
+    answer: "評価に使うデータ一式と分け方を記録し、同じ条件で比較する。",
   },
   {
     number: "03",
-    title: "新しいモデルが、Championより良いとは限らない",
-    body: "学習が完了してモデルアーティファクトが生成されたことと、本番へ昇格できることは別です。一部の指標だけ悪化する場合もあります。",
-    answer: "絶対基準とChampion比の性能劣化ゲートを分ける。",
+    title: "新しいモデルが、現在採用中のモデルより良いとは限らない",
+    body: "学習が完了してモデルファイルが生成されたことと、利用先を新しい版へ切り替えられることは別です。一部の指標だけ悪化する場合もあります。",
+    answer: "必ず満たす条件と、現行モデルと比べた悪化の許容幅を分ける。",
   },
   {
     number: "04",
     title: "モデルだけ残しても、同じリリースへ戻れない",
     body: "モデルファイルがあっても、データ、前処理、評価方針、ラベル定義が不明なら、当時の実行条件を再現できません。",
-    answer: "昇格した一式をマニフェストで結び、ロールバック対象を残す。",
+    answer: "採用したモデルと根拠一式を目録で結び、戻せる以前の版を残す。",
   },
   {
     number: "05",
@@ -68,111 +68,111 @@ const problems = [
 const lifecycle = [
   {
     number: "01",
-    verb: "Version",
-    title: "Dataset snapshot / split",
-    body: "18件の合成文書をtrain 12件、validation 2件、holdout test 4件へ固定し、同系統のテンプレートがsplitをまたがないことも検査します。",
+    verb: "固定する",
+    title: "データセットと分割条件を固定",
+    body: "18件の合成文書を学習用（train）12件、調整確認用（validation）2件、最終評価用（holdout test）4件へ固定し、同系統のテンプレートが複数区分へ混ざらないことも検査します。",
   },
   {
     number: "02",
-    verb: "Build",
-    title: "Reproducible candidate",
-    body: "データ、前処理、依存関係、乱数seedを固定し、同じ内容のCandidateモデルを再生成できることを確認します。",
+    verb: "作成する",
+    title: "同じ更新候補を再作成できる",
+    body: "データ、前処理、依存関係、乱数の初期値（seed）を固定し、同じ内容の更新候補モデル（Candidate）を再生成できることを確認します。",
   },
   {
     number: "03",
-    verb: "Evaluate",
-    title: "Per-sample evaluation",
-    body: "holdout testの各サンプルについて正解、予測、モデルスコアを保存し、集計指標を元データから再計算します。",
+    verb: "評価する",
+    title: "文書ごとの評価結果を保存",
+    body: "最終評価用データの各文書について、正解、予測、モデルスコアを保存し、集計指標を元の結果から再計算します。",
   },
   {
     number: "04",
-    verb: "Compare",
-    title: "Champion / Candidate",
-    body: "同じ評価データで、絶対基準を満たすか、Championから許容幅を超えて悪化していないかを判定します。",
+    verb: "比較する",
+    title: "現行モデルと更新候補を比較",
+    body: "同じ評価データで、必ず満たす条件を通るか、現行モデル（Champion）から許容幅を超えて悪化していないかを判定します。",
   },
   {
     number: "05",
-    verb: "Promote",
-    title: "Reviewed promotion manifest",
-    body: "合格したモデルを、データセット、前処理、評価ポリシー、評価レポートと一つのマニフェストで結びます。",
+    verb: "採用する",
+    title: "承認済みの採用目録を保存",
+    body: "合格したモデルを、データセット、前処理、評価条件、評価レポートと一つの採用目録（promotion manifest）で結びます。",
   },
   {
     number: "06",
-    verb: "Trace",
-    title: "Runtime lineage",
-    body: "推論結果へ採用版の識別子とlineageを保存し、どのモデル構成が出力したかを後から追跡できます。",
+    verb: "追跡する",
+    title: "推論時の来歴を保存",
+    body: "推論結果へ採用版の識別子と作成・評価の来歴（lineage）を保存し、どのモデル構成が出力したかを後から追跡できます。",
   },
 ];
 
 const references = [
   {
-    label: "Portfolio source",
+    label: "Portfolioの実装",
     title: "確認した公開コミット",
     href: `https://github.com/Kentaro-Ono-jp/Portfolio/commit/${portfolioCommit}`,
     note: "2026年8月14日時点のmainと一致",
   },
   {
-    label: "Portfolio record",
+    label: "Portfolioの開発記録",
     title: "モデル開発の全体記録（英語）",
     href: `https://github.com/Kentaro-Ono-jp/Portfolio/blob/${portfolioCommit}/apps/ml/MODEL_DEVELOPMENT.md`,
     note: "データ、評価、採用、巻き戻しの一次資料",
   },
   {
-    label: "Portfolio model card",
+    label: "Portfolioのモデル説明",
     title: "モデルカード（英語）",
     href: `https://github.com/Kentaro-Ono-jp/Portfolio/blob/${portfolioCommit}/apps/ml/MODEL_CARD.md`,
     note: "用途、測定結果、限界を明記",
   },
   {
-    label: "Architecture decision",
+    label: "設計判断",
     title: "評価と採用の設計判断（英語）",
     href: `https://github.com/Kentaro-Ono-jp/Portfolio/blob/${portfolioCommit}/ips-microkernel/adr/0021-govern-human-feedback-model-evaluation-and-promotion.md`,
     note: "人の訂正、データ、採用を分離した理由",
   },
   {
-    label: "Machine-readable proof",
+    label: "機械が読める評価証跡",
     title: "現行版と候補版の比較結果",
     href: `https://github.com/Kentaro-Ono-jp/Portfolio/blob/${portfolioCommit}/apps/ml/evaluation/candidate-comparison-v1.json`,
     note: "絶対基準と現行版比の合否を記録",
   },
   {
-    label: "Machine-readable proof",
+    label: "機械が読める採用記録",
     title: "採用モデルの目録",
     href: `https://github.com/Kentaro-Ono-jp/Portfolio/blob/${portfolioCommit}/apps/ml/evaluation/promoted-model-v1.json`,
     note: "モデルと評価根拠を一つに結ぶ記録",
   },
   {
-    label: "Google for Developers",
+    label: "Google公式資料",
     title: "モデル配置前の品質検査",
     href: "https://developers.google.com/machine-learning/crash-course/production-ml-systems/deployment-testing",
     note: "固定基準と旧版比較に関する公式解説",
   },
   {
-    label: "Google for Developers",
+    label: "Google公式資料",
     title: "機械学習エンジニアリングの原則",
     href: "https://developers.google.com/machine-learning/guides/rules-of-ml/",
     note: "モデルだけでなく処理全体を堅く保つ考え方",
   },
   {
-    label: "scikit-learn official",
+    label: "scikit-learn公式資料",
     title: "分類モデルの評価指標",
     href: "https://scikit-learn.org/stable/modules/model_evaluation.html",
     note: "適合率、再現率、F1などの公式解説",
   },
   {
-    label: "scikit-learn official",
+    label: "scikit-learn公式資料",
     title: "予測確率の校正",
     href: "https://scikit-learn.org/stable/modules/calibration.html",
     note: "点数を確率として扱うために必要な検証",
   },
   {
-    label: "AWS official",
+    label: "AWS公式資料",
     title: "Amazon Textractによる文書解析",
     href: "https://docs.aws.amazon.com/textract/latest/dg/what-is.html",
     note: "テキスト、表、Key-Value、Layout抽出の公式概要",
   },
   {
-    label: "AWS official",
+    label: "AWS公式資料",
     title: "Machine Learning Lensの設計原則",
     href: "https://docs.aws.amazon.com/wellarchitected/latest/machine-learning-lens/design-principles.html",
     note: "MLワークロードのライフサイクルと運用に関する公式指針",
@@ -201,13 +201,13 @@ const references = [
         <Breadcrumbs items={breadcrumbs} />
         <div class="page-hero__grid">
           <div>
-            <p class="eyebrow eyebrow--accent">{articleReadingMinutes.ml}-minute engineering note</p>
-            <h1>評価・昇格・ロールバックを、<br />再現可能に。</h1>
+            <p class="eyebrow eyebrow--accent">約{articleReadingMinutes.ml}分で分かるMLモデル管理</p>
+            <h1>同じ条件で評価し、<br />採用理由を残し、問題時に戻す。</h1>
           </div>
           <div class="page-hero__lead">
             <p>
               機械学習は、モデルを一度学習して終わる仕事ではありません。
-              同じ条件で評価し、ChampionとCandidateを比較し、採用根拠を残して安全に切り替える。その開発・運用基盤を解説します。
+              現在採用中のモデル（Champion）と更新候補（Candidate）を同じ条件で比較し、採用根拠を残して安全に切り替える。その開発・運用の仕組みを解説します。
             </p>
             <div class="article-byline" aria-label="記事情報">
               <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
@@ -223,31 +223,31 @@ const references = [
     <ArticleCover
       src={representativeImagePath}
       alt={representativeImageAlt}
-      caption="データの来歴、モデル評価、人による判断、運用フィードバックを一つのライフサイクルとして設計する。"
+      caption="データの固定、モデル評価、人による採用判断、運用時の記録を一つの流れとして設計する。"
     />
 
     <div class="story-meta">
       <div class="shell story-meta__inner">
-        <div><span>Audience</span><strong>IT業界・ML開発に関心のある方</strong></div>
-        <div><span>Source checked</span><strong>2026.08.14</strong></div>
-        <div><span>Portfolio main</span><strong><code>708056f</code></strong></div>
-        <div><span>Format</span><strong>読み物 / 非チュートリアル</strong></div>
+        <div><span>想定読者</span><strong>IT業界・ML開発に関心のある方</strong></div>
+        <div><span>資料確認日</span><strong>2026.08.14</strong></div>
+        <div><span>対象commit</span><strong><code>708056f</code></strong></div>
+        <div><span>記事の位置づけ</span><strong>読み物 / 手順書ではない</strong></div>
       </div>
     </div>
 
     <section class="section story-opening">
       <div class="shell story-opening__grid">
         <div data-reveal>
-          <p class="eyebrow">The engineering around ML</p>
+          <p class="eyebrow">モデルの前後に必要な設計</p>
           <h2>モデル精度だけでなく、<br />改善プロセスを設計する。</h2>
         </div>
         <div class="prose prose--large" data-reveal>
           <p>
             モデルを更新すれば多数のパラメータが変わりますが、重みを直接比較しても業務上の改善は判断できません。
-            評価データ、指標、合格条件が揃って初めて、変更による効果とRegressionを測れます。
+            評価データ、指標、合格条件が揃って初めて、変更による効果と性能劣化（Regression）を測れます。
           </p>
           <p>
-            このポートフォリオは、<strong>データセットとsplitのversioning、Champion/Candidate比較、昇格ゲート、推論時のlineage</strong>を実装しました。
+            このポートフォリオは、<strong>データセットと分割条件の版管理、現行モデルと更新候補の比較、採用の合格条件、推論時に残す作成・評価の来歴</strong>を実装しました。
             高性能な基盤モデルを開発したという主張ではなく、改善を再現可能かつレビュー可能に進めるMLエンジニアリングの実証です。
           </p>
         </div>
@@ -258,8 +258,8 @@ const references = [
         <div>
           <h3>この記事は、モデルを再現するための手順書ではありません</h3>
           <p>
-            公開リポジトリの設計、コード、評価Artifactを根拠にしていますが、学習コマンドを順に実行するチュートリアルではありません。
-            MLシステムの比較、昇格、追跡、ロールバックをどう設計したかに焦点を当てています。
+            公開リポジトリの設計、コード、評価結果ファイルを根拠にしていますが、学習commandを順に実行する手順書ではありません。
+            MLモデルの比較、採用、追跡、問題時の復旧をどう設計したかに焦点を当てています。
           </p>
         </div>
       </div>
@@ -284,7 +284,7 @@ const references = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">Document Intelligence scope</p>
+            <p class="eyebrow">文書処理で実装した範囲</p>
             <h2>文書分類で、<br />ML基盤を実証した。</h2>
           </div>
           <p>
@@ -294,29 +294,29 @@ const references = [
 
         <div class="role-grid">
           <article data-reveal>
-            <span>Current</span><h3>Document Classification</h3>
-            <p>英語の請求書と報告書を対象に、分類、Human-in-the-loopのレビュー、評価、モデル昇格までを実装しています。</p>
+            <span>実装済み</span><h3>文書分類（Document Classification）</h3>
+            <p>英語の請求書と報告書を対象に、分類、人による確認（Human-in-the-loop）、評価、モデル採用までを実装しています。</p>
           </article>
           <article data-reveal>
-            <span>Extension</span><h3>Structured Extraction</h3>
-            <p>OCRとlayout analysisを組み合わせ、項目、表、key-valueを座標付きの構造化データとして扱う拡張です。</p>
+            <span>拡張構想</span><h3>項目・表の構造化（Structured Extraction）</h3>
+            <p>OCRと文書配置の解析を組み合わせ、項目、表、キーと値を座標付きの構造化データとして扱う拡張です。</p>
           </article>
           <article data-reveal>
-            <span>Extension</span><h3>Drawing Intelligence</h3>
+            <span>拡張構想</span><h3>設計図面の読み取り（Drawing Intelligence）</h3>
             <p>図面内の文字、記号、寸法、表題欄、改訂差分を検出し、根拠位置とともにレビューへ渡す構想です。</p>
           </article>
           <article data-reveal>
-            <span>Shared control plane</span><h3>Governed ML Lifecycle</h3>
-            <p>タスクが変わっても、データセット審査、評価ゲート、model lineage、人の訂正を扱う境界は共通化できます。</p>
+            <span>共通化できる管理部分</span><h3>審査付きのモデル管理</h3>
+            <p>処理対象が変わっても、データセット審査、評価の合格条件、モデルの来歴、人の訂正を扱う境界は共通化できます。</p>
           </article>
         </div>
 
         <div class="scope-note" data-reveal>
           <span class="scope-note__icon" aria-hidden="true">i</span>
           <div>
-            <h3>コントロールプレーンは再利用できても、モデルと入出力スキーマはタスクごとに設計します</h3>
+            <h3>管理の仕組みは再利用できても、モデルと入出力形式は作業ごとに設計します</h3>
             <p>
-              図面解析では、画像解像度や座標系、バウンディングボックス、記号のオントロジー、CAD/BIMデータとの対応、専用のアノテーション・レビューUIが必要です。分類APIのlabelを増やすだけで実現できる機能ではなく、対象業務のデータと受け入れ基準を使った別の実証が必要です。
+              図面解析では、画像解像度や座標系、検出位置を囲む枠、記号の分類体系、CAD/BIMデータとの対応、正解ラベル付けと確認の専用画面が必要です。分類APIのlabelを増やすだけで実現できる機能ではなく、対象業務のデータと合格条件を使った別の実証が必要です。
             </p>
           </div>
         </div>
@@ -342,11 +342,11 @@ const references = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">Common, not careless</p>
+            <p class="eyebrow">仕組みで防ぐ評価・運用上の問題</p>
             <h2>ML開発で起こりやすい、<br />評価と運用の問題。</h2>
           </div>
           <p>
-            データ、前処理、モデル、評価条件が同時に変化するため、意図せず比較可能性やtraceabilityを失うことがあります。個人の注意力ではなく、仕組みで防ぐ対象です。
+            データ、前処理、モデル、評価条件が同時に変化するため、意図せず比較可能性や追跡可能性を失うことがあります。個人の注意力ではなく、仕組みで防ぐ対象です。
           </p>
         </div>
 
@@ -386,11 +386,11 @@ const references = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow eyebrow--accent">One governed loop</p>
-            <h2>データセットから推論結果まで、<br />lineageを切らさない。</h2>
+            <p class="eyebrow eyebrow--accent">作成条件から推論結果までを一つにつなぐ</p>
+            <h2>データセットから推論結果まで、<br />作成・評価の来歴を切らさない。</h2>
           </div>
           <p>
-            学習jobだけを独立させず、入力データ、生成したモデル、評価結果、昇格判断、実行時の推論結果を六つの段階で関連付けています。
+            学習処理だけを独立させず、入力データ、生成したモデル、評価結果、採用判断、実行時の推論結果を六つの段階で関連付けています。
           </p>
         </div>
 
@@ -409,7 +409,7 @@ const references = [
         <aside class="reader-bridge" data-reveal>
           <div class="reader-bridge__label">
             <span>理解の補助線</span>
-            <strong>lineageとは</strong>
+            <strong>作成・評価の来歴（lineage）とは</strong>
           </div>
           <div>
             <h3>モデルに、材料・作り方・検査結果を示す製造記録を付けます。</h3>
@@ -427,57 +427,57 @@ const references = [
       <div class="shell">
         <div class="ml-evaluation-story__lead" data-reveal>
           <div>
-            <p class="eyebrow">Evaluation metrics</p>
+            <p class="eyebrow">モデルを比べる評価指標</p>
             <h2>集約指標とクラス別指標を、<br />同じレポートで評価する。</h2>
           </div>
           <div class="prose">
             <p>
-              たとえば請求書の見落としが増え、報告書の正解だけが増えた場合、AccuracyだけではRegressionを見落とす可能性があります。
-              この実装では、請求書と報告書のPrecision、Recall、F1をクラス別に算出し、Macro F1と併せて評価します。
+              たとえば請求書の見落としが増え、報告書の正解だけが増えた場合、全体の正解率（Accuracy）だけでは性能劣化を見落とす可能性があります。
+              この実装では、請求書と報告書の適合率（Precision）、再現率（Recall）、F1を分類先ごとに算出し、各分類を同じ重みで集計するMacro F1と併せて評価します。
             </p>
             <p>
-              モデル内部のパラメータ差分ではなく、<strong>固定したholdoutデータセットに対する出力差分</strong>を昇格判断に使います。
+              モデル内部のパラメータ差分ではなく、<strong>固定した最終評価用データ（holdout）に対する出力差分</strong>を採用判断に使います。
             </p>
           </div>
         </div>
 
         <div class="metric-explainer">
           <article data-reveal>
-            <span>Precision / 適合率</span>
-            <h3>positive予測に含まれる<br />誤検出を測る。</h3>
+            <span>適合率（Precision）</span>
+            <h3>請求書だと予測した中の<br />誤検出を測る。</h3>
             <p>請求書と予測した文書のうち、実際に請求書だった割合です。誤検出を抑えたい場合に重視します。</p>
           </article>
           <article data-reveal>
-            <span>Recall / 再現率</span>
-            <h3>対象クラスの<br />見落としを測る。</h3>
+            <span>再現率（Recall）</span>
+            <h3>対象の分類先の<br />見落としを測る。</h3>
             <p>実際の請求書のうち、請求書として検出できた割合です。見落としを抑えたい場合に重視します。</p>
           </article>
           <article data-reveal>
-            <span>F1 / Harmonic mean</span>
-            <h3>PrecisionとRecallを<br />一つの指標で比較する。</h3>
-            <p>PrecisionとRecallの調和平均です。どちらか一方だけが高いモデルを評価しすぎないために使います。</p>
+            <span>適合率と再現率の調和平均（F1）</span>
+            <h3>適合率と再現率を<br />一つの指標で比較する。</h3>
+            <p>適合率と再現率の調和平均です。どちらか一方だけが高いモデルを評価しすぎないために使います。</p>
           </article>
           <article data-reveal>
-            <span>Macro F1 / Class balance</span>
+            <span>各分類を同じ重みで集計（Macro F1）</span>
             <h3>各クラスを同じ重みで<br />集約する。</h3>
-            <p>クラスごとのF1を単純平均し、Sample数の多いクラスだけで全体指標が決まることを避けます。</p>
+            <p>分類先ごとのF1を単純平均し、文書数の多い分類先だけで全体指標が決まることを避けます。</p>
           </article>
         </div>
 
         <div class="ml-report" data-reveal>
           <div class="ml-report__copy">
-            <p class="eyebrow">Observed / bounded fixture</p>
+            <p class="eyebrow">実証用データでの限定評価</p>
             <h3>公開版の限定評価</h3>
             <p>
-              holdout testは公開用の合成文書4件です。Candidateは4件すべてを処理し、請求書・報告書ともに各指標1.0でした。
-              これは評価パイプラインと昇格ゲートが完走した証拠であり、実データに対する精度100%を意味しません。
+              最終評価（holdout test）は公開用の合成文書4件です。更新候補は4件すべてを処理し、請求書・報告書ともに各指標1.0でした。
+              これは評価処理と採用判定が最後まで動いた証拠であり、実データに対する精度100%を意味しません。
             </p>
           </div>
           <div class="ml-report__score" aria-label="候補モデルの限定的な評価結果">
-            <div><span>Processed</span><strong>4 / 4</strong><small>held-out synthetic samples</small></div>
-            <div><span>Macro F1</span><strong>1.0</strong><small>invoice + report</small></div>
-            <div><span>Per-class recall</span><strong>1.0</strong><small>both classes</small></div>
-            <div><span>Failures</span><strong>0</strong><small>sanitized failures</small></div>
+            <div><span>処理完了</span><strong>4 / 4</strong><small>最終評価用の合成文書</small></div>
+            <div><span>Macro F1</span><strong>1.0</strong><small>請求書 + 報告書</small></div>
+            <div><span>分類先ごとの再現率</span><strong>1.0</strong><small>両方の分類先</small></div>
+            <div><span>処理失敗</span><strong>0</strong><small>4件すべて完了</small></div>
           </div>
         </div>
 
@@ -497,54 +497,54 @@ const references = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">Champion vs candidate</p>
-            <h2>Candidateを、<br />評価Gateの通過後に昇格する。</h2>
+            <p class="eyebrow">現行モデルと更新候補の比較</p>
+            <h2>更新候補は、<br />評価の合格条件を通してから採用する。</h2>
           </div>
           <p>
-            現在のChampionと次のCandidateを同じ評価条件で比較します。新しいモデルが生成されただけでは、本番参照先を切り替えません。
+            現在採用中のモデル（Champion）と更新候補（Candidate）を同じ評価条件で比較します。新しいモデルが生成されただけでは、利用先を切り替えません。
           </p>
         </div>
 
         <figure class="model-gate" data-reveal>
-          <figcaption>Reviewed model promotion / 実際の比較記録</figcaption>
+          <figcaption>人が確認したモデル採用の比較記録</figcaption>
           <div class="model-gate__model model-gate__model--champion">
-            <span>Champion / 現行版</span>
+            <span>現行モデル（Champion）</span>
             <strong>document-type-v1</strong>
             <small>Macro F1 1.0</small>
           </div>
           <div class="model-gate__checks">
-            <span>Gate 01</span><strong>最低基準を満たす</strong><small>絶対評価</small>
+            <span>判定 01</span><strong>最低条件を満たす</strong><small>絶対評価</small>
             <i aria-hidden="true">＋</i>
-            <span>Gate 02</span><strong>許容を超えて悪化しない</strong><small>現行版との比較</small>
+            <span>判定 02</span><strong>許容を超えて悪化しない</strong><small>現行版との比較</small>
           </div>
           <div class="model-gate__model model-gate__model--candidate">
-            <span>Candidate / 候補版</span>
+            <span>更新候補（Candidate）</span>
             <strong>document-type-candidate-v1</strong>
-            <small>Eligible / 採用可能</small>
+            <small>採用可能</small>
           </div>
         </figure>
 
         <div class="comparison-facts">
           <article data-reveal>
-            <span>Absolute</span>
+            <span>必ず満たす条件</span>
             <h3>絶対基準を事前定義する</h3>
-            <p>Macro F1、クラス別Recall、全件処理、失敗件数に最低条件を設定します。</p>
+            <p>Macro F1、分類先ごとの再現率（Recall）、全件処理、失敗件数に最低条件を設定します。</p>
           </article>
           <article data-reveal>
-            <span>Relative</span>
-            <h3>Champion比のRegressionを測る</h3>
-            <p>全体・クラス別指標とModel Scoreが、許容した悪化幅を超えないか判定します。</p>
+            <span>現行版との比較</span>
+            <h3>現行モデルと比べた性能劣化を測る</h3>
+            <p>全体・分類先別の指標とモデルスコアが、許容した悪化幅を超えないか判定します。</p>
           </article>
           <article data-reveal>
-            <span>Recomputed</span>
+            <span>元の結果から再計算</span>
             <h3>サンプル単位の結果から再計算する</h3>
             <p>保存済みの集計値をそのまま信用せず、各サンプルの予測から指標と合否を再計算します。</p>
           </article>
         </div>
 
         <p class="ml-comparison-story__closing" data-reveal>
-          今回のCandidateはChampionを大幅に上回ったのではなく、絶対基準を満たし、この限定的なtest setで性能劣化がないと確認されたものです。
-          「改善」と「昇格可能」を区別して記録しています。
+          今回の更新候補は現行モデルを大幅に上回ったのではなく、絶対基準を満たし、この限定的な最終評価用データで性能劣化がないと確認されたものです。
+          「性能が改善した」と「採用条件を満たした」を区別して記録しています。
         </p>
 
         <aside class="reader-bridge" data-reveal>
@@ -555,7 +555,7 @@ const references = [
           <div>
             <h3>新しく作った版を、そのまま現場で使うわけではありません。</h3>
             <p>
-              Candidateは試作品、Championは現在採用中の版です。候補版が最低条件を満たし、現行版より許容範囲を超えて悪化していないことを確認して、初めて利用先を切り替えます。
+              Candidateは更新候補、Championは現在採用中の版です。候補版が最低条件を満たし、現行版より許容範囲を超えて悪化していないことを確認して、初めて利用先を切り替えます。
             </p>
             <p class="reader-bridge__meaning"><strong>実務上の意味</strong>「新しいから採用する」のではなく、事前に決めた条件を通った版だけを本番候補にできます。</p>
           </div>
@@ -566,36 +566,36 @@ const references = [
     <section class="section section--dark ml-checkpoint-story" id="rollback">
       <div class="shell ml-checkpoint-story__grid">
         <div class="ml-checkpoint-story__copy" data-reveal>
-          <p class="eyebrow eyebrow--accent">A release checkpoint</p>
+          <p class="eyebrow eyebrow--accent">採用時に残す復旧単位</p>
           <h2>ロールバック単位は、<br />モデルだけではない。</h2>
           <p>
-            ここで扱うロールバック対象は、学習途中のパラメータを保存するtraining checkpointとは異なります。
+            ここで扱うロールバック対象は、学習途中のパラメータを保存する学習checkpointとは異なります。
             保存するのは、審査を通った<strong>MLリリース一式</strong>です。
           </p>
           <p>
-            直前のChampionも同じゲートを通過した参照先として残します。問題が起きた場合はモデルを上書きせず、昇格マニフェストを前のリリースへ切り替えます。
+            直前の現行モデルも同じ合格条件を通過した参照先として残します。問題が起きた場合はモデルを上書きせず、採用根拠を結んだ目録（manifest）を前のリリースへ切り替えます。
           </p>
         </div>
 
         <figure class="lineage-manifest" data-reveal>
-          <figcaption>Promoted model manifest / 採用目録</figcaption>
+          <figcaption>モデルと採用根拠を結ぶ目録（promotion manifest）</figcaption>
           <div class="lineage-manifest__selected">
-            <span>Selected</span>
+            <span>採用した更新候補</span>
             <strong>Candidate model v1</strong>
             <small>SHA-256で内容を固定</small>
           </div>
           <div class="lineage-manifest__links" aria-label="採用モデルに結び付く根拠">
-            <span>Dataset version</span>
-            <span>Split manifest</span>
-            <span>Preprocessing</span>
-            <span>Training pipeline</span>
-            <span>Evaluation policy</span>
-            <span>Evaluation report</span>
-            <span>Label schema</span>
-            <span>Candidate comparison</span>
+            <span>データセットの版</span>
+            <span>データ分割の記録</span>
+            <span>前処理</span>
+            <span>学習処理</span>
+            <span>評価条件</span>
+            <span>評価レポート</span>
+            <span>正解labelの定義</span>
+            <span>現行版との比較</span>
           </div>
           <div class="lineage-manifest__rollback">
-            <span>Reviewed rollback target</span>
+            <span>審査済みの復旧先</span>
             <strong>Previous champion v1</strong>
             <small>レビュー済みマニフェストへ参照を戻す</small>
           </div>
@@ -607,40 +607,40 @@ const references = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">Evidence at runtime</p>
-            <h2>推論結果に、<br />model lineageを残す。</h2>
+            <p class="eyebrow">実行時の推論結果に残す証拠</p>
+            <h2>推論結果に、<br />使用したモデルの来歴を残す。</h2>
           </div>
           <p>
-            昇格時のマニフェストだけでは、実際の推論がどのモデルで実行されたかを追跡できません。処理結果にversion、モデルのhash、データセットなどのlineageを保存します。
+            採用時の目録だけでは、実際の推論がどのモデルで実行されたかを追跡できません。処理結果に版、モデル内容を識別するhash、データセットなどの来歴（lineage）を保存します。
           </p>
         </div>
 
         <div class="runtime-lineage" data-reveal>
           <div class="runtime-lineage__prediction">
-            <span>Machine result</span>
+            <span>機械による推論結果</span>
             <strong>この文書は「請求書」</strong>
-            <small>model score / machine decision</small>
+            <small>モデルスコア / 機械の判断</small>
           </div>
           <span class="runtime-lineage__arrow" aria-hidden="true">＋</span>
           <div class="runtime-lineage__evidence">
-            <span>Dataset</span><span>Preprocessing</span><span>Pipeline</span><span>Model artifact</span>
-            <span>Policy</span><span>Evaluation report</span><span>Version</span><span>SHA-256</span>
+            <span>データセット</span><span>前処理</span><span>学習処理</span><span>モデルファイル</span>
+            <span>評価条件</span><span>評価レポート</span><span>版</span><span>SHA-256</span>
           </div>
         </div>
 
         <div class="runtime-rules">
           <article data-reveal>
-            <span>Startup</span>
-            <h3>マニフェスト不整合はfail closed</h3>
-            <p>モデルのhashや評価根拠が昇格マニフェストと一致しない場合、別の「最新」ファイルへfallbackせず起動を停止します。</p>
+            <span>起動時</span>
+            <h3>採用記録と一致しなければ起動を止める</h3>
+            <p>モデルのhashや評価根拠が採用目録と一致しない場合、別の「最新」ファイルへ切り替えず、安全側へ停止します（fail closed）。</p>
           </article>
           <article data-reveal>
-            <span>Persistence</span>
+            <span>保存時</span>
             <h3>推論と人の最終判断を分離する</h3>
-            <p>人が承認・訂正しても、その時点の推論結果とlineageは不変の監査証跡として残します。</p>
+            <p>人が承認・訂正しても、その時点の推論結果とモデルの来歴は変更しない監査記録として残します。</p>
           </article>
           <article data-reveal>
-            <span>Audit</span>
+            <span>監査時</span>
             <h3>推論から昇格根拠を逆引きする</h3>
             <p>記録された識別子からデータセット、パイプライン、モデル、評価ポリシー、評価レポートまで追跡できます。</p>
           </article>
@@ -651,24 +651,24 @@ const references = [
     <section class="section section--soft ml-feedback-story" id="feedback">
       <div class="shell ml-feedback-story__grid">
         <div data-reveal>
-          <p class="eyebrow">Human feedback boundary</p>
+          <p class="eyebrow">人の訂正を学習へ使う境界</p>
           <h2>人の訂正を、<br />無審査で再学習へ流さない。</h2>
           <div class="prose">
             <p>
               利用者による訂正は将来の改善候補になります。ただし、業務上の最終判断と、学習データとして利用可能であることは別の条件です。
             </p>
             <p>
-              訂正はまず<strong>学習候補</strong>として分離します。出所（provenance）、利用許諾、PII、ラベル品質、重複、データリークを人が確認し、審査を通ったものだけを将来のデータセットへ採用します。
+              訂正はまず<strong>学習候補</strong>として分離します。出所（provenance）、利用許諾、個人を特定できる情報（PII）、正解labelの品質、重複、評価用データの混入（data leakage）を人が確認し、審査を通ったものだけを将来のデータセットへ採用します。
             </p>
           </div>
         </div>
 
         <div class="feedback-route" data-reveal>
-          <div><span>01</span><strong>Human Reviewで訂正</strong><small>業務上の最終判断</small></div>
+          <div><span>01</span><strong>人が推論結果を訂正</strong><small>業務上の最終判断</small></div>
           <i aria-hidden="true">↓</i>
           <div><span>02</span><strong>学習候補へ分離</strong><small>必要最小限のメタデータのみ</small></div>
           <i aria-hidden="true">↓</i>
-          <div><span>03</span><strong>データセット採用をレビュー</strong><small>Provenance / PII / Quality / Leakage</small></div>
+          <div><span>03</span><strong>データセットへの採用を審査</strong><small>出所 / 個人情報 / 品質 / 評価用データの混入</small></div>
           <i aria-hidden="true">↓</i>
           <div><span>04</span><strong>次のデータセット版へ</strong><small>レビュー履歴を保存</small></div>
           <p><span aria-hidden="true">×</span> 自動再学習・無審査のモデル昇格は行わない</p>
@@ -695,28 +695,28 @@ const references = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow">Proof, not paperwork</p>
+            <p class="eyebrow">記録を作るだけでなく不整合を拒否する</p>
             <h2>マニフェストを作るだけでなく、<br />不整合をテストで拒否する。</h2>
           </div>
           <p>
-            自動テストでは、正しいCandidateが通る正常系に加え、lineageを改変したモデルや未審査の最新版を拒否する異常系も確認します。
+            自動testでは、正しい更新候補が通る正常系に加え、作成・評価の来歴を改変したモデルや未審査の最新版を拒否する異常系も確認します。
           </p>
         </div>
 
         <div class="ml-proof-grid">
           <article data-reveal>
-            <span>01 / Rebuild</span>
-            <h3>Candidateを再ビルドする</h3>
+            <span>01 / 同じ内容を再作成</span>
+            <h3>更新候補を再buildする</h3>
             <p>同じ入力から生成した二つのモデルで、内容とSHA-256が一致することを確認します。</p>
           </article>
           <article data-reveal>
-            <span>02 / Re-evaluate</span>
+            <span>02 / 評価を再実行</span>
             <h3>評価を再実行する</h3>
-            <p>全テストを二度実行し、サンプル単位の結果から再計算したレポートがbyte単位で一致することを確認します。</p>
+            <p>全testを二度実行し、文書ごとの結果から再計算したレポートが1 byte単位で一致することを確認します。</p>
           </article>
           <article data-reveal>
-            <span>03 / Reject</span>
-            <h3>破損したlineageを拒否する</h3>
+            <span>03 / 不整合を拒否</span>
+            <h3>破損した来歴を拒否する</h3>
             <p>データセットやレポートの参照を改変した場合、昇格判定と実行環境の起動時検証が失敗することを確認します。</p>
           </article>
         </div>
@@ -726,15 +726,15 @@ const references = [
     <section class="section story-limitations">
       <div class="shell story-limitations__grid">
         <div data-reveal>
-          <p class="eyebrow">Honest boundary</p>
+          <p class="eyebrow">現時点で実証していない範囲</p>
           <h2>公開版で実証していない範囲。</h2>
         </div>
         <ul class="plain-list" data-reveal>
           <li>対象は英語の請求書と報告書だけで、公開用に作成した小規模な合成データセットです。</li>
-          <li>holdout testは4件です。各指標1.0でも、実業務データの精度や一般化性能は証明しません。</li>
-          <li>OCR、手書き、複数ページ、表、未知のlayout、図面、時間経過によるdata driftは評価していません。</li>
+          <li>最終評価（holdout test）は4件です。各指標1.0でも、実業務データの精度や未知データへの対応力は証明しません。</li>
+          <li>OCR、手書き、複数ページ、表、未知の文書配置、図面、時間経過によるデータ傾向の変化（data drift）は評価していません。</li>
           <li>モデルスコアは校正済み確率ではなく、公平性、頑健性、プライバシーも評価対象外です。</li>
-          <li>利用者向けのアノテーション、学習、モデル昇格UIや、自動再学習を備えたMLOps製品ではありません。</li>
+          <li>利用者向けの正解label付け、学習、モデル採用画面や、自動再学習を備えたMLOps製品ではありません。</li>
           <li>実業務への導入には、対象データを使った評価、セキュリティ、監視、可用性、運用体制の追加設計が必要です。</li>
         </ul>
       </div>
@@ -744,11 +744,11 @@ const references = [
       <div class="shell">
         <div class="section-heading section-heading--split" data-reveal>
           <div>
-            <p class="eyebrow eyebrow--accent">Sources &amp; verification</p>
+            <p class="eyebrow eyebrow--accent">参照資料と検証方法</p>
             <h2>記載内容を、<br />公開実装と一次資料で照合。</h2>
           </div>
           <p>
-            2026年8月14日時点のPortfolio mainにあるModel Card、ADR、機械可読の評価アーティファクト、検証コードを照合しています。拡張構想は現在の実装と区別して記載しました。
+            2026年8月14日時点のPortfolio mainにあるModel Card、ADR、機械が読める評価結果ファイル、検証コードを照合しています。拡張構想は現在の実装と区別して記載しました。
           </p>
         </div>
 
@@ -770,15 +770,15 @@ const references = [
     <section class="story-next">
       <div class="shell story-next__inner" data-reveal>
         <div>
-          <p class="eyebrow eyebrow--light">Choose your next view</p>
+          <p class="eyebrow eyebrow--light">次に確認できる内容</p>
           <h2>システム全体、AWS実地検証、<br />公開リポジトリへ。</h2>
-          <p>約{articleReadingMinutes.overview}分の概説ではDocument Intelligence基盤の全体像、AWS編ではデプロイから撤収、GitHubでは実装と評価アーティファクトを確認できます。</p>
+          <p>約{articleReadingMinutes.overview}分の概説では文書処理（Document Intelligence）基盤の全体像、AWS編では環境構築から撤収、GitHubでは実装と評価結果ファイルを確認できます。</p>
         </div>
         <div class="story-next__actions">
-          <a class="button button--ghost-light button--large" href="/portfolio/">約{articleReadingMinutes.overview}分の概説へ戻る</a>
-          <a class="button button--ghost-light button--large" href="/portfolio/aws/">AWSの約{articleReadingMinutes.aws}分記事へ</a>
+          <a class="button button--ghost-light button--large" href="/portfolio/">文書処理基盤の全体像へ戻る</a>
+          <a class="button button--ghost-light button--large" href="/portfolio/aws/">AWS環境の構築・確認・撤収を読む</a>
           <a class="button button--accent button--large" href="https://github.com/Kentaro-Ono-jp/Portfolio" target="_blank" rel="noreferrer">
-            GitHubで実装を見る <span aria-hidden="true">↗</span>
+            GitHubで実装と評価記録を見る <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>

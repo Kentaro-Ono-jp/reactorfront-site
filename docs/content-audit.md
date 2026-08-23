@@ -22,7 +22,7 @@
 | `/` | 顧客、エージェント | ReactorFrontの業務領域、実績、相談方法 | #53 | 完了 |
 | `/profile/` | エージェント、採用担当、顧客 | 小野賢太郎の経歴、専門領域、第三者証拠、働き方 | #54 | 完了 |
 | `/portfolio/` | 顧客、技術者 | Document Intelligence基盤の全体像、業務価値、確認できる証拠 | #55 | 完了 |
-| `/portfolio/ml/` | 技術者、顧客 | MLモデルを評価、採用、追跡、rollbackする工程 | #56 | 未着手 |
+| `/portfolio/ml/` | 技術者、顧客 | MLモデルを評価、採用、追跡、rollbackする工程 | #56 | 完了 |
 | `/portfolio/aws/` | 技術者、顧客 | AWS環境を構築、検証、監視、撤収する一連の工程 | #57 | 未着手 |
 | `/portfolio/aws/one-cent-ecr/` | 技術者、顧客 | 1セントの費用を追跡し、残存resourceを安全に検出・削除した判断 | #58 | 未着手 |
 | `/infrastructure/` | フリーランス、顧客 | domain、DNS、Web、仕事用mailを安全に構成・維持する方法 | #59 | 未着手 |
@@ -66,11 +66,11 @@
 
 | Page / component | Section / 位置 | 想定読者 | 現行表現 | 分かりにくい理由 | 分類 | 改稿方向 | 維持する事実・証拠 | meta / Schema / altへの影響 | Issue / 状態 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/portfolio/ml/` | data / evaluation | 技術者 | `Dataset snapshot / split`、`Reproducible candidate`、`Per-sample evaluation` | 保存対象、分割方法、再現条件が見出しだけでは分からない | 日本語化 | datasetの保存、分割、候補再現、sample単位評価を説明 | fixture、評価手順、commit | Article description、図 | #56 / 未着手 |
-| `/portfolio/ml/` | model adoption | 顧客、技術者 | `Champion / Candidate`、`Reviewed promotion manifest`、`promotion`、`rollback` | 採用主体、記録、戻し方が不明 | 説明 / 日本語化 | 現行モデルと更新候補、人の承認記録、戻す条件を示す | manifest、評価値、承認工程 | headline、caption | #56 / 未着手 |
-| `/portfolio/ml/` | tracking / scope | 技術者 | `Runtime lineage`、`Document Intelligence scope`、`Current / Extension / Shared control plane`、`One governed loop` | 追跡対象と現在・将来範囲が抽象的 | 日本語化 | 入力からモデル・出力を追う記録、現在実装と拡張案を分ける | 現在の実装境界 | Article body、図 | #56 / 未着手 |
-| `/portfolio/ml/` | metrics / evidence | 技術者 | `Evaluation metrics`、`Precision / Recall / F1 / Macro F1`、`Observed / bounded fixture`、`held-out synthetic samples` | 指標名だけでは測定条件と限界が分からない | 維持 / 説明 | 指標は維持し、合否条件、sample、観測範囲を日本語で説明 | 数値、sample数、syntheticである制約 | caption、Article description | #56 / 未着手 |
-| `/portfolio/ml/` | article facts | 技術者 | `Audience / Source checked / Portfolio main / Format` | 誰向けで何を確認した記事かが英語依存 | 日本語化 / 保護 | 「想定読者 / 確認資料 / 対象commit / 記事の位置づけ」 | URL、commit、形式 | Article metadata | #56 / 未着手 |
+| `/portfolio/ml/` | data / evaluation | 技術者 | `Dataset snapshot / split`、`Reproducible candidate`、`Per-sample evaluation` | 保存対象、分割方法、再現条件が見出しだけでは分からない | 日本語化 | datasetの保存、分割、候補再現、sample単位評価を説明 | fixture、評価手順、commit | Article description、図 | #56 / 完了 |
+| `/portfolio/ml/` | model adoption | 顧客、技術者 | `Champion / Candidate`、`Reviewed promotion manifest`、`promotion`、`rollback` | 採用主体、記録、戻し方が不明 | 説明 / 日本語化 | 現行モデルと更新候補、人の承認記録、戻す条件を示す | manifest、評価値、承認工程 | headline、caption | #56 / 完了 |
+| `/portfolio/ml/` | tracking / scope | 技術者 | `Runtime lineage`、`Document Intelligence scope`、`Current / Extension / Shared control plane`、`One governed loop` | 追跡対象と現在・将来範囲が抽象的 | 日本語化 | 入力からモデル・出力を追う記録、現在実装と拡張案を分ける | 現在の実装境界 | Article body、図 | #56 / 完了 |
+| `/portfolio/ml/` | metrics / evidence | 技術者 | `Evaluation metrics`、`Precision / Recall / F1 / Macro F1`、`Observed / bounded fixture`、`held-out synthetic samples` | 指標名だけでは測定条件と限界が分からない | 維持 / 説明 | 指標は維持し、合否条件、sample、観測範囲を日本語で説明 | 数値、sample数、syntheticである制約 | caption、Article description | #56 / 完了 |
+| `/portfolio/ml/` | article facts | 技術者 | `Audience / Source checked / Portfolio main / Format` | 誰向けで何を確認した記事かが英語依存 | 日本語化 / 保護 | 「想定読者 / 確認資料 / 対象commit / 記事の位置づけ」 | URL、commit、形式 | Article metadata | #56 / 完了 |
 
 ## AWS記事
 
