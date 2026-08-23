@@ -411,6 +411,95 @@ for (const htmlFile of htmlFiles) {
       }
     }
   }
+
+  if (relativePath === "infrastructure/index.html") {
+    const article = articleSchemas[0];
+    if (article?.headline !== "独自ドメイン・Web・仕事用メールを構築し、外部から確認して維持する手順") {
+      errors.push(`${relativePath}: Article headlineが画面の主題と一致しません`);
+    }
+    if (!article?.description?.includes("ReactorFront（リアクターフロント）")) {
+      errors.push(`${relativePath}: Article descriptionに運営主体の日本語表記がありません`);
+    }
+    if (article?.isPartOf?.["@id"] !== "https://www.reactorfront.jp/#website") {
+      errors.push(`${relativePath}: Article isPartOfが共通WebSiteではありません`);
+    }
+    for (const expectedText of [
+      "ReactorFront（リアクターフロント）の実構成",
+      "検索時に使われる小文字表記 <strong>reactorfront</strong>",
+      "すべて小野賢太郎が運営する同じ事業を指します",
+      "reactorfront.jp",
+      "www.reactorfront.jp",
+      "kentaro.ono@reactorfront.jp",
+      "XServerドメイン",
+      "GitHub Pages",
+      "GitHub Actions",
+      "Google Workspace",
+      "本文では実ドメインを <code>example.com</code> に置き換え",
+      "ドメインを契約・更新する事業者（レジストラ）",
+      "正式なDNS情報を返す場所（権威DNS）",
+      "Webサイトの公開先（Webホスティング）",
+      "仕事用メールの送受信先（メールサービス）",
+      "公開repository",
+      "Source: GitHub Actions",
+      "Custom domain:",
+      "Enforce HTTPS",
+      "送信元の許可リスト",
+      "メールへの電子署名",
+      "失敗時の方針と報告",
+      "毎月",
+      "main反映後",
+      "DNS変更後",
+      "導入直後は毎週",
+      "3か月ごと",
+      "2026-08-23時点の実測",
+      "200 OK",
+      "X-Cache: HIT",
+    ]) {
+      if (!html.includes(expectedText)) {
+        errors.push(`${relativePath}: 画面上に「${expectedText}」がありません`);
+      }
+    }
+    for (const preservedCommand of [
+      "Resolve-DnsName example.com -Type NS",
+      "Resolve-DnsName example.com -Type A",
+      "Resolve-DnsName example.com -Type AAAA",
+      "Resolve-DnsName www.example.com -Type CNAME",
+      "Resolve-DnsName example.com -Type MX",
+      "Resolve-DnsName example.com -Type TXT",
+      "Resolve-DnsName _dmarc.example.com -Type TXT",
+    ]) {
+      if (!html.includes(preservedCommand)) {
+        errors.push(`${relativePath}: 確認command「${preservedCommand}」がありません`);
+      }
+    }
+    for (const expectedHref of [
+      "https://www.xdomain.ne.jp/manual/man_domain_dns_setting.php",
+      "https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages",
+      "https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site",
+      "https://support.google.com/a/answer/6156494",
+      "https://support.google.com/a/answer/33786",
+      "https://support.google.com/a/answer/174124",
+      "https://support.google.com/a/answer/10032473",
+    ]) {
+      if (!html.includes(`href="${expectedHref}"`)) {
+        errors.push(`${relativePath}: 公式資料link ${expectedHref} がありません`);
+      }
+    }
+    for (const removedEnglishLabel of [
+      "Freelance infrastructure guide",
+      "Prologue / Why I built it",
+      "The actual stack",
+      "First principle",
+      "Why GitHub Pages",
+      "Delivery architecture",
+      "Build order",
+      "Small, understandable, yours",
+    ]) {
+      if (html.includes(removedEnglishLabel)) {
+        errors.push(`${relativePath}: 英語だけの旧label「${removedEnglishLabel}」が残っています`);
+      }
+    }
+  }
 }
 
 if (errors.length > 0) {

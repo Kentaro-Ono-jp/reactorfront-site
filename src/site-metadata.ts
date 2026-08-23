@@ -34,7 +34,7 @@ export const indexableRoutes = [
   {
     path: "/infrastructure/",
     datePublished: "2026-08-14T06:13:26+09:00",
-    lastModified: "2026-08-23T11:21:05+09:00",
+    lastModified: "2026-08-23T15:20:32+09:00",
   },
   {
     path: "/infrastructure/google-search/",

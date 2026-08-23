@@ -7,17 +7,17 @@ import { getArticleRouteMetadata, SITE_URL } from "../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../structured-data";
 
 const breadcrumbs = [
-  { name: "Home", href: "/" },
-  { name: "Infrastructure", href: "/infrastructure/" },
+  { name: "ホーム", href: "/" },
+  { name: "独自ドメイン・Web・メール基盤", href: "/infrastructure/" },
 ] satisfies BreadcrumbItem[];
 
-const articleTitle = "フリーランスのインフラ入門｜独自ドメイン・Web・メールを自分で持つ";
-const articleDescription = "開業届を出した後に整えた、独自ドメイン、GitHub Pages、GitHub Actions、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontの実構成と選定理由を一般化し、安全な範囲で解説します。";
+const articleTitle = "独自ドメイン・Web・仕事用メールを構築し、外部から確認して維持する手順";
+const articleDescription = "ReactorFront（リアクターフロント）の実構成を基に、独自ドメイン、GitHub Pages、GitHub Actions、Google Workspace、DNS、SPF・DKIM・DMARCを設定し、外部から確認して維持する手順を説明します。";
 const articleMetadata = getArticleRouteMetadata("/infrastructure/");
 const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImagePath = "/images/article-freelance-infrastructure.webp";
 const representativeImage = new URL(representativeImagePath, canonical).href;
-const representativeImageAlt = "独自ドメインを中枢にWebサイト、仕事用メール、クラウドサービスへ接続する事業用インフラの概念図";
+const representativeImageAlt = "独自ドメインのDNSからWebサイト、仕事用メール、事業用サービスへ案内する構成図";
 const { datePublished, lastModified: dateModified } = articleMetadata;
 const articleSchema = createArticle({
   canonical,
@@ -28,7 +28,7 @@ const articleSchema = createArticle({
   dateModified,
 });
 
-const verifiedAt = "2026-08-16";
+const verifiedAt = "2026-08-23";
 
 const records = [
   { type: "A / AAAA", role: "ホスト名をIPアドレスへ対応付ける", example: "example.com → GitHub PagesのIP", note: "IPv4 / IPv6" },
@@ -56,13 +56,13 @@ const records = [
       <Breadcrumbs items={breadcrumbs} />
       <div class="page-hero__grid">
         <div>
-          <p class="eyebrow eyebrow--accent">Freelance infrastructure guide</p>
-          <h1>開業届を出した。<br />その後に整えた、<br />仕事のIT基盤。</h1>
+          <p class="eyebrow eyebrow--accent">独自ドメインから始める事業用IT基盤</p>
+          <h1>独自ドメインから、<br />Webとメールを<br />構築・確認し、<br />維持する。</h1>
         </div>
         <div class="page-hero__lead">
           <p>
             独自ドメイン、仕事用メール、Webサイト。
-            ドメイン契約、権威DNS、Webホスティング、メールサービスの責務を分け、ReactorFrontの実構成に沿って解説します。
+            ドメイン契約、DNS、Web公開、メール送受信の役割を分け、ReactorFront（リアクターフロント）の実構成に沿って、設定順と外部からの確認方法を説明します。
           </p>
           <div class="article-byline" aria-label="記事情報">
             <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
@@ -85,18 +85,18 @@ const records = [
     <div class="shell">
       <div class="infra-prologue__heading" data-reveal>
         <div>
-          <p class="eyebrow">Prologue / Why I built it</p>
+          <p class="eyebrow">この基盤を整えた理由</p>
           <h2 id="infra-prologue-title">まず欲しかったのは、<br />仕事の「住所」でした。</h2>
         </div>
         <p class="infra-prologue__lead">
           脱サラし、税務署へ開業届を提出して、フリーランスとして生きていくと決めた。
-          屋号をReactorFrontと定めた後、最初に立ち止まったのは、意外にもメールアドレスでした。
+          屋号をReactorFront（リアクターフロント）と定めた後、最初に立ち止まったのは、意外にもメールアドレスでした。
         </p>
       </div>
 
       <div class="infra-prologue__story">
         <article class="infra-prologue__narrative" data-reveal>
-          <span class="infra-prologue__chapter">From personal to business</span>
+          <span class="infra-prologue__chapter">個人用から事業用へ</span>
           <p>
             無料のGmailアドレスでも、仕事そのものには困らないかもしれません。
             けれど、せっかく屋号を掲げるなら、その名前を持つ独自ドメインのメールアドレスがほしい。
@@ -110,38 +110,40 @@ const records = [
         </article>
 
         <aside class="infra-prologue__address" data-reveal aria-label="独自ドメインから広がる事業用の連絡先">
-          <p>One business identity</p>
+          <p>一つの屋号を基準にする</p>
           <div class="infra-prologue__domain">
             <span>独自ドメイン</span>
             <strong>reactorfront.jp</strong>
           </div>
           <div class="infra-prologue__branches">
-            <div><span>Mail</span><strong>仕事用メール</strong><small>問い合わせ・通知</small></div>
+            <div><span>メール</span><strong>仕事用メール</strong><small>問い合わせ・通知</small></div>
             <div><span>Web</span><strong>自社サイト</strong><small>実績・事業案内</small></div>
-            <div><span>Accounts</span><strong>事業用サービス</strong><small>会計・契約管理</small></div>
+            <div><span>アカウント</span><strong>事業用サービス</strong><small>会計・契約管理</small></div>
           </div>
         </aside>
       </div>
 
       <div class="infra-prologue__outcomes" data-reveal>
         <article>
-          <span>01 / Documents</span>
+          <span>01 / 事業書類</span>
           <h3>事業の連絡先として書ける</h3>
           <p>ネット銀行へ口座開設を申し込む際、事業計画書へ独自ドメインのメールアドレスと自社サイトを記載できました。</p>
         </article>
         <article>
-          <span>02 / Identity</span>
+          <span>02 / 屋号の案内</span>
           <h3>名刺に、屋号の入口を載せられる</h3>
           <p>名前や電話番号だけでなく、仕事用メールと自社サイトのURLを、ReactorFrontの連絡先として案内できました。</p>
         </article>
         <article>
-          <span>03 / Operations</span>
+          <span>03 / 通知の管理</span>
           <h3>事業の通知を、一か所へ集められる</h3>
           <p>freee会計をはじめ、Google Workspaceなど事業で使うサービスの登録先・通知先を、個人用メールと分けて管理できます。</p>
         </article>
       </div>
 
       <p class="infra-prologue__closing" data-reveal>
+        本記事の <strong>ReactorFront</strong>、<strong>リアクターフロント</strong>、検索時に使われる小文字表記 <strong>reactorfront</strong> は、すべて小野賢太郎が運営する同じ事業を指します。
+        <code>reactorfront.jp</code> は、その事業がWebと仕事用メールに使う独自ドメインです。
         独自ドメインは、見栄えを整えるためだけのものではありませんでした。
         外へ示す信用の手掛かりであり、事業の連絡と契約を整理するための基準点でもあります。
         この入門は、その基準点をどう作り、どう守ってきたかを、実体験から順にほどく記録です。
@@ -152,13 +154,13 @@ const records = [
   <section class="section guide-intro">
     <div class="shell guide-intro__grid">
       <div data-reveal>
-        <p class="eyebrow">The actual stack</p>
+        <p class="eyebrow">ReactorFrontの実構成</p>
         <h2>ReactorFrontの実構成を、<br />ケーススタディにする。</h2>
       </div>
       <div class="prose prose--large" data-reveal>
         <p>
           ReactorFrontは、XServerドメインで契約した独自ドメイン、GitHub PagesのWebサイト、Google Workspaceの仕事用メールを組み合わせています。
-          権威DNSへWeb・メール用レコードを設定し、SPF・DKIM・DMARCも有効化しました。
+          外部の問い合わせへ正式な情報を返すDNS（権威DNS）にWeb・メール用レコードを設定し、SPF・DKIM・DMARCも有効化しました。
           設定後は公開DNS、HTTPS、受信側の認証結果、DMARCレポートを継続して確認しています。
         </p>
         <p>
@@ -172,7 +174,7 @@ const records = [
       <div class="infra-architecture__source">
         <span>契約・名前の管理</span>
         <strong>XServerドメイン</strong>
-        <small>ドメイン / 権威DNS</small>
+        <small>ドメイン契約 / 正式なDNS応答</small>
       </div>
       <div class="infra-architecture__hub">
         <span class="infra-architecture__pulse" aria-hidden="true"></span>
@@ -186,7 +188,7 @@ const records = [
           <small>静的サイト / HTTPS</small>
         </div>
         <div>
-          <span>Mail</span>
+          <span>メール</span>
           <strong>Google Workspace</strong>
           <small>送受信 / 認証</small>
         </div>
@@ -215,32 +217,32 @@ const records = [
   <section class="section section--soft role-section">
     <div class="shell">
       <div class="section-heading" data-reveal>
-        <p class="eyebrow">First principle</p>
-        <h2>契約先と技術的な責務を分ける。</h2>
+        <p class="eyebrow">最初に分ける四つの役割</p>
+        <h2>契約先と、実際に担う機能を分ける。</h2>
         <p>一社が複数サービスを提供していても、レジストラ、権威DNS、Web、メールは別の機能です。</p>
       </div>
       <div class="role-grid">
         <article data-reveal>
-          <span>01</span><h3>レジストラ</h3>
+          <span>01</span><h3>ドメインを契約・更新する事業者（レジストラ）</h3>
           <p><code>example.com</code> を登録・更新する事業者です。契約が失効するとWebとメールの両方へ影響します。</p>
         </article>
         <article data-reveal>
-          <span>02</span><h3>権威DNS</h3>
+          <span>02</span><h3>正式なDNS情報を返す場所（権威DNS）</h3>
           <p>ドメインのDNSレコードを保持し、問い合わせへ応答します。NSレコードを見れば、現在の管理先を特定できます。</p>
         </article>
         <article data-reveal>
-          <span>03</span><h3>Webホスティング</h3>
+          <span>03</span><h3>Webサイトの公開先（Webホスティング）</h3>
           <p>サイトをHTTPSで配信するサービスです。この構成では、GitHub Actionsでビルドした静的サイトをGitHub Pagesから配信します。</p>
         </article>
         <article data-reveal>
-          <span>04</span><h3>メールサービス</h3>
+          <span>04</span><h3>仕事用メールの送受信先（メールサービス）</h3>
           <p>独自ドメインのメールボックスと送受信機能を提供します。この構成ではGoogle Workspaceです。</p>
         </article>
       </div>
       <div class="guide-tip" data-reveal>
         <strong>DNSレコードを編集する場所の特定方法</strong>
         <p>
-          契約先の名称だけで判断せず、最初に <strong>NS（ネームサーバー）</strong> を確認します。
+          契約先の名称だけで判断せず、最初にDNSの管理先を示す <strong>NS（ネームサーバー）</strong> を確認します。
           XServerドメインなら、契約一覧のクイックメニューにある「DNSレコード設定」が入口です。レンタルサーバーの管理画面とは別の場合があります。
         </p>
         <a href="https://www.xdomain.ne.jp/manual/man_domain_dns_setting.php" target="_blank" rel="noreferrer">XServerドメイン公式: DNSレコードの編集 ↗</a>
@@ -252,7 +254,7 @@ const records = [
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow eyebrow--accent">Why GitHub Pages</p>
+          <p class="eyebrow eyebrow--accent">GitHub Pagesを選んだ理由</p>
           <h2 id="pages-platform-title">無料だから、だけでは<br />選ばなかった。</h2>
         </div>
         <p>
@@ -263,54 +265,55 @@ const records = [
 
       <div class="pages-decision-grid" data-reveal>
         <article>
-          <span>01 / Static hosting</span>
+          <span>01 / 静的サイト公開</span>
           <h3>静的サイトを、追加のサーバー契約なしで公開する</h3>
           <p>Astroが生成したHTML、CSS、JavaScriptをGitHub Pagesから配信します。公開リポジトリならGitHub Freeで利用でき、OSやWebサーバーを自分で保守しません。</p>
         </article>
         <article>
-          <span>02 / History</span>
+          <span>02 / 変更履歴</span>
           <h3>更新した事実と、変更前の状態を残す</h3>
-          <p>commit、diff、Pull Requestで、いつ何を変えたかを追えます。不具合があれば、履歴を消さずにrevertして戻せます。</p>
+          <p>commit、変更差分（diff）、Pull Requestで、いつ何を変えたかを追えます。不具合があれば、履歴を消さず、変更を取り消すcommit（revert）で戻せます。</p>
         </article>
         <article>
-          <span>03 / Delivery</span>
+          <span>03 / buildと公開</span>
           <h3>ビルドと公開を、同じ場所で自動化する</h3>
-          <p>mainへ反映するとGitHub Actionsが検査・ビルドし、成功した静的成果物だけをPagesへ公開します。失敗した工程と対象commitも実行履歴に残ります。</p>
+          <p><code>main</code>へ反映するとGitHub Actionsが検査して公開用fileを生成し、成功したfileだけをPagesへ公開します。失敗した工程と対象commitも実行履歴に残ります。</p>
         </article>
         <article>
-          <span>04 / Boundary</span>
+          <span>04 / 対象外にする機能</span>
           <h3>動的機能を持たないことも、設計として選ぶ</h3>
           <p>Pages単体にはDB、ログイン、コメント、いいね、フォーム受付APIがありません。必要なら外部サービスを足せますが、今は保守対象を増やさない方を選びました。</p>
         </article>
       </div>
 
       <div class="pages-pipeline" data-reveal aria-label="ReactorFrontサイトの更新から公開までの流れ">
-        <article><span>Source</span><strong>Astro / Git</strong><small>本文と実装を変更</small></article>
+        <article><span>更新</span><strong>Astro / Git</strong><small>本文と実装を変更</small></article>
         <i aria-hidden="true">→</i>
-        <article><span>Review</span><strong>Pull Request</strong><small>差分と判断を確認</small></article>
+        <article><span>確認</span><strong>Pull Request</strong><small>差分と判断を確認</small></article>
         <i aria-hidden="true">→</i>
-        <article><span>Build</span><strong>GitHub Actions</strong><small>検査・静的生成</small></article>
+        <article><span>検査・生成</span><strong>GitHub Actions</strong><small>検査して静的生成</small></article>
         <i aria-hidden="true">→</i>
-        <article><span>Delivery</span><strong>Pages + CDN</strong><small>HTTPSで公開</small></article>
+        <article><span>公開</span><strong>Pages + CDN</strong><small>HTTPSで公開</small></article>
       </div>
 
       <div class="pages-edge-proof" data-reveal>
         <div class="pages-edge-proof__copy">
-          <p class="eyebrow">Delivery architecture</p>
+          <p class="eyebrow">公開と配信の仕組み</p>
           <h3>一台を持たず、GitHubの配信基盤を借りる。</h3>
           <p>
             個人で一台のWebサーバーを立てる構成では、アクセスはその一台へ集中します。
-            GitHub PagesはGitHubの配信基盤とCDNを通じて静的ファイルを返すため、同じページへのアクセスが続いても、毎回配信元まで到達するとは限りません。
+            GitHub PagesはGitHubの配信基盤と、利用者に近い拠点から配信する仕組み（CDN）を通じて静的fileを返すため、同じページへのアクセスが続いても、毎回配信元まで到達するとは限りません。
           </p>
           <p>
-            GitHubは、Pagesを世界各地のデータセンターから配信し、DDoS攻撃への追加防御も提供すると説明しています。
+            GitHubは、Pagesを世界各地のデータセンターから配信し、大量の通信で停止を狙うDDoS攻撃への追加防御も提供すると説明しています。
             通常のアクセス集中や、単純な連続再読み込みを、個人管理の一台構成より受け止めやすいことも採用理由でした。
           </p>
         </div>
         <div class="pages-edge-proof__observed">
-          <span>Observed / {verifiedAt}</span>
+          <span>{verifiedAt}時点の実測</span>
           <h3>ReactorFront本番の応答</h3>
           <dl>
+            <div><dt>HTTP</dt><dd><code>200 OK</code></dd></div>
             <div><dt>DNS</dt><dd>複数のPages用IPへ解決</dd></div>
             <div><dt>Edge</dt><dd><code>japaneast</code> / <code>cache-nrt</code></dd></div>
             <div><dt>Cache</dt><dd><code>X-Cache: HIT</code></dd></div>
@@ -322,7 +325,7 @@ const records = [
       <div class="warning-note pages-platform__limit" data-reveal>
         <strong>堅牢であることと、無敵であることは別</strong>
         <p>
-          GitHub Pagesには月間帯域のソフトリミットとレート制限があり、HTTP 429やサービス障害も起こり得ます。
+          GitHub Pagesには月間通信量の目安となる上限と、一定時間内の要求回数を制限する仕組みがあり、要求過多を示すHTTP 429やサービス障害も起こり得ます。
           あらゆる規模のDDoSへ耐える保証ではありません。決済、認証、SaaS提供などへ用途が変わる場合は、別の基盤を再検討します。
         </p>
       </div>
@@ -335,7 +338,7 @@ const records = [
         <div>
           <h3>Webサーバー一台を無料で借りたのではなく、GitHubの開発・公開基盤へサイトを載せました。</h3>
           <p>
-            ソース、変更履歴、レビュー、ビルド、公開、失敗時のログが一つにつながり、静的ファイルの配信はCDNへ任せられます。
+            本文と実装、変更履歴、差分確認、公開用fileの生成、本番公開、失敗時のlogが一つにつながり、静的fileの配信はCDNへ任せられます。
             その代わり、コメントや会員機能のような動的処理は持ちません。
           </p>
           <p class="reader-bridge__meaning"><strong>実務上の意味</strong>今の目的に不要な機能を足さず、障害点と保守対象を小さくしたまま、更新可能な公式サイトを運用できます。</p>
@@ -355,8 +358,8 @@ const records = [
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">DNS records</p>
-          <h2>DNSレコードが、<br />Webとメールの経路を決める。</h2>
+          <p class="eyebrow">Webとメールの行き先を示すDNSレコード</p>
+          <h2>DNSレコードが、<br />Webとメールの<br />行き先を決める。</h2>
         </div>
         <p>
           レコード種別ごとに役割は異なります。同じ名前・種別の重複や古い値を避け、設定値は利用サービスの管理画面と公式ドキュメントから取得します。
@@ -399,8 +402,8 @@ const records = [
   <section class="section section--dark build-section">
     <div class="shell build-section__grid">
       <aside class="guide-index" data-reveal>
-        <p class="eyebrow eyebrow--accent">Build order</p>
-        <h2>設定する順番。</h2>
+        <p class="eyebrow eyebrow--accent">構築する順番</p>
+        <h2>設定する<br />順番。</h2>
         <ol>
           <li><a href="#step-1"><span>01</span>ドメインとDNS</a></li>
           <li><a href="#step-2"><span>02</span>Webサイト</a></li>
@@ -413,7 +416,7 @@ const records = [
       <div class="guide-steps">
         <article id="step-1" data-reveal>
           <span class="guide-steps__number">01</span>
-          <p class="eyebrow">Domain &amp; DNS</p>
+          <p class="eyebrow">ドメイン契約とDNS</p>
           <h3>名前を契約し、編集場所を確定する。</h3>
           <p>
             ドメインを契約したら、自動更新と連絡先メールを確認します。次にNSレコードを調べ、現在の権威DNSとレコード編集画面を特定します。
@@ -431,28 +434,28 @@ const records = [
 
         <article id="step-2" data-reveal>
           <span class="guide-steps__number">02</span>
-          <p class="eyebrow">Website</p>
-          <h3>GitHub Pagesで、ビルドと公開をつなぐ。</h3>
+          <p class="eyebrow">Webサイト</p>
+          <h3>GitHub Pagesで、<br />検査・生成・公開をつなぐ。</h3>
           <p>
-            先にリポジトリの <strong>Settings &gt; Pages</strong> で公開元をGitHub Actionsにします。
-            ReactorFrontでは、mainへの反映または手動実行を起点にAstroを静的ビルドし、成功した成果物を <code>github-pages</code> environmentから公開します。
+            先にGitHubのrepository設定画面（<strong>Settings &gt; Pages</strong>）で、公開元をGitHub Actionsにします。
+            ReactorFrontでは、<code>main</code>への反映または手動実行を起点にAstroが公開用の静的fileを生成し、成功したfileをPagesの公開環境（<code>github-pages</code> environment）から公開します。
           </p>
           <div class="pages-settings" aria-label="ReactorFrontで使用しているGitHub Pagesの主要設定">
-            <div><span>01</span><strong>Repository</strong><small>公開リポジトリ</small></div>
-            <div><span>02</span><strong>Source</strong><small>GitHub Actions</small></div>
-            <div><span>03</span><strong>Custom domain</strong><small><code>www.reactorfront.jp</code></small></div>
-            <div><span>04</span><strong>HTTPS</strong><small>Enforce HTTPS</small></div>
+            <div><span>01</span><strong>公開repository</strong><small>Repository</small></div>
+            <div><span>02</span><strong>公開元</strong><small>Source: GitHub Actions</small></div>
+            <div><span>03</span><strong>独自ドメイン</strong><small>Custom domain: <code>www.reactorfront.jp</code></small></div>
+            <div><span>04</span><strong>HTTPS強制</strong><small>Enforce HTTPS</small></div>
           </div>
           <p>
-            workflowでは、ソースのcheckout、依存関係の導入、Astroの検査・ビルド、Pages artifactのupload、deployを順に分担します。
-            公開権限は <code>contents: read</code>、<code>pages: write</code>、<code>id-token: write</code> に絞り、buildが成功した後だけdeployを開始します。
+            自動実行の設定（workflow）では、ソースの取得（checkout）、必要packageの導入、Astroの検査、公開用fileの生成、Pagesへの受け渡し、本番公開（deploy）を順に行います。
+            公開権限は <code>contents: read</code>、<code>pages: write</code>、<code>id-token: write</code> に絞り、公開用fileの生成（build）が成功した後だけdeployを開始します。
           </p>
           <ul class="task-list">
-            <li>mainへ反映したcommitと、Actionsの実行対象が一致する</li>
-            <li>buildとdeployの両方が成功している</li>
+            <li><code>main</code>へ反映したcommitと、Actionsの実行対象が一致する</li>
+            <li>公開用fileの生成（build）と本番公開（deploy）の両方が成功している</li>
             <li>Pages設定に正しいカスタムドメインが表示される</li>
             <li><strong>Enforce HTTPS</strong> が有効で、本番URLがHTTPSで開く</li>
-            <li>問題があれば、失敗した工程を確認し、必要に応じてrevertする</li>
+            <li>問題があれば失敗した工程を確認し、必要に応じて変更を取り消すcommit（revert）を反映する</li>
           </ul>
           <p>
             次にGitHub側でカスタムドメインを登録・検証し、DNSへA / AAAA / CNAMEを追加します。
@@ -482,7 +485,7 @@ const records = [
 
         <article id="step-3" data-reveal>
           <span class="guide-steps__number">03</span>
-          <p class="eyebrow">Business email</p>
+          <p class="eyebrow">仕事用メール</p>
           <h3>Google Workspaceへメールを届ける。</h3>
           <p>
             Google Workspaceでドメイン所有を確認し、管理画面が指定するMXレコードをDNSへ登録します。
@@ -500,7 +503,7 @@ const records = [
 
         <article id="step-4" data-reveal>
           <span class="guide-steps__number">04</span>
-          <p class="eyebrow">Email authentication</p>
+          <p class="eyebrow">メール送信元の認証</p>
           <h3>SPF・DKIM・DMARCを順番に有効化する。</h3>
           <p>
             3つは重複機能ではありません。送信元の許可、電子署名、失敗時の扱いという別々の役割を持ちます。
@@ -552,8 +555,8 @@ const records = [
 
         <article id="step-5" data-reveal>
           <span class="guide-steps__number">05</span>
-          <p class="eyebrow">Verification</p>
-          <h3>公開DNSと実際の通信で検証する。</h3>
+          <p class="eyebrow">外部からの確認</p>
+          <h3>公開DNSと実際の通信を、外部から確かめる。</h3>
           <p>
             管理画面での保存だけでは完了としません。公開DNSを問い合わせ、HTTPSでサイトを開き、外部メールボックスへ送信して、受信側の認証結果まで確認します。
           </p>
@@ -596,7 +599,7 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">Publish safely</p>
+          <p class="eyebrow">公開してよい情報を分ける</p>
           <h2>ノウハウは公開する。<br />認証情報は公開しない。</h2>
         </div>
         <p>
@@ -649,15 +652,15 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
   <section class="section section--soft operations-section">
     <div class="shell operations-section__grid">
       <div data-reveal>
-        <p class="eyebrow">Keep it healthy</p>
-        <h2>構築後に必要な、<br />定期運用。</h2>
+        <p class="eyebrow">構築後の定期確認</p>
+        <h2>構築後も続ける<br />定期運用。</h2>
       </div>
       <div class="operations-list">
-        <article data-reveal><span>Monthly</span><h3>期限と請求を確認</h3><p>ドメイン、Google Workspace、支払い手段、管理者への通知を確認します。</p></article>
-        <article data-reveal><span>After merge</span><h3>buildとdeployを確認</h3><p>mainへ反映したcommit、GitHub Actionsのbuild、Pagesへのdeploy、本番URLを順に確認します。</p></article>
-        <article data-reveal><span>After change</span><h3>DNSを外部確認</h3><p>レコード変更後は、権威DNSと一般の名前解決の両方を確認します。</p></article>
-        <article data-reveal><span>Weekly at first</span><h3>DMARCレポートを見る</h3><p>導入直後は未知の送信元や認証失敗がないか確認し、方針強化の判断材料にします。</p></article>
-        <article data-reveal><span>Quarterly</span><h3>管理権限を棚卸し</h3><p>使っていないアカウント、古い回復先、不要なDNSレコードを整理します。</p></article>
+        <article data-reveal><span>毎月</span><h3>期限と請求を確認</h3><p>ドメイン、Google Workspace、支払い手段、管理者への通知を確認します。</p></article>
+        <article data-reveal><span>main反映後</span><h3>公開用fileの生成と本番公開を確認</h3><p><code>main</code>へ反映したcommit、GitHub Actionsによる生成（build）、Pagesへの公開（deploy）、本番URLを順に確認します。</p></article>
+        <article data-reveal><span>DNS変更後</span><h3>DNSを外部確認</h3><p>レコード変更後は、権威DNSと一般の名前解決の両方を確認します。</p></article>
+        <article data-reveal><span>導入直後は毎週</span><h3>DMARCレポートを見る</h3><p>未知の送信元や認証失敗がないか確認し、方針を強めてよいか判断します。</p></article>
+        <article data-reveal><span>3か月ごと</span><h3>管理権限を棚卸し</h3><p>使っていないアカウント、古い回復先、不要なDNSレコードを整理します。</p></article>
       </div>
     </div>
   </section>
@@ -666,7 +669,7 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
     <div class="shell">
       <a class="infra-sequel__card" href="/infrastructure/google-search/" data-reveal>
         <div>
-          <p class="eyebrow eyebrow--accent">Continue / Google Search case study</p>
+          <p class="eyebrow eyebrow--accent">続編：Google検索へ伝えるまで</p>
           <h2 id="infra-sequel-title">サイトを公開した。<br />その後、Googleへどう伝えたか。</h2>
           <p>
             Search Console、サイトマップ、構造化データ、代表画像、favicon。
@@ -681,8 +684,8 @@ Resolve-DnsName _dmarc.example.com -Type TXT</code></pre>
   <section class="guide-closing">
     <div class="shell guide-closing__inner" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--light">Small, understandable, yours</p>
-        <h2>小さく始め、<br />構成と責任範囲を把握する。</h2>
+        <p class="eyebrow eyebrow--light">小さく、理解でき、自分で管理できる構成</p>
+        <h2>小さく始め、<br />構成と担当範囲を把握する。</h2>
         <p>
           サービス数の少なさだけが最小構成ではありません。
           契約更新、DNS、認証、検証、障害時の連絡先まで把握していれば、必要な変更を自分で判断できます。
