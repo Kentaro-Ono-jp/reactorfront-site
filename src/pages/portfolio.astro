@@ -5,41 +5,42 @@ import { articleReadingMinutes } from "../reading-times";
 import type { BreadcrumbItem } from "../structured-data";
 
 const breadcrumbs = [
-  { name: "Home", href: "/" },
-  { name: "Portfolio", href: "/portfolio/" },
+  { name: "ホーム", href: "/" },
+  { name: "ポートフォリオ", href: "/portfolio/" },
 ] satisfies BreadcrumbItem[];
 
 const slices = [
   {
     number: "01",
-    title: "PDF受付と非同期ワークフロー",
+    title: "PDF受付と非同期処理",
     plain: "APIがPDFを受け付け、Outboxとキューを介してMLワーカーへ処理を引き渡します。再試行しても業務状態を壊しません。",
-    proves: "Web / API / Object Storage / Queue / Retry",
+    proves: "画面 / API / オブジェクト保存 / キュー / 再試行",
   },
   {
     number: "02",
     title: "認証付きレビューと排他制御",
     plain: "文書の所有者だけが推論結果を承認・訂正できます。同時操作やリクエスト再送が起きても、最終判断は一度だけ成立します。",
-    proves: "Authentication / Authorization / Idempotency / Audit",
+    proves: "認証 / 権限確認 / 重複防止 / 監査記録",
   },
   {
     number: "03",
-    title: "評価可能なモデルライフサイクル",
-    plain: "人の訂正は学習候補として分離し、固定したデータセットでChampionとCandidateを比較してからモデルを昇格します。",
-    proves: "Dataset / Evaluation Gate / Lineage / Rollback",
+    title: "評価して更新・復旧できるモデル管理",
+    plain: "人の訂正は学習候補として分離し、固定したデータセットで現行モデル（Champion）と更新候補（Candidate）を比較してから採用します。",
+    proves: "データセット / 評価の合格条件 / 来歴 / ロールバック",
   },
   {
     number: "04",
     title: "実AWSでのデプロイと撤収",
     plain: "Terraformで一時環境を構築し、認証付きE2Eを実行。destroy後は別経路で残存リソースまで検査します。",
-    proves: "AWS / Terraform / OIDC / E2E / Residual Sweep",
+    proves: "AWS / Terraform / OIDC / E2E / 残存リソース検査",
   },
 ];
 ---
 
 <BaseLayout
-  title={`ポートフォリオ解説｜約${articleReadingMinutes.overview}分で読む`}
-  description={`PDF受付、非同期解析、Human-in-the-loop、監査ログ、モデルライフサイクル、AWS運用を統合したReactorFrontのDocument Intelligence基盤を約${articleReadingMinutes.overview}分で解説します。`}
+  title={`文書処理ポートフォリオの全体像｜約${articleReadingMinutes.overview}分で読む`}
+  description={`PDF受付、AI解析、人による確認、監査記録、モデル更新、AWS運用を一つにつないだReactorFront（リアクターフロント）の文書処理基盤を約${articleReadingMinutes.overview}分で解説します。`}
+  imageAlt="ReactorFront（リアクターフロント）の文書処理ポートフォリオを開発するワークスペース"
   breadcrumbs={breadcrumbs}
 >
   <section class="page-hero page-hero--portfolio">
@@ -48,12 +49,12 @@ const slices = [
       <Breadcrumbs items={breadcrumbs} />
       <div class="page-hero__grid">
         <div>
-          <p class="eyebrow eyebrow--accent">{articleReadingMinutes.overview}-minute overview</p>
-          <h1>現在は文書分類。<br />文書知能化へ。</h1>
+          <p class="eyebrow eyebrow--accent">約{articleReadingMinutes.overview}分で分かる全体像</p>
+          <h1>PDF受付から、<br />人の確認と監査記録まで。</h1>
         </div>
         <div class="page-hero__lead">
           <p>
-            PDFの受付、AIによる解析、人のレビュー、監査、モデル更新までを統合したDocument Intelligence基盤です。
+            PDFの受付、AIによる解析、人の確認、監査、モデル更新までを統合した文書処理（Document Intelligence）基盤です。
             公開版では最小の実証として文書分類を実装し、その先の業務文書分析や設計図面の読み取りを見据えています。
           </p>
           <span class="reading-time">約{articleReadingMinutes.overview}分で読めます</span>
@@ -65,16 +66,16 @@ const slices = [
   <section class="section portfolio-summary">
     <div class="shell portfolio-summary__grid">
       <div data-reveal>
-        <p class="eyebrow">In one sentence</p>
+        <p class="eyebrow">ひと言でいうと</p>
         <h2>文書を解析し、<br />人の判断と根拠まで管理する。</h2>
       </div>
       <div class="prose prose--large" data-reveal>
         <p>
-          ReactorFront Portfolioは、認証付きでPDFを受け付け、オブジェクトストレージとキューを介して機械学習ワーカーへ処理を渡します。
+          ReactorFront Portfolioは、ReactorFront（リアクターフロント）が公開する実装例です。利用者を認証してPDFを受け付け、ファイル保存領域と処理待ちのキューを介して、機械学習を実行するプログラムへ処理を渡します。
           現在の推論タスクは「請求書」「報告書」の文書分類ですが、システムの中心は分類モデル単体ではありません。
         </p>
         <p>
-          推論結果をHuman-in-the-loopで承認・訂正し、機械の出力と人の判断を別々の監査証跡として保存します。
+          推論結果を人が確認する工程（Human-in-the-loop）で承認・訂正し、機械の出力と人の判断を別々の監査記録として保存します。
           さらに、データセット、評価結果、採用モデルを結び付け、モデル更新とロールバックまで追跡できるようにしています。
         </p>
       </div>
@@ -110,7 +111,7 @@ const slices = [
   <section class="section section--soft">
     <div class="shell">
       <div class="section-heading" data-reveal>
-        <p class="eyebrow">How it works</p>
+        <p class="eyebrow">処理の流れ</p>
         <h2>受付から監査までを、<br />非同期ワークフローでつなぐ。</h2>
         <p>ユーザー操作と時間のかかる推論処理を分離し、各段階の状態と責任を明確にしています。</p>
       </div>
@@ -121,36 +122,36 @@ const slices = [
           <div class="portfolio-flow__visual portfolio-flow__visual--upload" aria-hidden="true">
             <span class="paper-sheet"></span><span class="upload-arrow">↑</span>
           </div>
-          <h3>Ingest</h3>
+          <h3>PDFを受け付ける</h3>
           <p>認証・認可を確認し、PDFと業務レコードを登録します。</p>
-          <small>API / Object Storage</small>
+          <small>Ingest / API / Object Storage</small>
         </li>
         <li data-reveal>
           <span class="portfolio-flow__number">02</span>
           <div class="portfolio-flow__visual portfolio-flow__visual--process" aria-hidden="true">
             <span></span><span></span><span></span>
           </div>
-          <h3>Analyze</h3>
+          <h3>AIで解析する</h3>
           <p>キューから依頼を受けたMLワーカーが文書を解析します。</p>
-          <small>Queue / ML Worker</small>
+          <small>Analyze / Queue / ML Worker</small>
         </li>
         <li data-reveal>
           <span class="portfolio-flow__number">03</span>
           <div class="portfolio-flow__visual portfolio-flow__visual--decision" aria-hidden="true">
             <span>✓</span><span>↺</span>
           </div>
-          <h3>Review</h3>
+          <h3>人が確認する</h3>
           <p>利用者が元文書と推論結果を確認し、承認または訂正します。</p>
-          <small>Human-in-the-loop</small>
+          <small>Review / Human-in-the-loop</small>
         </li>
         <li data-reveal>
           <span class="portfolio-flow__number">04</span>
           <div class="portfolio-flow__visual portfolio-flow__visual--record" aria-hidden="true">
             <span></span><span></span><span></span>
           </div>
-          <h3>Audit</h3>
+          <h3>判断を記録する</h3>
           <p>推論、レビュー、モデルの来歴を追跡可能な形で保存します。</p>
-          <small>Audit Trail / Lineage</small>
+          <small>Audit / Audit Trail / Lineage</small>
         </li>
       </ol>
 
@@ -174,11 +175,11 @@ const slices = [
   <section class="section why-section">
     <div class="shell why-section__grid">
       <div class="why-section__sticky" data-reveal>
-        <p class="eyebrow">Why it matters</p>
+        <p class="eyebrow">業務上の価値</p>
         <h2>MLモデルだけでは、<br />業務システムにならない。</h2>
         <p>
           業務導入では、推論の前後にある認証、状態管理、再実行、レビュー、監査、モデル更新が必要です。
-          このポートフォリオは、そのアプリケーション・ML・運用の接続部分を実装しています。
+          このポートフォリオは、画面とAPI、ML、運用をつなぐ部分まで実装しています。
         </p>
       </div>
       <div class="challenge-list">
@@ -195,7 +196,7 @@ const slices = [
           <span>04</span><div><h3>推論・決定・学習候補を分離する</h3><p>機械の出力、人の最終判断、将来のデータセット候補を異なるレコードとして保存します。</p></div>
         </article>
         <article data-reveal>
-          <span>05</span><div><h3>失敗を再実行可能にする</h3><p>Outbox、リトライ、状態遷移を使い、途中で停止した処理を追跡して再開できるようにします。</p></div>
+          <span>05</span><div><h3>失敗した処理を再実行できるようにする</h3><p>処理依頼を確実に記録するOutbox、再試行、状態の記録を使い、途中で停止した場所を追跡して再開できるようにします。</p></div>
         </article>
       </div>
     </div>
@@ -220,11 +221,11 @@ const slices = [
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow eyebrow--accent">Four vertical slices</p>
-          <h2>4本のVertical Sliceで、<br />実証範囲を拡張した。</h2>
+          <p class="eyebrow eyebrow--accent">端から端まで通した4つの実装単位</p>
+          <h2>動く一連の流れを保ちながら、<br />実証範囲を広げた。</h2>
         </div>
         <p>
-          各SliceでUIからデータ、非同期処理、テストまでを縦に通し、段階ごとに実行可能な状態を維持しました。
+          画面、API、データ保存、非同期処理、テストを端から端まで通す実装単位（Vertical Slice）を4つに分け、段階ごとに実行可能な状態を維持しました。
           2026年8月12日時点で、4本すべての受け入れ条件を満たしています。
         </p>
       </div>
@@ -247,7 +248,7 @@ const slices = [
       <aside class="reader-bridge" data-reveal>
         <div class="reader-bridge__label">
           <span>理解の補助線</span>
-          <strong>Vertical Sliceとは</strong>
+          <strong>端から端まで通す実装単位とは</strong>
         </div>
         <div>
           <h3>使える一連の流れを、細く一本ずつ完成させる進め方です。</h3>
@@ -264,38 +265,38 @@ const slices = [
   <section class="section tech-map-section">
     <div class="shell">
       <div class="section-heading" data-reveal>
-        <p class="eyebrow">Under the hood</p>
-        <h2>Frontend、API、キュー、ML、AWS。</h2>
-        <p>各コンポーネントの責務を分離し、明示した契約で接続しています。</p>
+        <p class="eyebrow">各技術の役割</p>
+        <h2>画面、API、処理依頼、AI、AWSを分けてつなぐ。</h2>
+        <p>各プログラムが担当する作業を分け、受け渡すデータと条件を明示して接続しています。</p>
       </div>
 
       <div class="tech-map" data-reveal>
         <article>
-          <span class="tech-map__role">Frontend</span>
-          <h3>Web Application</h3>
+          <span class="tech-map__role">利用者画面（Frontend）</span>
+          <h3>Webアプリケーション</h3>
           <p>認証、PDFアップロード、処理状態、推論結果とレビューUI</p>
           <div class="tag-list"><span>Next.js</span><span>React</span></div>
         </article>
         <article>
-          <span class="tech-map__role">Application &amp; State</span>
+          <span class="tech-map__role">業務処理と状態管理</span>
           <h3>API</h3>
           <p>認可、業務状態、Outbox、レビュー確定、監査ログを管理</p>
           <div class="tag-list"><span>FastAPI</span><span>PostgreSQL</span></div>
         </article>
         <article>
-          <span class="tech-map__role">Messaging</span>
-          <h3>Queue</h3>
+          <span class="tech-map__role">処理依頼の配送（Messaging）</span>
+          <h3>キュー</h3>
           <p>APIとワーカーを分離し、処理依頼の配送と再試行を管理</p>
           <div class="tag-list"><span>RabbitMQ</span><span>Outbox</span></div>
         </article>
         <article>
-          <span class="tech-map__role">ML Inference</span>
-          <h3>ML Worker</h3>
+          <span class="tech-map__role">機械学習による推論</span>
+          <h3>MLワーカー</h3>
           <p>採用済みモデルを検証してロードし、推論結果とモデル来歴を返す</p>
           <div class="tag-list"><span>Python</span><span>PyTorch</span></div>
         </article>
         <article>
-          <span class="tech-map__role">Cloud Infrastructure</span>
+          <span class="tech-map__role">クラウド実行環境</span>
           <h3>AWS</h3>
           <p>Terraformによる構築、E2E、可観測性、destroyと残存確認</p>
           <div class="tag-list"><span>Terraform</span><span>Fargate</span></div>
@@ -323,7 +324,7 @@ const slices = [
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">Beyond classification</p>
+          <p class="eyebrow">分類から広げられる範囲</p>
           <h2>分類は最初のユースケース。<br />文書分析・図面解析へ。</h2>
         </div>
         <p>
@@ -333,19 +334,19 @@ const slices = [
 
       <div class="role-grid">
         <article data-reveal>
-          <span>01 / Extract</span><h3>項目・表の構造化</h3>
+          <span>01 / 項目抽出（Extract）</span><h3>項目・表の構造化</h3>
           <p>請求書や注文書の項目、明細表、フォームの値を抽出し、業務システムで扱える構造化データへ変換する。</p>
         </article>
         <article data-reveal>
-          <span>02 / Analyze</span><h3>業務文書の分析</h3>
+          <span>02 / 内容分析（Analyze）</span><h3>業務文書の分析</h3>
           <p>契約書や報告書の重要項目、記載漏れ、文書間の差分を検出し、人が確認すべき箇所を提示する。</p>
         </article>
         <article data-reveal>
-          <span>03 / Drawing</span><h3>設計図面の読み取り</h3>
+          <span>03 / 図面解析（Drawing）</span><h3>設計図面の読み取り</h3>
           <p>表題欄、文字、記号、寸法、部品候補、改訂差分を座標付きで抽出し、図面レビューへ接続する。</p>
         </article>
         <article data-reveal>
-          <span>04 / Govern</span><h3>判断と来歴の管理</h3>
+          <span>04 / 判断管理（Govern）</span><h3>判断と来歴の管理</h3>
           <p>AIの出力と人の訂正を分離して保存し、どのデータ・モデル・評価条件で処理したかを追跡する。</p>
         </article>
       </div>
@@ -355,7 +356,7 @@ const slices = [
         <div>
           <h3>業務システムへ育てられる骨格はある。ただし、対象業務ごとの実証は別途必要です</h3>
           <p>
-            図面解析や項目抽出は、現在の公開版で実証済みの機能ではありません。導入時には、業務データとアノテーション、OCR・レイアウト解析・画像認識モデルまたはCAD/BIM連携、座標を含む出力スキーマ、専用レビューUI、タスク別の評価指標が必要です。セキュリティ、可用性、監視、処理量とコストも業務要件に合わせて追加設計します。
+            図面解析や項目抽出は、現在の公開版で実証済みの機能ではありません。導入時には、業務データと正解ラベル（アノテーション）、OCR・レイアウト解析・画像認識モデルまたはCAD/BIM連携、座標を含む出力形式（スキーマ）、専用の確認画面、作業別の評価指標が必要です。セキュリティ、可用性、監視、処理量とコストも業務要件に合わせて追加設計します。
           </p>
           <p>
             また、現行版は利用者が画面から自由に再学習するサービスではありません。データセットの採用、学習、評価、モデル昇格は、エンジニアがレビュー済みのリポジトリ変更として管理します。
@@ -368,7 +369,7 @@ const slices = [
   <section class="section limitations-section">
     <div class="shell limitations-section__grid">
       <div data-reveal>
-        <p class="eyebrow">Honest limitations</p>
+        <p class="eyebrow">現時点の実証範囲と制約</p>
         <h2>現在、実証済みなのは<br />ここまで。</h2>
       </div>
       <div data-reveal>
@@ -389,14 +390,14 @@ const slices = [
   <section class="section aws-story-teaser aws-story-teaser--ml">
     <div class="shell aws-story-teaser__inner" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--accent">Continue · {articleReadingMinutes.ml}-minute engineering note</p>
+        <p class="eyebrow eyebrow--accent">続き：MLモデルの評価と更新（約{articleReadingMinutes.ml}分）</p>
         <h2>機械学習を、どう比べ、<br />どう採用し、どう戻すか。</h2>
         <p>
           評価の難しさ、現行版と候補版、データの版、採用根拠、巻き戻し、人の訂正との距離まで。
           MLシステムで起こりやすい問題に、このポートフォリオがどう対処したかを解説します。
         </p>
         <a class="button button--accent button--large" href="/portfolio/ml/">
-          MLの{articleReadingMinutes.ml}分読み物へ
+          MLモデルの評価・採用・戻し方を読む
           <span aria-hidden="true">→</span>
         </a>
       </div>
@@ -412,14 +413,14 @@ const slices = [
   <section class="section aws-story-teaser">
     <div class="shell aws-story-teaser__inner" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--accent">Continue · {articleReadingMinutes.aws}-minute field note</p>
+        <p class="eyebrow eyebrow--accent">続き：AWS環境の構築と撤収（約{articleReadingMinutes.aws}分）</p>
         <h2>AWSでは、どう作り、<br />どう確かめ、どう消したか。</h2>
         <p>
           IAMの権限、デプロイ、E2E、ログ、destroy後の残存確認まで。
-          実際のAWS設定と検証記録を基に、IaCで環境を構築し、試験後に撤収するまでの設計を解説します。
+          実際のAWS設定と検証記録を基に、コードで環境を定義するIaCで構築し、試験後に撤収するまでの設計を解説します。
         </p>
         <a class="button button--accent button--large" href="/portfolio/aws/">
-          {articleReadingMinutes.aws}分読み物へ進む
+          AWS環境の構築・確認・撤収を読む
           <span aria-hidden="true">→</span>
         </a>
       </div>
@@ -435,14 +436,14 @@ const slices = [
   <section class="repository-cta">
     <div class="shell repository-cta__inner" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--light">Public repository</p>
+        <p class="eyebrow eyebrow--light">公開リポジトリ</p>
         <h2>実装と検証記録は、GitHubで公開。</h2>
         <p>
           ソースコード、テスト、ADR、モデル評価、AWSの検証結果を公開リポジトリで確認できます。READMEと詳細資料は英語です。
         </p>
       </div>
       <a class="button button--accent button--large" href="https://github.com/Kentaro-Ono-jp/Portfolio" target="_blank" rel="noreferrer">
-        GitHubで見る
+        GitHubで実装と検証記録を見る
         <span aria-hidden="true">↗</span>
       </a>
     </div>

@@ -271,6 +271,28 @@ for (const htmlFile of htmlFiles) {
       errors.push(`${relativePath}: 別のPerson @idが生成されています`);
     }
   }
+
+  if (relativePath === "portfolio/index.html") {
+    if (articleSchemas.length !== 0) {
+      errors.push(`${relativePath}: 概説ページをArticleとして出力しています`);
+    }
+    for (const expectedText of [
+      "ReactorFront（リアクターフロント）が公開する実装例",
+      "PDFを受け付ける",
+      "AIで解析する",
+      "人が確認する",
+      "判断を記録する",
+      "端から端まで通す実装単位（Vertical Slice）",
+      "現時点の実証範囲と制約",
+    ]) {
+      if (!html.includes(expectedText)) {
+        errors.push(`${relativePath}: 画面上に「${expectedText}」がありません`);
+      }
+    }
+    if (!html.includes('href="https://github.com/Kentaro-Ono-jp/Portfolio"')) {
+      errors.push(`${relativePath}: 公開Portfolio repositoryへのリンクがありません`);
+    }
+  }
 }
 
 if (errors.length > 0) {

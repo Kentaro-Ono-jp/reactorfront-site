@@ -15,7 +15,7 @@ export interface IndexableRouteMetadata {
 export const indexableRoutes = [
   { path: "/", lastModified: "2026-08-23T14:06:52+09:00" },
   { path: "/profile/", lastModified: "2026-08-23T14:16:45+09:00" },
-  { path: "/portfolio/", lastModified: "2026-08-23T10:57:42+09:00" },
+  { path: "/portfolio/", lastModified: "2026-08-23T14:22:52+09:00" },
   {
     path: "/portfolio/aws/",
     datePublished: "2026-08-14T08:45:00+09:00",
