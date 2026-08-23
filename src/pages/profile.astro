@@ -1,5 +1,12 @@
 ---
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import type { BreadcrumbItem } from "../structured-data";
+
+const breadcrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Profile", href: "/profile/" },
+] satisfies BreadcrumbItem[];
 
 const disciplines = [
   {
@@ -97,12 +104,11 @@ const experienceEvidence = [
 <BaseLayout
   title="プロフィール"
   description="ReactorFront代表・小野賢太郎のプロフィール。システム開発25年以上、Linux専任運用保守5年の経験を土台に、現在は機械学習の研究開発に取り組んでいます。"
+  breadcrumbs={breadcrumbs}
 >
   <section class="page-hero page-hero--profile">
     <div class="shell page-hero__inner">
-      <div class="breadcrumbs" aria-label="パンくずリスト">
-        <a href="/">Home</a><span aria-hidden="true">/</span><span>Profile</span>
-      </div>
+      <Breadcrumbs items={breadcrumbs} />
       <div class="page-hero__grid">
         <div>
           <p class="eyebrow eyebrow--light">Profile</p>

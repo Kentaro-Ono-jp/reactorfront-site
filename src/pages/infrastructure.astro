@@ -1,6 +1,13 @@
 ---
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../reading-times";
+import type { BreadcrumbItem } from "../structured-data";
+
+const breadcrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Infrastructure", href: "/infrastructure/" },
+] satisfies BreadcrumbItem[];
 
 const verifiedAt = "2026-08-16";
 
@@ -15,13 +22,12 @@ const records = [
 <BaseLayout
   title="フリーランスのインフラ入門"
   description="開業届を出した後に整えた、独自ドメイン、GitHub Pages、GitHub Actions、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontの実構成と選定理由を一般化し、安全な範囲で解説します。"
+  breadcrumbs={breadcrumbs}
 >
   <section class="page-hero page-hero--infrastructure">
     <div class="page-hero__circuit" aria-hidden="true"></div>
     <div class="shell page-hero__inner">
-      <div class="breadcrumbs" aria-label="パンくずリスト">
-        <a href="/">Home</a><span aria-hidden="true">/</span><span>Infrastructure</span>
-      </div>
+      <Breadcrumbs items={breadcrumbs} />
       <div class="page-hero__grid">
         <div>
           <p class="eyebrow eyebrow--accent">Freelance infrastructure guide</p>

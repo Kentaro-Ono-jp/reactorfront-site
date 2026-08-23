@@ -1,0 +1,24 @@
+---
+import type { BreadcrumbItem } from "../structured-data";
+
+interface Props {
+  items: readonly BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="パンくずリスト">
+  {
+    items.map((item, index) => (
+      <>
+        {index > 0 && <span aria-hidden="true">/</span>}
+        {index === items.length - 1 ? (
+          <span aria-current="page">{item.name}</span>
+        ) : (
+          <a href={item.href}>{item.name}</a>
+        )}
+      </>
+    ))
+  }
+</nav>
