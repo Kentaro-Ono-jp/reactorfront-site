@@ -24,7 +24,7 @@
 | `/portfolio/` | 顧客、技術者 | Document Intelligence基盤の全体像、業務価値、確認できる証拠 | #55 | 完了 |
 | `/portfolio/ml/` | 技術者、顧客 | MLモデルを評価、採用、追跡、rollbackする工程 | #56 | 完了 |
 | `/portfolio/aws/` | 技術者、顧客 | AWS環境を構築、検証、監視、撤収する一連の工程 | #57 | 完了 |
-| `/portfolio/aws/one-cent-ecr/` | 技術者、顧客 | 1セントの費用を追跡し、残存resourceを安全に検出・削除した判断 | #58 | 未着手 |
+| `/portfolio/aws/one-cent-ecr/` | 技術者、顧客 | 1セントの費用を追跡し、残存resourceを安全に検出・削除した判断 | #58 | 完了 |
 | `/infrastructure/` | フリーランス、顧客 | domain、DNS、Web、仕事用mailを安全に構成・維持する方法 | #59 | 未着手 |
 | `/infrastructure/google-search/` | サイト運営者、顧客 | Googleが取得・解釈できる状態へ整えた作業と、Googleが決める結果の境界 | #60 | 未着手 |
 | 全pageのmeta / Schema / alt / lastmod | 検索利用者、技術者 | 画面と機械向け情報が同じ事実を表すこと | #61 | 未着手 |
@@ -86,12 +86,12 @@
 
 | Page / component | Section / 位置 | 想定読者 | 現行表現 | 分かりにくい理由 | 分類 | 改稿方向 | 維持する事実・証拠 | meta / Schema / altへの影響 | Issue / 状態 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/portfolio/aws/one-cent-ecr/` | hero / metrics | 顧客、技術者 | `AWS cost forensics / Field notes`、`Observed total / ECR per day / Residue / After cleanup` | 費用、残存、削除後の値が英語label依存 | 日本語化 | 何をいつ観測した金額・件数かを示す | 正確な金額、日時、画像 | Article description、caption | #58 / 未着手 |
-| 同上 | cost progression | 技術者 | `Rounding / A lucky boundary`、`Daily increase / Visible step` | 丸めと日次増加の判断根拠が不明 | 日本語化 | 表示丸めと観測できた増加を区別する | Cost Explorer画像、観測値 | alt、caption | #58 / 未着手 |
-| 同上 | attribution / inventory | 技術者 | `Attribution / Three different records`、`Generation / ECR inventory`、`Nine images / Three by three` | 記録の種類と9画像の内訳が分からない | 日本語化 / 維持 | 費用、repository、generation、image inventoryの関係を示す | repository数、generation数、image数 | 図、Article body | #58 / 未着手 |
-| 同上 | detection / deletion | 技術者 | `Sweep gap / Exact, but too narrow`、`Mutation scope / Observation scope`、`Detect / Delete`、`Why detection only?` | 検出範囲と削除権限、停止判断が抽象的 | 日本語化 | 読み取り範囲、変更可能範囲、検出と削除を分ける | policy、対象ID、Issue・PR | Article body | #58 / 未着手 |
-| 同上 | cleanup / evidence | 顧客、技術者 | `One-time cleanup / Exact targets`、`Epilogue / Small signal, real gap`、`Sources & verification` | 一括削除の条件と証跡が英語依存 | 日本語化 / 保護 | 承認後の対象限定削除、結果、一次資料を示す | 金額、target、commit、9画像 | CTA、caption | #58 / 未着手 |
-| 同上 | repository label | 技術者 | `reactorfront/{repository.name}` | ブランド別名と実在識別子を混同しやすい | 保護 | 一切変更せず、repository名と説明する | ECR repository名 | code表示 | #58 / 維持 |
+| `/portfolio/aws/one-cent-ecr/` | hero / metrics | 顧客、技術者 | `AWS cost forensics / Field notes`、`Observed total / ECR per day / Residue / After cleanup` | 費用、残存、削除後の値が英語label依存 | 日本語化 | 何をいつ観測した金額・件数かを示す | 正確な金額、日時、画像 | Article description、caption | #58 / 完了 |
+| 同上 | cost progression | 技術者 | `Rounding / A lucky boundary`、`Daily increase / Visible step` | 丸めと日次増加の判断根拠が不明 | 日本語化 | 表示丸めと観測できた増加を区別する | Cost Explorer画像、観測値 | alt、caption | #58 / 完了 |
+| 同上 | attribution / inventory | 技術者 | `Attribution / Three different records`、`Generation / ECR inventory`、`Nine images / Three by three` | 記録の種類と9画像の内訳が分からない | 日本語化 / 維持 | 費用、repository、generation、image inventoryの関係を示す | repository数、generation数、image数 | 図、Article body | #58 / 完了 |
+| 同上 | detection / deletion | 技術者 | `Sweep gap / Exact, but too narrow`、`Mutation scope / Observation scope`、`Detect / Delete`、`Why detection only?` | 検出範囲と削除権限、停止判断が抽象的 | 日本語化 | 読み取り範囲、変更可能範囲、検出と削除を分ける | policy、対象ID、Issue・PR | Article body | #58 / 完了 |
+| 同上 | cleanup / evidence | 顧客、技術者 | `One-time cleanup / Exact targets`、`Epilogue / Small signal, real gap`、`Sources & verification` | 一括削除の条件と証跡が英語依存 | 日本語化 / 保護 | 承認後の対象限定削除、結果、一次資料を示す | 金額、target、commit、9画像 | CTA、caption | #58 / 完了 |
+| 同上 | repository label | 技術者 | `reactorfront/{repository.name}` | ブランド別名と実在識別子を混同しやすい | 保護 | 一切変更せず、repository名と説明する | ECR repository名 | code表示 | #58 / 維持確認済み |
 
 ## インフラ入門
 
