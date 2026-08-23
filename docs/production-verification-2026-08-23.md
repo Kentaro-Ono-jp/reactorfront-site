@@ -148,7 +148,7 @@ Search Consoleのサマリー画面は確認開始時点で「インデックス
 | #59 | インフラ入門 | [#70](https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/70) | [`dfc56f5`](https://github.com/Kentaro-Ono-jp/reactorfront-site/commit/dfc56f5) |
 | #60 | Google検索記事 | [#71](https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/71) | [`121321c`](https://github.com/Kentaro-Ono-jp/reactorfront-site/commit/121321c) |
 | #61 | 全ページ横断同期 | [#72](https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/72) | [`4d1e50a`](https://github.com/Kentaro-Ono-jp/reactorfront-site/commit/4d1e50a) |
-| #62 | 本番・Google最終検証 | FINAL_PR_LINK | merge後にEpic #51へ記録 |
+| #62 | 本番・Google最終検証 | [#73](https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/73) | merge後にEpic #51へ記録 |
 
 ## Googleが決める結果と観測記録
 
