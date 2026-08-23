@@ -324,6 +324,44 @@ for (const htmlFile of htmlFiles) {
       errors.push(`${relativePath}: 確認したPortfolio commitへのリンクがありません`);
     }
   }
+
+  if (relativePath === "portfolio/aws/index.html") {
+    const article = articleSchemas[0];
+    if (article?.headline !== "AWSで認証し、環境を構築・動作確認・撤収して、残存0件まで確かめる工程") {
+      errors.push(`${relativePath}: Article headlineが画面の主題と一致しません`);
+    }
+    if (!article?.description?.includes("ReactorFront（リアクターフロント）")) {
+      errors.push(`${relativePath}: Article descriptionに運営主体の日本語表記がありません`);
+    }
+    if (article?.isPartOf?.["@id"] !== "https://www.reactorfront.jp/#website") {
+      errors.push(`${relativePath}: Article isPartOfが共通WebSiteではありません`);
+    }
+    for (const expectedText of [
+      "用途別のIAM Roleへ一時的に切り替える",
+      "認証から監査までの利用者操作を通す",
+      "環境を撤収し、残り物がないか別経路で調べる",
+      "許可できる権限の上限（Permissions Boundary）",
+      "Fargateを選んだ理由",
+      "5回のデプロイ試行後",
+      "$2.43",
+      "27カテゴリの残存0件確認",
+      "自動destroyが7回失敗",
+      "対象commit",
+      "708056f",
+    ]) {
+      if (!html.includes(expectedText)) {
+        errors.push(`${relativePath}: 画面上に「${expectedText}」がありません`);
+      }
+    }
+    for (const expectedHref of [
+      "https://github.com/Kentaro-Ono-jp/Portfolio/commit/708056f33d56f1affe2dbe8e1b58f4a722895b88",
+      "https://github.com/Kentaro-Ono-jp/Portfolio/actions/runs/31489580926",
+    ]) {
+      if (!html.includes(`href="${expectedHref}"`)) {
+        errors.push(`${relativePath}: 証拠link ${expectedHref} がありません`);
+      }
+    }
+  }
 }
 
 if (errors.length > 0) {

@@ -19,7 +19,7 @@ export const indexableRoutes = [
   {
     path: "/portfolio/aws/",
     datePublished: "2026-08-14T08:45:00+09:00",
-    lastModified: "2026-08-23T11:21:05+09:00",
+    lastModified: "2026-08-23T14:48:28+09:00",
   },
   {
     path: "/portfolio/aws/one-cent-ecr/",

@@ -23,7 +23,7 @@
 | `/profile/` | エージェント、採用担当、顧客 | 小野賢太郎の経歴、専門領域、第三者証拠、働き方 | #54 | 完了 |
 | `/portfolio/` | 顧客、技術者 | Document Intelligence基盤の全体像、業務価値、確認できる証拠 | #55 | 完了 |
 | `/portfolio/ml/` | 技術者、顧客 | MLモデルを評価、採用、追跡、rollbackする工程 | #56 | 完了 |
-| `/portfolio/aws/` | 技術者、顧客 | AWS環境を構築、検証、監視、撤収する一連の工程 | #57 | 未着手 |
+| `/portfolio/aws/` | 技術者、顧客 | AWS環境を構築、検証、監視、撤収する一連の工程 | #57 | 完了 |
 | `/portfolio/aws/one-cent-ecr/` | 技術者、顧客 | 1セントの費用を追跡し、残存resourceを安全に検出・削除した判断 | #58 | 未着手 |
 | `/infrastructure/` | フリーランス、顧客 | domain、DNS、Web、仕事用mailを安全に構成・維持する方法 | #59 | 未着手 |
 | `/infrastructure/google-search/` | サイト運営者、顧客 | Googleが取得・解釈できる状態へ整えた作業と、Googleが決める結果の境界 | #60 | 未着手 |
@@ -76,11 +76,11 @@
 
 | Page / component | Section / 位置 | 想定読者 | 現行表現 | 分かりにくい理由 | 分類 | 改稿方向 | 維持する事実・証拠 | meta / Schema / altへの影響 | Issue / 状態 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/portfolio/aws/` | lifecycle | 顧客、技術者 | `Authenticate / Assume / Apply / Test / Observe / Destroy`、`One lifecycle` | 誰が何を順に実行するかが英語だけ | 日本語化 / 説明 | 認証、権限引受、構築、動作確認、監視、撤収を順に説明 | 実行順、IAM境界 | Article description、図 | #57 / 未着手 |
-| `/portfolio/aws/` | article facts / proof | 技術者 | `Audience / AWS checked / Portfolio main / Format`、`What this story proves`、`Accepted live proof / Read the evidence` | 確認対象と証拠の意味が曖昧 | 日本語化 / 保護 | 読者、確認環境、commit、確認結果、証拠linkを示す | AWS環境、commit、evidence URL | Article metadata | #57 / 未着手 |
-| `/portfolio/aws/` | IAM / services | 技術者 | `IAM & roles`、`Read-only / Cost reader / Deploy operator`、`Ingress / Identity / Runtime / Messaging / State / Observability` | 権限差とservice責務が分かりにくい | 説明 / 日本語化 | 読み取り、費用確認、deploy権限と各AWS serviceの役割を示す | IAM policy、service構成 | 図中label、caption | #57 / 未着手 |
-| `/portfolio/aws/` | architecture decisions | 顧客、技術者 | `Why Fargate`、`Cost is architecture`、`Two independent schedulers`、`Authenticated E2E` | 採用理由、費用、scheduler、合格条件が英語依存 | 日本語化 / 説明 | Fargate採用理由、費用との関係、2種類の起動、認証付き確認を説明 | 実AWS構成、測定条件 | headline、description | #57 / 未着手 |
-| `/portfolio/aws/` | cleanup / boundary | 技術者 | `Destroy / Residual Sweep`、`Preflight / After E2E / Postflight`、`Failures are evidence / Honest boundary` | 削除確認と失敗時の扱いが抽象的 | 日本語化 | 撤収、残存0件検査、前後確認、失敗と制約を示す | resource件数、失敗記録 | Article body、caption | #57 / 未着手 |
+| `/portfolio/aws/` | lifecycle | 顧客、技術者 | `Authenticate / Assume / Apply / Test / Observe / Destroy`、`One lifecycle` | 誰が何を順に実行するかが英語だけ | 日本語化 / 説明 | 認証、権限引受、構築、動作確認、監視、撤収を順に説明 | 実行順、IAM境界 | Article description、図 | #57 / 完了 |
+| `/portfolio/aws/` | article facts / proof | 技術者 | `Audience / AWS checked / Portfolio main / Format`、`What this story proves`、`Accepted live proof / Read the evidence` | 確認対象と証拠の意味が曖昧 | 日本語化 / 保護 | 読者、確認環境、commit、確認結果、証拠linkを示す | AWS環境、commit、evidence URL | Article metadata | #57 / 完了 |
+| `/portfolio/aws/` | IAM / services | 技術者 | `IAM & roles`、`Read-only / Cost reader / Deploy operator`、`Ingress / Identity / Runtime / Messaging / State / Observability` | 権限差とservice責務が分かりにくい | 説明 / 日本語化 | 読み取り、費用確認、deploy権限と各AWS serviceの役割を示す | IAM policy、service構成 | 図中label、caption | #57 / 完了 |
+| `/portfolio/aws/` | architecture decisions | 顧客、技術者 | `Why Fargate`、`Cost is architecture`、`Two independent schedulers`、`Authenticated E2E` | 採用理由、費用、scheduler、合格条件が英語依存 | 日本語化 / 説明 | Fargate採用理由、費用との関係、2種類の起動、認証付き確認を説明 | 実AWS構成、測定条件 | headline、description | #57 / 完了 |
+| `/portfolio/aws/` | cleanup / boundary | 技術者 | `Destroy / Residual Sweep`、`Preflight / After E2E / Postflight`、`Failures are evidence / Honest boundary` | 削除確認と失敗時の扱いが抽象的 | 日本語化 | 撤収、残存0件検査、前後確認、失敗と制約を示す | resource件数、失敗記録 | Article body、caption | #57 / 完了 |
 
 ## AWS 1セント追跡記事
 
