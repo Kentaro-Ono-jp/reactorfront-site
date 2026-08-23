@@ -1,5 +1,25 @@
 export type JsonLd = Record<string, unknown>;
 
+export const ORGANIZATION_ID = "https://www.reactorfront.jp/#organization";
+export const PERSON_ID = "https://www.reactorfront.jp/#kentaro-ono";
+export const WEBSITE_ID = "https://www.reactorfront.jp/#website";
+
+export const kentaroOno: JsonLd = {
+  "@type": "Person",
+  "@id": PERSON_ID,
+  name: "小野賢太郎",
+  alternateName: ["小野 賢太郎", "Kentaro Ono"],
+  jobTitle: "Software Engineer",
+  url: "https://www.reactorfront.jp/profile/",
+  worksFor: {
+    "@id": ORGANIZATION_ID,
+  },
+  sameAs: [
+    "https://github.com/Kentaro-Ono-jp",
+    "https://www.linkedin.com/in/kentaro-ono/",
+  ],
+};
+
 export interface BreadcrumbItem {
   name: string;
   href: string;

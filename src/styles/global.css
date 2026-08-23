@@ -1350,6 +1350,13 @@ code {
   font-weight: 700;
 }
 
+.profile-card__external-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem 0.75rem;
+}
+
 .profile-story h2 {
   font-size: clamp(2.4rem, 5.3vw, 4.7rem);
 }
