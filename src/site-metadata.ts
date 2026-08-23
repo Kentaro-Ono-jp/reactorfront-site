@@ -29,7 +29,7 @@ export const indexableRoutes = [
   {
     path: "/portfolio/ml/",
     datePublished: "2026-08-14T11:22:21+09:00",
-    lastModified: "2026-08-23T11:21:05+09:00",
+    lastModified: "2026-08-23T14:32:25+09:00",
   },
   {
     path: "/infrastructure/",
