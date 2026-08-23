@@ -25,7 +25,7 @@
 | `/portfolio/ml/` | 技術者、顧客 | MLモデルを評価、採用、追跡、rollbackする工程 | #56 | 完了 |
 | `/portfolio/aws/` | 技術者、顧客 | AWS環境を構築、検証、監視、撤収する一連の工程 | #57 | 完了 |
 | `/portfolio/aws/one-cent-ecr/` | 技術者、顧客 | 1セントの費用を追跡し、残存resourceを安全に検出・削除した判断 | #58 | 完了 |
-| `/infrastructure/` | フリーランス、顧客 | domain、DNS、Web、仕事用mailを安全に構成・維持する方法 | #59 | 未着手 |
+| `/infrastructure/` | フリーランス、顧客 | domain、DNS、Web、仕事用mailを安全に構成・維持する方法 | #59 | 完了 |
 | `/infrastructure/google-search/` | サイト運営者、顧客 | Googleが取得・解釈できる状態へ整えた作業と、Googleが決める結果の境界 | #60 | 未着手 |
 | 全pageのmeta / Schema / alt / lastmod | 検索利用者、技術者 | 画面と機械向け情報が同じ事実を表すこと | #61 | 未着手 |
 
@@ -97,13 +97,13 @@
 
 | Page / component | Section / 位置 | 想定読者 | 現行表現 | 分かりにくい理由 | 分類 | 改稿方向 | 維持する事実・証拠 | meta / Schema / altへの影響 | Issue / 状態 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/infrastructure/` | hero / prologue | フリーランス | `Freelance infrastructure guide`、`Prologue / Why I built it`、`Mail / Web / Accounts` | 記事目的と整備順が英語依存 | 日本語化 | 開業後にmail、Web、accountを整えた理由と順序を示す | ReactorFrontの実構成 | Article description | #59 / 未着手 |
-| 同上 | stack / principles | フリーランス、技術者 | `The actual stack`、`First principle`、`Why GitHub Pages` | 実構成、原則、採用理由が見出しだけでは不明 | 日本語化 / 維持 | 実際の構成と一般例を分け、GitHub Pages採用理由を示す | XServer、GitHub Pages、Google Workspace | Article body、図 | #59 / 未着手 |
-| 同上 | delivery | 技術者 | `Source / Review / Build / Delivery`、`Delivery architecture`、`Observed` | 公開工程と確認結果が英語依存 | 日本語化 / 説明 | source更新、review、build、公開、実応答を順に示す | GitHub Actions、main、HTTP応答 | 図、caption | #59 / 未着手 |
-| 同上 | setup | フリーランス | `DNS records / Build order`、`Domain & DNS / Website / Business email / Email authentication` | 構成要素と作業順が分かりにくい | 日本語化 / 維持 | domain、DNS、Web、仕事用mail、SPF等を順に説明 | record種別、domain | Article description、図 | #59 / 未着手 |
-| 同上 | GitHub Pages settings | 技術者 | `Repository / Source / Custom domain / Enforce HTTPS` | 設定項目と判断が英語だけ | 説明 / 保護 | 公式設定名を保ち、値と目的を日本語で説明 | repository、branch、domain、HTTPS | code、図 | #59 / 未着手 |
-| 同上 | operations | フリーランス | `Verification / Publish safely / Keep it healthy`、`Monthly / After merge / After change / Weekly / Quarterly`、`Small, understandable, yours` | 確認時期と合格状態が英語依存 | 日本語化 | 公開前後と定期確認の担当・時期・対象を示す | 運用周期、確認項目 | Article body | #59 / 未着手 |
-| 同上 | name / domain | 全読者 | `ReactorFront`、`リアクターフロント`、`reactorfront.jp` | 屋号、別表記、domainの役割を分ける必要がある | 維持 / 説明 / 保護 | 三表記を同じ事業者へ結び、domainは識別子として説明 | `@id`、domain、email | ProfessionalService、WebSite | #59 / 未着手 |
+| `/infrastructure/` | hero / prologue | フリーランス | `Freelance infrastructure guide`、`Prologue / Why I built it`、`Mail / Web / Accounts` | 記事目的と整備順が英語依存 | 日本語化 | 開業後にmail、Web、accountを整えた理由と順序を示す | ReactorFrontの実構成 | Article description | #59 / 完了 |
+| 同上 | stack / principles | フリーランス、技術者 | `The actual stack`、`First principle`、`Why GitHub Pages` | 実構成、原則、採用理由が見出しだけでは不明 | 日本語化 / 維持 | 実際の構成と一般例を分け、GitHub Pages採用理由を示す | XServer、GitHub Pages、Google Workspace | Article body、図 | #59 / 完了 |
+| 同上 | delivery | 技術者 | `Source / Review / Build / Delivery`、`Delivery architecture`、`Observed` | 公開工程と確認結果が英語依存 | 日本語化 / 説明 | source更新、review、build、公開、実応答を順に示す | GitHub Actions、main、HTTP応答 | 図、caption | #59 / 完了 |
+| 同上 | setup | フリーランス | `DNS records / Build order`、`Domain & DNS / Website / Business email / Email authentication` | 構成要素と作業順が分かりにくい | 日本語化 / 維持 | domain、DNS、Web、仕事用mail、SPF等を順に説明 | record種別、domain | Article description、図 | #59 / 完了 |
+| 同上 | GitHub Pages settings | 技術者 | `Repository / Source / Custom domain / Enforce HTTPS` | 設定項目と判断が英語だけ | 説明 / 保護 | 公式設定名を保ち、値と目的を日本語で説明 | repository、branch、domain、HTTPS | code、図 | #59 / 完了 |
+| 同上 | operations | フリーランス | `Verification / Publish safely / Keep it healthy`、`Monthly / After merge / After change / Weekly / Quarterly`、`Small, understandable, yours` | 確認時期と合格状態が英語依存 | 日本語化 | 公開前後と定期確認の担当・時期・対象を示す | 運用周期、確認項目 | Article body | #59 / 完了 |
+| 同上 | name / domain | 全読者 | `ReactorFront`、`リアクターフロント`、`reactorfront.jp` | 屋号、別表記、domainの役割を分ける必要がある | 維持 / 説明 / 保護 | 三表記を同じ事業者へ結び、domainは識別子として説明 | `@id`、domain、email | ProfessionalService、WebSite | #59 / 完了 |
 
 ## Google検索記事
 
