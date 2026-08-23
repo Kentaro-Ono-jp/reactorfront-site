@@ -21,7 +21,7 @@
 | 共通header / footer / 404 | 全読者 | 現在地、移動先、連絡方法、存在しないpageから戻る方法 | #53 | 完了 |
 | `/` | 顧客、エージェント | ReactorFrontの業務領域、実績、相談方法 | #53 | 完了 |
 | `/profile/` | エージェント、採用担当、顧客 | 小野賢太郎の経歴、専門領域、第三者証拠、働き方 | #54 | 完了 |
-| `/portfolio/` | 顧客、技術者 | Document Intelligence基盤の全体像、業務価値、確認できる証拠 | #55 | 未着手 |
+| `/portfolio/` | 顧客、技術者 | Document Intelligence基盤の全体像、業務価値、確認できる証拠 | #55 | 完了 |
 | `/portfolio/ml/` | 技術者、顧客 | MLモデルを評価、採用、追跡、rollbackする工程 | #56 | 未着手 |
 | `/portfolio/aws/` | 技術者、顧客 | AWS環境を構築、検証、監視、撤収する一連の工程 | #57 | 未着手 |
 | `/portfolio/aws/one-cent-ecr/` | 技術者、顧客 | 1セントの費用を追跡し、残存resourceを安全に検出・削除した判断 | #58 | 未着手 |
@@ -57,10 +57,10 @@
 
 | Page / component | Section / 位置 | 想定読者 | 現行表現 | 分かりにくい理由 | 分類 | 改稿方向 | 維持する事実・証拠 | meta / Schema / altへの影響 | Issue / 状態 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/portfolio/` | hero / summary | 顧客 | `{n}-minute overview`、`In one sentence`、`Why it matters` | 読了時間と価値が英語label依存 | 日本語化 | 「約n分で分かる全体像」「ひと言でいうと」「業務上の価値」 | 算出した読了時間、処理対象 | title、description、WebPage | #55 / 未着手 |
-| `/portfolio/` | processing flow | 顧客、技術者 | `How it works`、`Ingest / Analyze / Review / Audit` | 処理主体と順序が分からない | 日本語化 | PDF受付から監査記録までを日本語で順に示す | 認証、storage、queue、ML、人の確認 | 図のaria-label、description | #55 / 未着手 |
-| `/portfolio/` | architecture | 技術者 | `Four vertical slices`、`Vertical Slice`、`Under the hood`、`Web Application / Queue / ML Worker` | 抽象語と部品名だけで責務境界が分からない | 説明 / 日本語化 | 4つの業務単位と、各componentの役割を示す | 実repository構成、処理境界 | card label、alt | #55 / 未着手 |
-| `/portfolio/` | limitations / links | 顧客、技術者 | `Beyond classification`、`Honest limitations`、`Continue ... note`、`Public repository` | 制約と次の導線が英語依存 | 日本語化 / 維持 | 分類以外の範囲、現時点の制約、技術記事・公開repositoryへの導線を示す | repository URL、未実装範囲 | CTA、link text | #55 / 未着手 |
+| `/portfolio/` | hero / summary | 顧客 | `{n}-minute overview`、`In one sentence`、`Why it matters` | 読了時間と価値が英語label依存 | 日本語化 | 「約n分で分かる全体像」「ひと言でいうと」「業務上の価値」 | 算出した読了時間、処理対象 | title、description、WebPage | #55 / 完了 |
+| `/portfolio/` | processing flow | 顧客、技術者 | `How it works`、`Ingest / Analyze / Review / Audit` | 処理主体と順序が分からない | 日本語化 | PDF受付から監査記録までを日本語で順に示す | 認証、storage、queue、ML、人の確認 | 図のaria-label、description | #55 / 完了 |
+| `/portfolio/` | architecture | 技術者 | `Four vertical slices`、`Vertical Slice`、`Under the hood`、`Web Application / Queue / ML Worker` | 抽象語と部品名だけで責務境界が分からない | 説明 / 日本語化 | 4つの業務単位と、各componentの役割を示す | 実repository構成、処理境界 | card label、alt | #55 / 完了 |
+| `/portfolio/` | limitations / links | 顧客、技術者 | `Beyond classification`、`Honest limitations`、`Continue ... note`、`Public repository` | 制約と次の導線が英語依存 | 日本語化 / 維持 | 分類以外の範囲、現時点の制約、技術記事・公開repositoryへの導線を示す | repository URL、未実装範囲 | CTA、link text | #55 / 完了 |
 
 ## ML記事
 
