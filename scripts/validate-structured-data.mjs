@@ -1,7 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { indexableRoutes } from "../src/site-metadata.ts";
+import { indexableRoutes, SITE_URL } from "../src/site-metadata.ts";
 
 const distDirectory = fileURLToPath(new URL("../dist/", import.meta.url));
 
@@ -42,6 +42,21 @@ const collectTypedNodes = (value, type, nodes = []) => {
   return nodes;
 };
 
+const decodeHtml = (value = "") => value.replace(
+  /&(amp|quot|#39|lt|gt);/g,
+  (entity, name) => ({
+    amp: "&",
+    quot: '"',
+    "#39": "'",
+    lt: "<",
+    gt: ">",
+  })[name] ?? entity,
+);
+
+const parseTagAttributes = (tag) => Object.fromEntries(
+  [...tag.matchAll(/([:@\w-]+)="([^"]*)"/g)].map((match) => [match[1], decodeHtml(match[2])]),
+);
+
 for (const htmlFile of htmlFiles) {
   const relativePath = path.relative(distDirectory, htmlFile).replaceAll("\\", "/");
   const html = await readFile(htmlFile, "utf8");
@@ -57,6 +72,137 @@ for (const htmlFile of htmlFiles) {
     } catch (error) {
       errors.push(`${relativePath}: JSON-LDをparseできません: ${error.message}`);
     }
+  }
+
+  const titleMatches = [...html.matchAll(/<title>([\s\S]*?)<\/title>/gi)];
+  const title = decodeHtml(titleMatches[0]?.[1]?.trim());
+  const metaTags = [...html.matchAll(/<meta\b[^>]*>/gi)].map((match) => parseTagAttributes(match[0]));
+  const findMeta = (attribute, value) => metaTags.filter((meta) => meta[attribute] === value);
+  const getMeta = (attribute, value) => findMeta(attribute, value)[0]?.content;
+  const linkTags = [...html.matchAll(/<link\b[^>]*>/gi)].map((match) => parseTagAttributes(match[0]));
+  const canonicalLinks = linkTags.filter((link) => link.rel === "canonical");
+  const description = getMeta("name", "description");
+  const robots = getMeta("name", "robots") ?? "";
+  const ogType = getMeta("property", "og:type");
+  const ogTitle = getMeta("property", "og:title");
+  const ogDescription = getMeta("property", "og:description");
+  const ogUrl = getMeta("property", "og:url");
+  const ogImage = getMeta("property", "og:image");
+  const ogImageAlt = getMeta("property", "og:image:alt");
+  const ogImageWidth = Number(getMeta("property", "og:image:width"));
+  const ogImageHeight = Number(getMeta("property", "og:image:height"));
+  const twitterTitle = getMeta("name", "twitter:title");
+  const twitterDescription = getMeta("name", "twitter:description");
+  const twitterImage = getMeta("name", "twitter:image");
+  const twitterImageAlt = getMeta("name", "twitter:image:alt");
+
+  if (titleMatches.length !== 1 || !title) {
+    errors.push(`${relativePath}: titleが1件ではないか、空です`);
+  }
+  for (const [attribute, value] of [
+    ["name", "description"],
+    ["name", "robots"],
+    ["property", "og:title"],
+    ["property", "og:description"],
+    ["property", "og:url"],
+    ["property", "og:image"],
+    ["property", "og:image:alt"],
+    ["name", "twitter:title"],
+    ["name", "twitter:description"],
+    ["name", "twitter:image"],
+    ["name", "twitter:image:alt"],
+  ]) {
+    if (findMeta(attribute, value).length !== 1) {
+      errors.push(`${relativePath}: ${value} metaが1件ではありません`);
+    }
+  }
+  if (canonicalLinks.length !== 1 || canonicalLinks[0]?.href !== canonicalMatch?.[1]) {
+    errors.push(`${relativePath}: canonical linkが1件ではないか、解析結果と一致しません`);
+  }
+  if (!linkTags.some((link) => link.rel === "manifest" && link.href === "/site.webmanifest")) {
+    errors.push(`${relativePath}: site.webmanifestへのlinkがありません`);
+  }
+  if (!description) {
+    errors.push(`${relativePath}: meta descriptionがありません`);
+  }
+  if (ogTitle !== title || twitterTitle !== title) {
+    errors.push(`${relativePath}: title、OGP title、X card titleが一致しません`);
+  }
+  if (ogDescription !== description || twitterDescription !== description) {
+    errors.push(`${relativePath}: meta description、OGP description、X card descriptionが一致しません`);
+  }
+  if (ogUrl !== canonicalMatch?.[1]) {
+    errors.push(`${relativePath}: OGP URLとcanonical URLが一致しません`);
+  }
+  if (getMeta("property", "og:site_name") !== "ReactorFront") {
+    errors.push(`${relativePath}: og:site_nameがReactorFrontではありません`);
+  }
+  if (getMeta("property", "og:locale") !== "ja_JP") {
+    errors.push(`${relativePath}: og:localeがja_JPではありません`);
+  }
+  if (getMeta("name", "twitter:card") !== "summary_large_image") {
+    errors.push(`${relativePath}: X cardの形式がsummary_large_imageではありません`);
+  }
+  if (!getMeta("property", "og:image:type")?.startsWith("image/")) {
+    errors.push(`${relativePath}: OGP画像のMIME typeがありません`);
+  }
+  if (ogImage !== twitterImage || ogImageAlt !== twitterImageAlt) {
+    errors.push(`${relativePath}: OGPとX cardの画像またはaltが一致しません`);
+  }
+  try {
+    const imageUrl = new URL(ogImage);
+    if (imageUrl.protocol !== "https:" || imageUrl.origin !== new URL(SITE_URL).origin) {
+      throw new Error("同じsiteのHTTPS URLではありません");
+    }
+  } catch {
+    errors.push(`${relativePath}: OGP画像が有効な自siteのHTTPS URLではありません`);
+  }
+  if (!ogImageAlt || !Number.isInteger(ogImageWidth) || ogImageWidth <= 0 || !Number.isInteger(ogImageHeight) || ogImageHeight <= 0) {
+    errors.push(`${relativePath}: OGP画像のaltまたは寸法が不正です`);
+  }
+
+  const webPages = schemas.filter((schema) => schema?.["@id"] === `${canonicalMatch?.[1]}#webpage`);
+  if (webPages.length !== 1) {
+    errors.push(`${relativePath}: canonicalに対応するWebPage系nodeが1件ではありません`);
+  } else {
+    const webPage = webPages[0];
+    if (webPage.name !== title || webPage.description !== description || webPage.url !== canonicalMatch?.[1]) {
+      errors.push(`${relativePath}: 画面metaとWebPage系nodeの主題が一致しません`);
+    }
+    if (webPage.inLanguage !== "ja-JP" || webPage.isPartOf?.["@id"] !== "https://www.reactorfront.jp/#website") {
+      errors.push(`${relativePath}: WebPage系nodeの言語またはWebSite参照が不正です`);
+    }
+    if (webPage.publisher?.["@id"] !== "https://www.reactorfront.jp/#organization") {
+      errors.push(`${relativePath}: WebPage系nodeのpublisherがReactorFrontではありません`);
+    }
+    const primaryImage = webPage.primaryImageOfPage;
+    if (
+      primaryImage?.url !== ogImage
+      || primaryImage?.contentUrl !== ogImage
+      || primaryImage?.caption !== ogImageAlt
+      || primaryImage?.width !== ogImageWidth
+      || primaryImage?.height !== ogImageHeight
+    ) {
+      errors.push(`${relativePath}: OGP画像とWebPage primaryImageOfPageが一致しません`);
+    }
+  }
+
+  const articleForMetadata = schemas.find((schema) => hasType(schema, "Article"));
+  if (ogType !== (articleForMetadata ? "article" : "website")) {
+    errors.push(`${relativePath}: og:typeがページ種別と一致しません`);
+  }
+  const is404 = relativePath === "404.html";
+  if (is404 && robots !== "noindex, nofollow") {
+    errors.push(`${relativePath}: 404がnoindex, nofollowではありません`);
+  }
+  if (!is404 && robots.split(",").map((value) => value.trim()).includes("noindex")) {
+    errors.push(`${relativePath}: 公開ページがnoindexです`);
+  }
+  if (!html.includes('aria-label="ReactorFront（リアクターフロント）ホーム"')) {
+    errors.push(`${relativePath}: 共通headerのブランド日本語表記がありません`);
+  }
+  if (!html.includes("© 2026 ReactorFront（リアクターフロント） / 小野賢太郎")) {
+    errors.push(`${relativePath}: 共通footerのブランド・代表者表記がありません`);
   }
 
   const organizations = schemas.filter((schema) => hasType(schema, "ProfessionalService"));
@@ -592,9 +738,30 @@ for (const htmlFile of htmlFiles) {
   }
 }
 
+try {
+  const manifest = JSON.parse(await readFile(path.join(distDirectory, "site.webmanifest"), "utf8"));
+  if (manifest.name !== "ReactorFront" || manifest.short_name !== "ReactorFront") {
+    errors.push("site.webmanifest: nameまたはshort_nameがReactorFrontではありません");
+  }
+  if (manifest.lang !== "ja" || manifest.start_url !== "/") {
+    errors.push("site.webmanifest: langまたはstart_urlが不正です");
+  }
+  const icons = Array.isArray(manifest.icons) ? manifest.icons : [];
+  for (const expectedIcon of [
+    { src: "/brand/reactorfront-mark-192.png", sizes: "192x192", type: "image/png" },
+    { src: "/brand/reactorfront-mark-512.png", sizes: "512x512", type: "image/png" },
+  ]) {
+    if (!icons.some((icon) => icon.src === expectedIcon.src && icon.sizes === expectedIcon.sizes && icon.type === expectedIcon.type)) {
+      errors.push(`site.webmanifest: icon ${expectedIcon.src} のURL、寸法、形式が一致しません`);
+    }
+  }
+} catch (error) {
+  errors.push(`site.webmanifestを検査できません: ${error.message}`);
+}
+
 if (errors.length > 0) {
   console.error(errors.join("\n"));
   process.exitCode = 1;
 } else {
-  console.log(`Validated ${jsonLdCount} JSON-LD blocks across ${htmlFiles.length} HTML files (${breadcrumbCount} BreadcrumbList items, ${articleCount} Article items).`);
+  console.log(`Validated ${jsonLdCount} JSON-LD blocks across ${htmlFiles.length} HTML files (${breadcrumbCount} BreadcrumbList items, ${articleCount} Article items), plus synchronized metadata, social images, shared branding, 404 robots and web manifest.`);
 }

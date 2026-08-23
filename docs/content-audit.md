@@ -27,7 +27,28 @@
 | `/portfolio/aws/one-cent-ecr/` | 技術者、顧客 | 1セントの費用を追跡し、残存resourceを安全に検出・削除した判断 | #58 | 完了 |
 | `/infrastructure/` | フリーランス、顧客 | domain、DNS、Web、仕事用mailを安全に構成・維持する方法 | #59 | 完了 |
 | `/infrastructure/google-search/` | サイト運営者、顧客 | Googleが取得・解釈できる状態へ整えた作業と、Googleが決める結果の境界 | #60 | 完了 |
-| 全pageのmeta / Schema / alt / lastmod | 検索利用者、技術者 | 画面と機械向け情報が同じ事実を表すこと | #61 | 未着手 |
+| 全pageのmeta / Schema / alt / lastmod | 検索利用者、技術者 | 画面と機械向け情報が同じ事実を表すこと | #61 | 完了 |
+
+## 全ページ横断の照合結果（Issue #61）
+
+2026年8月23日に、8つの公開ページ、404、共通header・footerを同じ条件で再確認した。PCはviewport 1440px（文書領域1425px）、スマートフォンはviewport 390px（文書領域375px）で確認し、全routeで文書の横幅と表示領域が一致した。
+
+画面のtitle・descriptionとOGP、X card、WebPage系node、代表画像を生成HTMLから照合した。記事5件はArticleとBreadcrumbListも照合し、プロフィールはProfilePageとPersonの関係を維持した。読了時間は本文の可視文字数を毎分450文字で換算し、最寄りの5分単位へ丸めている。
+
+| 対象 | 画面と機械向け情報 | 画像説明 | 読了時間 | PC / smartphone | 結果 |
+| --- | --- | --- | --- | --- | --- |
+| `/` | title、description、OGP、WebPage一致 | OGP・画面のworkspace画像alt一致 | 対象外 | 1425 / 375px内 | 完了 |
+| `/profile/` | title、description、OGP、ProfilePage、Person一致 | logoとFindy証拠画像のalt確認 | 対象外 | 1425 / 375px内 | 完了 |
+| `/portfolio/` | title、description、OGP、WebPage一致 | OGP画像alt確認 | 4,730文字 → 約10分 | 1425 / 375px内 | 完了 |
+| `/portfolio/ml/` | title、description、OGP、WebPage、Article、BreadcrumbList一致 | 代表画像alt・caption一致 | 7,754文字 → 約15分 | 1425 / 375px内 | 完了 |
+| `/portfolio/aws/` | title、description、OGP、WebPage、Article、BreadcrumbList一致 | 工程図・費用証拠のalt・caption確認 | 9,571文字 → 約20分 | 1425 / 375px内 | 完了 |
+| `/portfolio/aws/one-cent-ecr/` | title、description、OGP、WebPage、Article、BreadcrumbList一致 | Cost Explorer画像のalt・caption一致 | 4,138文字 → 約10分 | 1425 / 375px内 | 完了 |
+| `/infrastructure/` | title、description、OGP、WebPage、Article、BreadcrumbList一致 | 独自domain構成図のalt・caption一致 | 8,694文字 → 約20分 | 1425 / 375px内 | 完了 |
+| `/infrastructure/google-search/` | title、description、OGP、WebPage、Article、BreadcrumbList一致 | 検索工程図のalt・caption一致 | 7,136文字 → 約15分 | 1425 / 375px内 | 完了 |
+| `/404.html` | title、description、OGP、WebPage一致、`noindex, nofollow` | OGP画像alt確認 | 対象外 | 1425 / 375px内 | 完了 |
+| 共通header / footer | `ReactorFront（リアクターフロント）`、代表者、navigation、連絡先一致 | logoは装飾画像として重複読上げを回避 | 対象外 | 全9画面で確認 | 完了 |
+
+自動確認では、全HTMLのtitle、meta description、canonical、OGP、X card、WebPage系node、代表画像、共通ブランド表記、404のrobotsを相互照合する。`site.webmanifest`の優先名、言語、開始URL、iconも確認する。ProfessionalServiceとWebSiteの三表記、優先順、node数、`@id`、publisher、worksFor、isPartOfは既存の構造化data検査で全HTMLを対象に確認する。
 
 ## 共通UI・ホーム・404
 
@@ -125,9 +146,9 @@
 | --- | --- | --- | --- | --- |
 | `API`、`Web`、`AWS`、`Linux`、`AI`、`DB`、`HTTP`、service・製品名 | 維持 | そのままの方が正確な場合は維持し、連結して意味が隠れる場合だけ日本語を添える | diffと画面 | #53〜#60 / 完了 |
 | code、command、環境変数、設定名、marker | 保護 | 文字列を変更しない | source diff、build | #53〜#60 / 完了 |
-| URL、canonical、route、domain、email、画像path | 保護 | 文字列と参照先を変更しない。変更が必要なら全参照を同時更新する | link、生成HTML、HTTP status | #61 / 未着手 |
+| URL、canonical、route、domain、email、画像path | 保護 | 文字列と参照先を変更しない。変更が必要なら全参照を同時更新する | link、生成HTML、HTTP status | #61 / 完了 |
 | repository、branch、commit、Issue、PR、file名 | 保護 | 一次資料との照合に必要な表記を維持する | diff、link確認 | #53〜#60 / 完了 |
 | 氏名、所属、経歴、期間、金額、件数、日時、測定値 | 保護 | 確認済み事実だけを維持し、推測で補わない | 改稿前後diff、証拠 | #53〜#60 / 完了 |
-| title、description、OGP、JSON-LD、alt、caption | 同期 | 画面の主題と同じ事実・意味にする | 生成HTML、validator | #61 / 未着手 |
-| 読了時間、`dateModified`、sitemap `lastmod` | 同期 | 本文量と実際の内容更新日から更新し、build日時を使わない | build、sitemap hash | #61 / 未着手 |
+| title、description、OGP、JSON-LD、alt、caption | 同期 | 画面の主題と同じ事実・意味にする | 生成HTML、validator | #61 / 完了 |
+| 読了時間、`dateModified`、sitemap `lastmod` | 同期 | 本文量と実際の内容更新日から更新し、build日時を使わない | build、sitemap hash | #61 / 完了 |
 
