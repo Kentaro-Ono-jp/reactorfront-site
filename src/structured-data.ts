@@ -25,6 +25,15 @@ export interface BreadcrumbItem {
   href: string;
 }
 
+export interface ArticleSchemaInput {
+  canonical: string;
+  headline: string;
+  description: string;
+  images: readonly string[];
+  datePublished: string;
+  dateModified: string;
+}
+
 export const createBreadcrumbList = (
   items: readonly BreadcrumbItem[],
   site: URL,
@@ -38,6 +47,36 @@ export const createBreadcrumbList = (
     name: item.name,
     item: new URL(item.href, site).href,
   })),
+});
+
+export const createArticle = ({
+  canonical,
+  headline,
+  description,
+  images,
+  datePublished,
+  dateModified,
+}: ArticleSchemaInput): JsonLd => ({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "@id": `${canonical}#article`,
+  url: canonical,
+  headline,
+  description,
+  image: images,
+  datePublished,
+  dateModified,
+  inLanguage: "ja-JP",
+  mainEntityOfPage: {
+    "@id": `${canonical}#webpage`,
+  },
+  author: kentaroOno,
+  publisher: {
+    "@id": ORGANIZATION_ID,
+  },
+  isPartOf: {
+    "@id": WEBSITE_ID,
+  },
 });
 
 export const serializeJsonLd = (value: JsonLd): string =>

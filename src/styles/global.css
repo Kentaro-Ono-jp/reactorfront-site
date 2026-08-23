@@ -1281,6 +1281,26 @@ code {
   content: "";
 }
 
+.article-byline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1rem;
+  margin-top: 1.4rem;
+  color: #9db5ba;
+  font-size: 0.68rem;
+  font-weight: 680;
+  letter-spacing: 0.02em;
+}
+
+.article-byline a {
+  color: var(--white);
+  text-underline-offset: 0.18em;
+}
+
+.article-byline + .reading-time {
+  margin-top: 0.85rem;
+}
+
 /* Profile page */
 
 .profile-overview__grid {
