@@ -18,8 +18,8 @@
 
 | Page / component | 優先読者 | 日本語だけで伝える主情報 | 担当Issue | 状態 |
 | --- | --- | --- | --- | --- |
-| 共通header / footer / 404 | 全読者 | 現在地、移動先、連絡方法、存在しないpageから戻る方法 | #53 | 未着手 |
-| `/` | 顧客、エージェント | ReactorFrontの業務領域、実績、相談方法 | #53 | 未着手 |
+| 共通header / footer / 404 | 全読者 | 現在地、移動先、連絡方法、存在しないpageから戻る方法 | #53 | 完了 |
+| `/` | 顧客、エージェント | ReactorFrontの業務領域、実績、相談方法 | #53 | 完了 |
 | `/profile/` | エージェント、採用担当、顧客 | 小野賢太郎の経歴、専門領域、第三者証拠、働き方 | #54 | 未着手 |
 | `/portfolio/` | 顧客、技術者 | Document Intelligence基盤の全体像、業務価値、確認できる証拠 | #55 | 未着手 |
 | `/portfolio/ml/` | 技術者、顧客 | MLモデルを評価、採用、追跡、rollbackする工程 | #56 | 未着手 |
@@ -33,15 +33,15 @@
 
 | Page / component | Section / 位置 | 想定読者 | 現行表現 | 分かりにくい理由 | 分類 | 改稿方向 | 維持する事実・証拠 | meta / Schema / altへの影響 | Issue / 状態 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SiteHeader / SiteFooter | navigation、連絡link | 全読者 | `Portfolio`、`Infrastructure`、`Contact`、`Email`、`LinkedIn`、`GitHub` | 英語だけでは移動先が初見で分かりにくい | 日本語化 / 維持 | navigationは日本語を主にし、service名は維持 | route、外部profile URL、email | aria-label、link text | #53 / 未着手 |
-| SiteHeader | menu button | smartphone利用者 | `Open menu`、`Close menu` | 操作結果を日本語で伝えられる | 日本語化 | 「メニューを開く / 閉じる」 | button動作、aria-expanded | aria-label | #53 / 未着手 |
-| SiteHeader / SiteFooter / BrandMark | brand | 全読者 | `ReactorFront`、`リアクターフロント` | lowercaseを含む三表記の関係が仕様化されていない | 維持 / 説明 | 初出は `ReactorFront（リアクターフロント）`、Schemaの別名に `reactorfront` | logo、`@id`、domain | `name`、`alternateName`、alt、aria-label | #53 / 未着手 |
-| `/` | hero | 顧客 | `Independent Software Engineering / Tokyo`、`Now` | 何を提供し、現在何をしているかが直接分からない | 日本語化 | 提供業務と現在の専門領域を日本語で示す | 東京、独立事業者、現在のML研究開発 | title、description、OGP | #53 / 未着手 |
-| `/` | 業務領域 | 顧客 | `What I do`、`Product Engineering`、`Platform & Reliability`、`Applied ML` | 分類名だけでは実作業が分からない | 日本語化 / 説明 | 開発、運用基盤、ML活用で実際に行う作業を書く | Web、API、AWS、Linux、MLという技術範囲 | WebPage description | #53 / 未着手 |
-| `/` | portfolio導線 | 顧客、技術者 | `Featured Portfolio`、`Ingest / Analyze / Review / Audit` | 処理順と業務価値が英語依存 | 日本語化 | 「受付 / 解析 / 人による確認 / 監査記録」へ展開 | Document Intelligenceの処理順 | card label、alt | #53 / 未着手 |
-| `/` | infrastructure導線 | フリーランス、顧客 | `Domain / DNS / Web / Mail`、`Open knowledge` | 関係と公開目的が分からない | 日本語化 / 維持 | 独自domain、DNS、Web、mailの実構成と公開範囲を示す | 実構成、公開可能範囲 | card description | #53 / 未着手 |
-| `/` | footer CTA | 顧客 | `Independent Software Engineer`、`Start a conversation` | 相談できる内容と行動が分からない | 日本語化 | 相談対象と「メールで相談する」を示す | email | CTA、aria-label | #53 / 未着手 |
-| `/404/` | h1、案内 | 全読者 | `Page not found` | 日本語利用者へ状態が直接伝わらない | 日本語化 | 「ページが見つかりません」と戻り先を示す | 404 status、noindex | title、robots | #53 / 未着手 |
+| SiteHeader / SiteFooter | navigation、連絡link | 全読者 | `Portfolio`、`Infrastructure`、`Contact`、`Email`、`LinkedIn`、`GitHub` | 英語だけでは移動先が初見で分かりにくい | 日本語化 / 維持 | navigationは日本語を主にし、service名は維持 | route、外部profile URL、email | aria-label、link text | #53 / 完了 |
+| SiteHeader | menu button | smartphone利用者 | `Open menu`、`Close menu` | 操作結果を日本語で伝えられる | 日本語化 | 「メニューを開く / 閉じる」 | button動作、aria-expanded | aria-label | #53 / 完了 |
+| SiteHeader / SiteFooter / BrandMark | brand | 全読者 | `ReactorFront`、`リアクターフロント` | lowercaseを含む三表記の関係が仕様化されていない | 維持 / 説明 | 初出は `ReactorFront（リアクターフロント）`、Schemaの別名に `reactorfront` | logo、`@id`、domain | `name`、`alternateName`、alt、aria-label | #53 / 完了 |
+| `/` | hero | 顧客 | `Independent Software Engineering / Tokyo`、`Now` | 何を提供し、現在何をしているかが直接分からない | 日本語化 | 提供業務と現在の専門領域を日本語で示す | 東京、独立事業者、現在のML研究開発 | title、description、OGP | #53 / 完了 |
+| `/` | 業務領域 | 顧客 | `What I do`、`Product Engineering`、`Platform & Reliability`、`Applied ML` | 分類名だけでは実作業が分からない | 日本語化 / 説明 | 開発、運用基盤、ML活用で実際に行う作業を書く | Web、API、AWS、Linux、MLという技術範囲 | WebPage description | #53 / 完了 |
+| `/` | portfolio導線 | 顧客、技術者 | `Featured Portfolio`、`Ingest / Analyze / Review / Audit` | 処理順と業務価値が英語依存 | 日本語化 | 「受付 / 解析 / 人による確認 / 監査記録」へ展開 | Document Intelligenceの処理順 | card label、alt | #53 / 完了 |
+| `/` | infrastructure導線 | フリーランス、顧客 | `Domain / DNS / Web / Mail`、`Open knowledge` | 関係と公開目的が分からない | 日本語化 / 維持 | 独自domain、DNS、Web、mailの実構成と公開範囲を示す | 実構成、公開可能範囲 | card description | #53 / 完了 |
+| `/` | footer CTA | 顧客 | `Independent Software Engineer`、`Start a conversation` | 相談できる内容と行動が分からない | 日本語化 | 相談対象と「メールで相談する」を示す | email | CTA、aria-label | #53 / 完了 |
+| `/404/` | h1、案内 | 全読者 | `Page not found` | 日本語利用者へ状態が直接伝わらない | 日本語化 | 「ページが見つかりません」と戻り先を示す | 404 status、noindex | title、robots | #53 / 完了 |
 
 ## プロフィール
 

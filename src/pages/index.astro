@@ -24,22 +24,22 @@ import { articleReadingMinutes } from "../reading-times";
     <div class="home-hero__grid" aria-hidden="true"></div>
     <div class="home-hero__inner shell">
       <div class="home-hero__copy">
-        <p class="eyebrow eyebrow--light">Independent Software Engineering / Tokyo</p>
+        <p class="eyebrow eyebrow--light">ReactorFront（リアクターフロント） / 東京</p>
         <h1>
           複雑さを、<br />
           <span>動く仕組み</span>に。
         </h1>
         <p class="home-hero__lead">
-          業務要件の整理からアプリケーション実装、クラウド基盤、リリース後の運用まで。<br />
-          25年以上の開発経験とLinux運用の知見を基に、システムのライフサイクル全体を設計します。
+          業務要件の整理からアプリケーション実装、クラウド基盤、リリース後の運用まで一続きで支援します。<br />
+          25年以上の開発経験とLinux運用の知見を基に、変更し続けられる仕組みを設計します。
         </p>
         <div class="button-row">
           <a class="button button--accent" href="/portfolio/">
-            仕事と技術を見る
+            実装事例を見る
             <span aria-hidden="true">→</span>
           </a>
           <a class="button button--ghost-light" href="mailto:kentaro.ono@reactorfront.jp">
-            相談する
+            メールで相談する
             <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -48,7 +48,7 @@ import { articleReadingMinutes } from "../reading-times";
       <div class="home-hero__foot">
         <div class="availability">
           <span class="availability__pulse" aria-hidden="true"></span>
-          <span><strong>Now</strong> 機械学習の研究開発案件に参画中</span>
+          <span><strong>現在</strong> 機械学習の研究開発案件に参画中</span>
         </div>
         <dl class="hero-stats" aria-label="経験年数">
           <div>
@@ -72,7 +72,7 @@ import { articleReadingMinutes } from "../reading-times";
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">What I do</p>
+          <p class="eyebrow">対応できること</p>
           <h2>アプリケーションから運用まで、<br />一続きで設計する。</h2>
         </div>
         <p>
@@ -87,7 +87,7 @@ import { articleReadingMinutes } from "../reading-times";
           <div class="capability-card__icon" aria-hidden="true">
             <svg viewBox="0 0 48 48"><path d="M8 12h32v24H8zM8 19h32M15 15h.1M20 15h.1" /></svg>
           </div>
-          <h3>Product Engineering</h3>
+          <h3>業務システムを設計・実装する</h3>
           <p>業務要件をAPIとデータモデルへ落とし込み、Webフロントエンドからバックエンド、テストまで実装します。</p>
           <ul class="tag-list" aria-label="関連技術">
             <li>TypeScript</li><li>React</li><li>Python</li><li>API</li>
@@ -99,8 +99,8 @@ import { articleReadingMinutes } from "../reading-times";
           <div class="capability-card__icon" aria-hidden="true">
             <svg viewBox="0 0 48 48"><path d="M10 10h28v10H10zM10 28h28v10H10zM15 15h.1M15 33h.1M21 15h12M21 33h12" /></svg>
           </div>
-          <h3>Platform &amp; Reliability</h3>
-          <p>Linux、コンテナ、AWS、IaC、CI/CDを使い、監視・復旧・撤収まで含めた運用設計を行います。</p>
+          <h3>クラウド基盤を構築・運用する</h3>
+          <p>Linux、container、AWSを使い、コードによる基盤管理（IaC）と変更の自動確認・公開（CI/CD）を組み込み、監視・復旧・撤収まで設計します。</p>
           <ul class="tag-list" aria-label="関連技術">
             <li>Linux</li><li>Docker</li><li>AWS</li><li>Terraform</li>
           </ul>
@@ -111,10 +111,10 @@ import { articleReadingMinutes } from "../reading-times";
           <div class="capability-card__icon" aria-hidden="true">
             <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="6" /><path d="M24 5v8M24 35v8M5 24h8M35 24h8M10.6 10.6l5.7 5.7M31.7 31.7l5.7 5.7M37.4 10.6l-5.7 5.7M16.3 31.7l-5.7 5.7" /></svg>
           </div>
-          <h3>Applied ML</h3>
-          <p>推論APIだけで終わらせず、評価、データセット管理、Human-in-the-loop、モデル更新とロールバックまで設計します。</p>
+          <h3>機械学習を業務で使える形にする</h3>
+          <p>推論APIだけで終わらせず、評価、データセット管理、AIの結果を人が確認・修正する工程、モデル更新と以前のモデルへ戻す手順まで設計します。</p>
           <ul class="tag-list" aria-label="関連技術">
-            <li>PyTorch</li><li>Evaluation</li><li>Human Review</li>
+            <li>PyTorch</li><li>評価</li><li>人による確認</li>
           </ul>
         </article>
       </div>
@@ -125,11 +125,11 @@ import { articleReadingMinutes } from "../reading-times";
     <div class="featured-work__glow" aria-hidden="true"></div>
     <div class="shell featured-work__inner">
       <div class="featured-work__copy" data-reveal>
-        <p class="eyebrow eyebrow--accent">Featured Portfolio</p>
+        <p class="eyebrow eyebrow--accent">公開ポートフォリオ</p>
         <h2>業務文書を、<br />AIと人が扱えるデータへ。</h2>
         <p>
-          PDFの受付、非同期解析、Human-in-the-loopによるレビュー、監査ログ、モデルの評価・更新までを統合したDocument Intelligence基盤です。
-          公開版では最小のVertical Sliceとして文書分類を実装し、業務文書の分析や項目抽出、設計図面の読み取りへ拡張できるアーキテクチャを示しています。
+          PDFの受付、非同期解析、AIの結果を人が確認・修正する工程、監査ログ、モデルの評価・更新までを統合した文書処理基盤です。
+          公開版では、受付から結果確認までを端から端まで動かす最小実装として文書分類を用意し、業務文書の分析や項目抽出、設計図面の読み取りへ拡張できる構成を示しています。
         </p>
         <a class="text-link text-link--light" href="/portfolio/">
           約{articleReadingMinutes.overview}分でわかる日本語解説へ
@@ -142,25 +142,25 @@ import { articleReadingMinutes } from "../reading-times";
         <div class="mini-flow__step">
           <span>01</span>
           <div class="mini-flow__glyph mini-flow__glyph--document" aria-hidden="true"></div>
-          <h3>Ingest</h3>
-          <p>認証付きでPDFを受け付ける</p>
+          <h3>PDFを受け付ける</h3>
+          <p>認証後に保存し、解析を依頼する</p>
         </div>
         <div class="mini-flow__step">
           <span>02</span>
           <div class="mini-flow__glyph mini-flow__glyph--machine" aria-hidden="true"></div>
-          <h3>Analyze</h3>
-          <p>非同期ワーカーで解析する</p>
+          <h3>AIで解析する</h3>
+          <p>非同期処理で文書を分類する</p>
         </div>
         <div class="mini-flow__step">
           <span>03</span>
           <div class="mini-flow__glyph mini-flow__glyph--review" aria-hidden="true"></div>
-          <h3>Review</h3>
-          <p>人が承認または訂正する</p>
+          <h3>人が確認・訂正する</h3>
+          <p>AIの結果を承認または修正する</p>
         </div>
         <div class="mini-flow__step">
           <span>04</span>
           <div class="mini-flow__glyph mini-flow__glyph--audit" aria-hidden="true"></div>
-          <h3>Audit</h3>
+          <h3>判断履歴を残す</h3>
           <p>推論と判断の履歴を残す</p>
         </div>
       </div>
@@ -172,17 +172,17 @@ import { articleReadingMinutes } from "../reading-times";
       <div class="infrastructure-teaser__visual" data-reveal aria-hidden="true">
         <div class="orbit orbit--outer"></div>
         <div class="orbit orbit--inner"></div>
-        <div class="infra-node infra-node--domain"><span>01</span><strong>Domain</strong></div>
+        <div class="infra-node infra-node--domain"><span>01</span><strong>独自ドメイン</strong></div>
         <div class="infra-node infra-node--dns"><span>02</span><strong>DNS</strong></div>
-        <div class="infra-node infra-node--web"><span>03</span><strong>Web</strong></div>
-        <div class="infra-node infra-node--mail"><span>04</span><strong>Mail</strong></div>
+        <div class="infra-node infra-node--web"><span>03</span><strong>Web公開</strong></div>
+        <div class="infra-node infra-node--mail"><span>04</span><strong>仕事用メール</strong></div>
       </div>
       <div class="infrastructure-teaser__copy" data-reveal>
-        <p class="eyebrow">Open knowledge</p>
+        <p class="eyebrow">実構成を公開</p>
         <h2>フリーランスの事業基盤を、<br />実構成から解説。</h2>
         <p>
           独自ドメイン、Webサイト、仕事用メール、DNS、メール認証。
-          開業時にReactorFront自身が構築したXServerドメイン、GitHub Pages、Google Workspaceの構成を、公開可能な範囲で解説しています。
+          開業時にReactorFront（リアクターフロント）が構築したXServerドメイン、GitHub Pages、Google Workspaceの構成を、公開可能な範囲で解説しています。
         </p>
         <ul class="check-list">
           <li>契約先と実際の役割を切り分ける</li>
@@ -204,7 +204,7 @@ import { articleReadingMinutes } from "../reading-times";
         <span class="profile-teaser__initial">K</span>
         <div>
           <p>小野賢太郎 / Kentaro Ono</p>
-          <span>Independent Software Engineer</span>
+          <span>独立系ソフトウェアエンジニア</span>
         </div>
       </div>
       <blockquote data-reveal>
@@ -223,7 +223,7 @@ import { articleReadingMinutes } from "../reading-times";
   <section class="contact-band">
     <div class="shell contact-band__inner" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--light">Start a conversation</p>
+        <p class="eyebrow eyebrow--light">メールで相談</p>
         <h2>案件・技術相談のご連絡はこちら。</h2>
         <p>業務システム、クラウド基盤、機械学習エンジニアリングに関するご相談を承ります。</p>
       </div>

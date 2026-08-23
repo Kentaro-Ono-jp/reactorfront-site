@@ -13,7 +13,7 @@ export interface IndexableRouteMetadata {
  * deploy timestamp: an unchanged page must keep the same sitemap lastmod.
  */
 export const indexableRoutes = [
-  { path: "/", lastModified: "2026-08-23T11:04:33+09:00" },
+  { path: "/", lastModified: "2026-08-23T14:06:52+09:00" },
   { path: "/profile/", lastModified: "2026-08-23T11:04:33+09:00" },
   { path: "/portfolio/", lastModified: "2026-08-23T10:57:42+09:00" },
   {
