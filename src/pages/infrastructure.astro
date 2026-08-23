@@ -3,6 +3,7 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ArticleCover from "../components/ArticleCover.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../reading-times";
+import { getArticleRouteMetadata, SITE_URL } from "../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../structured-data";
 
 const breadcrumbs = [
@@ -12,12 +13,12 @@ const breadcrumbs = [
 
 const articleTitle = "フリーランスのインフラ入門｜独自ドメイン・Web・メールを自分で持つ";
 const articleDescription = "開業届を出した後に整えた、独自ドメイン、GitHub Pages、GitHub Actions、Google Workspace、DNS、SPF・DKIM・DMARC。ReactorFrontの実構成と選定理由を一般化し、安全な範囲で解説します。";
-const canonical = "https://www.reactorfront.jp/infrastructure/";
+const articleMetadata = getArticleRouteMetadata("/infrastructure/");
+const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImagePath = "/images/article-freelance-infrastructure.webp";
 const representativeImage = new URL(representativeImagePath, canonical).href;
 const representativeImageAlt = "独自ドメインを中枢にWebサイト、仕事用メール、クラウドサービスへ接続する事業用インフラの概念図";
-const datePublished = "2026-08-14T06:13:26+09:00";
-const dateModified = "2026-08-23T11:21:05+09:00";
+const { datePublished, lastModified: dateModified } = articleMetadata;
 const articleSchema = createArticle({
   canonical,
   headline: articleTitle,

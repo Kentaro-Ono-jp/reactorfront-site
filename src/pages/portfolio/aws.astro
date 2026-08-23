@@ -3,6 +3,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ArticleCover from "../../components/ArticleCover.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { articleReadingMinutes } from "../../reading-times";
+import { getArticleRouteMetadata, SITE_URL } from "../../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../../structured-data";
 
 const breadcrumbs = [
@@ -14,12 +15,12 @@ const breadcrumbs = [
 const pageTitle = `AWSデプロイと撤収｜約${articleReadingMinutes.aws}分で読むポートフォリオ`;
 const articleHeadline = "AWSデプロイと撤収｜構築・E2E・残存確認を通した実地検証";
 const articleDescription = "IAM、OIDC、Terraform、ECS/Fargate、認証付きE2E、CloudWatch Logs、destroy後の残存確認。ReactorFront Portfolioの実AWS検証を解説します。";
-const canonical = "https://www.reactorfront.jp/portfolio/aws/";
+const articleMetadata = getArticleRouteMetadata("/portfolio/aws/");
+const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImagePath = "/images/article-aws-lifecycle.webp";
 const representativeImage = new URL(representativeImagePath, canonical).href;
 const representativeImageAlt = "ソースからCI/CD、コンテナ、クラウド環境、監視、撤収までを結ぶAWS運用ライフサイクルの概念図";
-const datePublished = "2026-08-14T08:45:00+09:00";
-const dateModified = "2026-08-23T11:21:05+09:00";
+const { datePublished, lastModified: dateModified } = articleMetadata;
 const articleSchema = createArticle({
   canonical,
   headline: articleHeadline,
