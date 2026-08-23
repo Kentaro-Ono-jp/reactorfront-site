@@ -7,18 +7,18 @@ import { getArticleRouteMetadata, SITE_URL } from "../../site-metadata";
 import { createArticle, type BreadcrumbItem } from "../../structured-data";
 
 const breadcrumbs = [
-  { name: "Home", href: "/" },
-  { name: "Infrastructure", href: "/infrastructure/" },
-  { name: "Google Search", href: "/infrastructure/google-search/" },
+  { name: "ホーム", href: "/" },
+  { name: "インフラ入門", href: "/infrastructure/" },
+  { name: "Google検索", href: "/infrastructure/google-search/" },
 ] satisfies BreadcrumbItem[];
 
-const articleTitle = "サイトを公開し、Googleに正しく伝わるまで。";
-const articleDescription = "Search Console、サイトマップ、構造化データ、代表画像、favicon。ReactorFront公式サイトをGoogleが取得・理解できる状態へ整えた技術対応と観測結果を解説します。";
+const articleTitle = "Google検索がページを取得・索引・表示する流れと、サイト運営者ができること";
+const articleDescription = "ReactorFront（リアクターフロント）がSearch Console、サイトマップ、canonical、構造化データ、代表画像、faviconを整え、Google検索の取得・索引・表示を観測した記録です。リッチリザルト、順位、AI概要などGoogleが決める結果との境界も説明します。";
 const articleMetadata = getArticleRouteMetadata("/infrastructure/google-search/");
 const canonical = new URL(articleMetadata.path, SITE_URL).href;
 const representativeImagePath = "/images/article-google-search.webp";
 const representativeImage = new URL(representativeImagePath, canonical).href;
-const representativeImageAlt = "Webページのクロールから索引化、検索結果配信、人物・組織・記事の関連付けまでを表す概念図";
+const representativeImageAlt = "GoogleがWebページを見つけて取得し、内容と人物・事業者の関係を索引へ保存し、検索結果へ表示する流れの図";
 const { datePublished, lastModified: dateModified } = articleMetadata;
 const articleSchema = createArticle({
   canonical,
@@ -34,19 +34,19 @@ const verifiedAt = "2026-08-18";
 const searchStages = [
   {
     number: "01",
-    term: "Crawl",
+    term: "取得（Crawl）",
     title: "見つけて、取得する",
     description: "GooglebotがURLを発見し、HTMLや画像を取りに来る段階です。robots.txtやHTTP応答が、まずここへ影響します。",
   },
   {
     number: "02",
-    term: "Index",
+    term: "索引へ保存（Index）",
     title: "内容と関係を理解する",
     description: "取得した本文、画像、タイトル、canonical、構造化データなどを解析し、検索用の索引へ保存する段階です。",
   },
   {
     number: "03",
-    term: "Serve",
+    term: "検索結果へ表示（Serve）",
     title: "検索語に応じて表示する",
     description: "検索語、場所、言語、端末などに応じて、どのページや表示要素を出すかGoogleが判断する段階です。",
   },
@@ -54,22 +54,22 @@ const searchStages = [
 
 const baselineChecks = [
   {
-    label: "robots.txt",
+    label: "取得の許可（robots.txt）",
     title: "クロールを妨げていない",
     description: "全クローラーを許可し、XMLサイトマップの正規URLを案内しています。",
   },
   {
-    label: "Sitemap",
+    label: "公開URL一覧（sitemap.xml）",
     title: "公開ページを一覧で渡す",
     description: "主要ページの絶対URLをXMLで列挙し、新しい記事も公開時に追加します。",
   },
   {
-    label: "Canonical",
+    label: "代表URL（canonical）",
     title: "代表URLを一つに寄せる",
     description: "各ページにwww付きHTTPSのcanonicalを置き、ルートドメインから同じ正規URLへ転送します。",
   },
   {
-    label: "HTTPS / HTML",
+    label: "HTTPS応答・HTML",
     title: "外から読める状態を確認する",
     description: "HTTPS 200、noindexなし、本文と主要画像がHTMLから取得できることを本番環境で確認します。",
   },
@@ -151,7 +151,10 @@ const websiteSchema = `{
   "@type": "WebSite",
   "@id": "https://www.example.com/#website",
   "name": "ReactorFront",
-  "alternateName": "リアクターフロント",
+  "alternateName": [
+    "リアクターフロント",
+    "reactorfront"
+  ],
   "publisher": {
     "@id": "https://www.example.com/#organization"
   }
@@ -175,13 +178,13 @@ const websiteSchema = `{
       <Breadcrumbs items={breadcrumbs} />
       <div class="page-hero__grid">
         <div>
-          <p class="eyebrow eyebrow--accent">Google Search / Field notes</p>
-          <h1>サイトを公開し、<br />Googleに正しく<br />伝わるまで。</h1>
+          <p class="eyebrow eyebrow--accent">Google検索へ伝えた実装と観測記録</p>
+          <h1>Google検索の、<br />取得・索引・<br />表示を観測する。</h1>
         </div>
         <div class="page-hero__lead">
           <p>
             Search Console、サイトマップ、構造化データ、代表画像、favicon。
-            全面刷新したReactorFrontを、検索エンジンが取得・理解できる状態へ整えた記録です。
+            ReactorFront（リアクターフロント）がGoogleへ判断材料を渡すために整えた実装と、Googleが決めた表示を条件付きで観測した記録です。
           </p>
           <div class="article-byline" aria-label="記事情報">
             <span>著者 <a href="/profile/" rel="author">小野賢太郎</a></span>
@@ -197,13 +200,13 @@ const websiteSchema = `{
   <ArticleCover
     src={representativeImagePath}
     alt={representativeImageAlt}
-    caption="公開ページをクロール可能にし、内容と実体の関係を索引へ伝え、検索結果として配信されるまでを追う。"
+    caption="GoogleへURLと内容の判断材料を渡し、取得・索引・表示の各段階を分けて観測する。"
   />
 
   <section class="section search-prologue" aria-labelledby="search-prologue-title">
     <div class="shell search-prologue__grid">
       <div data-reveal>
-        <p class="eyebrow">Prologue / After publishing</p>
+        <p class="eyebrow">公開後に始めたこと</p>
         <h2 id="search-prologue-title">公開できた。<br />しかし、Googleが見ている姿は<br />まだ古かった。</h2>
       </div>
       <div class="prose prose--large" data-reveal>
@@ -227,7 +230,7 @@ const websiteSchema = `{
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">Three different stages</p>
+          <p class="eyebrow">Google検索の三段階</p>
           <h2 id="search-stages-title">クロール、インデックス、表示。<br />まず三つを分けて考える。</h2>
         </div>
         <p>
@@ -266,7 +269,7 @@ const websiteSchema = `{
   <section class="section search-baseline" aria-labelledby="search-baseline-title">
     <div class="shell">
       <div class="section-heading" data-reveal>
-        <p class="eyebrow">Before Search Console</p>
+        <p class="eyebrow">Search Consoleへ申請する前の確認</p>
         <h2 id="search-baseline-title">申請より先に、<br />読みに来られるサイトへ整える。</h2>
         <p>
           Search Consoleは、壊れた公開状態を直してくれるサービスではありません。
@@ -288,19 +291,19 @@ const websiteSchema = `{
 
       <div class="search-canonical-flow" data-reveal aria-label="ReactorFrontの正規URLへの流れ">
         <div>
-          <span>Entry</span>
+          <span>入口</span>
           <strong>reactorfront.jp</strong>
           <small>ルートドメイン</small>
         </div>
-        <i aria-hidden="true">301</i>
+        <i aria-hidden="true">301転送</i>
         <div class="search-canonical-flow__primary">
-          <span>Canonical</span>
+          <span>代表URL</span>
           <strong>www.reactorfront.jp</strong>
           <small>HTTPS / 正規URL</small>
         </div>
         <i aria-hidden="true">→</i>
         <div>
-          <span>Discover</span>
+          <span>公開URL一覧</span>
           <strong>sitemap.xml</strong>
           <small>公開ページ一覧</small>
         </div>
@@ -328,18 +331,18 @@ const websiteSchema = `{
         <p class="eyebrow eyebrow--accent">Search Console</p>
         <h2 id="search-console-title">所有者として、<br />観測する入口を作る。</h2>
         <ol>
-          <li><a href="#search-step-1"><span>01</span>Domain property</a></li>
-          <li><a href="#search-step-2"><span>02</span>DNS verification</a></li>
-          <li><a href="#search-step-3"><span>03</span>Sitemap</a></li>
-          <li><a href="#search-step-4"><span>04</span>URL inspection</a></li>
-          <li><a href="#search-step-5"><span>05</span>Request &amp; wait</a></li>
+          <li><a href="#search-step-1"><span>01</span>ドメイン全体を登録</a></li>
+          <li><a href="#search-step-2"><span>02</span>DNSで所有確認</a></li>
+          <li><a href="#search-step-3"><span>03</span>公開URL一覧を送信</a></li>
+          <li><a href="#search-step-4"><span>04</span>登録・公開状態を確認</a></li>
+          <li><a href="#search-step-5"><span>05</span>再取得を依頼して待つ</a></li>
         </ol>
       </aside>
 
       <div class="guide-steps">
         <article id="search-step-1" data-reveal>
           <span class="guide-steps__number">01</span>
-          <p class="eyebrow">Domain property</p>
+          <p class="eyebrow">ドメイン全体を登録</p>
           <h3>wwwだけでなく、ドメイン全体を観測する。</h3>
           <p>
             Search ConsoleにはURLプレフィックスとドメインプロパティがあります。
@@ -349,7 +352,7 @@ const websiteSchema = `{
 
         <article id="search-step-2" data-reveal>
           <span class="guide-steps__number">02</span>
-          <p class="eyebrow">DNS verification</p>
+          <p class="eyebrow">DNSで所有者だと確認</p>
           <h3>DNSのTXTで、ドメイン所有者だと証明する。</h3>
           <p>
             ドメインプロパティの所有権確認には、Googleが発行したTXTレコードを権威DNSへ追加します。
@@ -369,7 +372,7 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
 
         <article id="search-step-3" data-reveal>
           <span class="guide-steps__number">03</span>
-          <p class="eyebrow">Sitemap</p>
+          <p class="eyebrow">公開URL一覧を送信</p>
           <h3>公開しているURLを、一覧で知らせる。</h3>
           <p>
             <code>sitemap.xml</code> へ主要ページの正規URLを収録し、Search Consoleから送信しました。
@@ -379,7 +382,7 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
 
         <article id="search-step-4" data-reveal>
           <span class="guide-steps__number">04</span>
-          <p class="eyebrow">URL inspection</p>
+          <p class="eyebrow">登録状態と現在の公開状態を確認</p>
           <h3>過去の登録状態と、現在の公開状態を分けて見る。</h3>
           <p>
             URL検査では、Googleが最後に把握したインデックス情報を確認できます。
@@ -395,7 +398,7 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
 
         <article id="search-step-5" data-reveal>
           <span class="guide-steps__number">05</span>
-          <p class="eyebrow">Request &amp; wait</p>
+          <p class="eyebrow">再取得を依頼して待つ</p>
           <h3>大きな更新後だけ依頼し、あとは待つ。</h3>
           <p>
             Search Consoleで「優先クロールキューへ追加」と表示されても、処理時期はGoogleが決めます。
@@ -413,47 +416,49 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">Meaning, not keywords</p>
+          <p class="eyebrow">名前の羅列ではなく、公開情報の関係を示す</p>
           <h2 id="search-entities-title">文字列を増やすのではなく、<br />誰の、何というサイトかを結ぶ。</h2>
         </div>
         <p>
           屋号、代表者、サイト、各ページを別々の文字列として置くだけでなく、構造化データの識別子で関係を示しました。画面に書いていない実績を足すのではなく、公開内容を機械にも読める形へそろえます。
+          <strong>ReactorFront</strong>、<strong>リアクターフロント</strong>、小文字の <strong>reactorfront</strong> は同じ事業者・サイトの表記として同じnodeへ置き、<code>www.reactorfront.jp</code> はサイトのhost名として区別します。
         </p>
       </div>
 
       <div class="search-entity-map" data-reveal aria-label="ReactorFrontの構造化データ関係図">
         <article class="search-entity-map__business">
-          <span>ProfessionalService</span>
+          <span>事業者（ProfessionalService）</span>
           <strong>ReactorFront</strong>
-          <small>alternateName: リアクターフロント</small>
+          <small>別表記: リアクターフロント / reactorfront</small>
         </article>
         <div class="search-entity-map__links" aria-hidden="true">
-          <span>founder</span><i>→</i><span>publisher</span>
+          <span>代表者（founder）</span><i>→</i><span>発行者（publisher）</span>
         </div>
         <article>
-          <span>Person</span>
+          <span>代表者（Person）</span>
           <strong>小野賢太郎</strong>
-          <small>Kentaro Ono / LinkedIn / GitHub</small>
+          <small>Kentaro Ono / <a href="https://www.linkedin.com/in/kentaro-ono/" target="_blank" rel="noreferrer">LinkedIn</a> / <a href="https://github.com/Kentaro-Ono-jp" target="_blank" rel="noreferrer">GitHub</a></small>
         </article>
         <article>
-          <span>WebSite</span>
+          <span>サイト（WebSite）</span>
           <strong>ReactorFront</strong>
-          <small>www.reactorfront.jp</small>
+          <small>同じ別表記 / www.reactorfront.jp</small>
         </article>
         <article>
-          <span>WebPage</span>
+          <span>各ページ（WebPage）</span>
           <strong>各ページ</strong>
-          <small>isPartOf → WebSite</small>
+          <small>所属先（isPartOf）→ WebSite</small>
         </article>
       </div>
 
       <div class="search-schema-example" data-reveal>
         <div>
-          <p class="eyebrow">Sanitized example</p>
-          <h3>サイト名とカタカナ名を、同じWebSiteへ置く。</h3>
+          <p class="eyebrow">公開用に一般化したJSON-LD例</p>
+          <h3>三つの表記を、同じWebSiteへ置く。</h3>
           <p>
             <code>name</code> は優先するサイト名、<code>alternateName</code> は別表記です。
-            発行者は文字列で重ねず、事業者の <code>@id</code> を参照します。
+            別表記は「リアクターフロント」「reactorfront」の順に置きます。発行者は文字列で重ねず、事業者の <code>@id</code> を参照します。
+            これは候補と関係を伝える実装であり、Googleが検索結果のサイト名へ採用する保証ではありません。
           </p>
         </div>
         <div class="code-block">
@@ -481,27 +486,27 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
   <section class="section section--soft search-appearance" aria-labelledby="search-appearance-title">
     <div class="shell">
       <div class="section-heading" data-reveal>
-        <p class="eyebrow">Images &amp; identity</p>
+        <p class="eyebrow">代表画像・共有画像・favicon</p>
         <h2 id="search-appearance-title">文章以外の「顔」も、<br />取得できる形で公開する。</h2>
         <p>
-          検索結果では、説明文だけでなく代表画像やfaviconが使われる場合があります。
+          検索結果では、説明文だけでなく代表画像や、browser tabと検索結果に使う小さなsite icon（favicon）が使われる場合があります。
           どの画像を表示するかはGoogleの自動判断ですが、候補を取得できなければ判断材料にもなりません。
         </p>
       </div>
 
       <div class="search-signal-grid">
         <article data-reveal>
-          <span>01 / Hero image</span>
+          <span>01 / 代表画像</span>
           <h3>CSS背景から、意味のある画像要素へ</h3>
           <p>夜景のヒーロー画像を <code>picture / img</code> でHTMLへ出し、代替テキスト、実寸、読み込み優先度を設定しました。</p>
         </article>
         <article data-reveal>
-          <span>02 / Metadata</span>
-          <h3>OGPと代表画像の関係を明示</h3>
-          <p>OGP、Xカード、WebPageの <code>primaryImageOfPage</code> へ同じ画像を設定し、<code>max-image-preview:large</code> を許可しました。</p>
+          <span>02 / 共有・検索向け情報</span>
+          <h3>共有時の画像情報（OGP）と代表画像をそろえる</h3>
+          <p>SNS等へ共有する時の画像情報（OGP）、Xカード、WebPageの <code>primaryImageOfPage</code> へ同じ画像を設定し、<code>max-image-preview:large</code> を許可しました。</p>
         </article>
         <article data-reveal>
-          <span>03 / Favicon</span>
+          <span>03 / サイトicon</span>
           <h3>正式ロゴとfaviconを同じ意匠へ統一</h3>
           <p>丸型RFアイコンを正式ロゴとして採用し、ヘッダー、フッター、構造化データ、faviconで同じブランド表現を使います。</p>
         </article>
@@ -510,7 +515,7 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
       <div class="search-favicon-proof" data-reveal>
         <img src="/brand/reactorfront-mark-512.png" width="512" height="512" alt="ReactorFrontの正式な丸型RFロゴ" loading="lazy" decoding="async" />
         <div>
-          <p class="eyebrow">One mark across the site</p>
+          <p class="eyebrow">サイト全体で同じ意匠を使う</p>
           <h3>正式ロゴからfaviconまで、一つの顔に。</h3>
           <p>
             Google検索のfaviconはホスト名単位です。AWS記事だけに別アイコンを付けるのではなく、www.reactorfront.jp全体を表すアイコンとして設定します。
@@ -526,32 +531,32 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow">What we actually saw</p>
+          <p class="eyebrow">実際に観測したこと</p>
           <h2 id="search-observations-title">表示の変化は記録する。<br />原因は決めつけない。</h2>
         </div>
         <p>
-          実装後、検索結果の説明、画像、関連リンクは少しずつ変わりました。ただし、同じ時期に複数の改善とGoogle側の再処理が進んでいます。個別施策だけの効果とは断定しません。
+          以下は2026-08-18に、検索語、Googleへのログイン状態、プライベートウィンドウを分けて観測した事実です。実装後、説明、画像、関連linkは少しずつ変わりましたが、同じ時期に複数の改善とGoogle側の再処理が進んでいます。個別施策だけの効果とは断定しません。
         </p>
       </div>
 
       <div class="search-observation-grid">
         <article data-reveal>
-          <span>Japanese query</span>
+          <span>日本語の検索語</span>
           <h3>カタカナ表記は、別分野の語と競合した。</h3>
           <p>「リアクター」「フロント」という一般語の組み合わせから、楽器やバイク部品の文脈が検索結果へ混ざりました。後には事業内容が主回答になりましたが、別語義の残り方も検索環境で異なりました。</p>
         </article>
         <article data-reveal>
-          <span>English query</span>
+          <span>英字の検索語</span>
           <h3>固有の英語表記は、競合が少なかった。</h3>
           <p><code>reactorfront</code> では、ある観測時点の検索結果件数が12件と表示され、公式サイト、サイトリンク、LinkedInが上位へまとまりました。件数はGoogleの概算であり、厳密な索引数とは扱いません。</p>
         </article>
         <article data-reveal>
-          <span>Signed in / Private</span>
+          <span>ログイン中 / プライベート</span>
           <h3>ログイン状態で、見え方は同じではなかった。</h3>
           <p>検索意図と異なる結果へフィードバックした後、ログイン中の画面は早く変化しました。一方、プライベートウィンドウには別分野が残りました。全利用者へ即時反映された証拠とは考えません。</p>
         </article>
         <article data-reveal>
-          <span>AI-generated overview</span>
+          <span>AIによる概要</span>
           <h3>要約が整っても、正本にはしない。</h3>
           <p>AIによる概要が事業領域を適切に説明する場面が増えた一方、公開リポジトリの未説明部分を誤って推測することもありました。正確な説明の正本は公式サイトとGitHubです。</p>
         </article>
@@ -559,8 +564,8 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
 
       <div class="search-change-log" data-reveal>
         <div class="search-change-log__heading">
-          <p class="eyebrow">Change log / Public evidence</p>
-          <h3>何を変えたかは、PRで追える。</h3>
+          <p class="eyebrow">公開済みの変更証拠</p>
+          <h3>何を改善したかは、公開PRで追える。</h3>
         </div>
         <ol>
           {
@@ -580,33 +585,35 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
     <div class="shell">
       <div class="section-heading section-heading--split" data-reveal>
         <div>
-          <p class="eyebrow eyebrow--accent">Boundaries</p>
+          <p class="eyebrow eyebrow--accent">実装できる範囲とGoogleの判断</p>
           <h2 id="search-boundaries-title">整えられるものと、<br />Googleが決めるものを分ける。</h2>
         </div>
         <p>
-          技術的な入口と情報の一貫性は管理できます。しかし、クロール時期、順位、AI概要、画像、サイトリンク、faviconの最終表示は管理できません。
+          技術的な入口と情報の一貫性は管理できます。構造化データを公式要件へ合わせればリッチリザルトの表示資格は整えられますが、実際の表示は保証できません。クロール時期、順位、AI概要、画像、検索結果に追加表示されるサイト内link（サイトリンク）、faviconの最終表示はGoogleが判断します。
         </p>
       </div>
 
       <div class="search-boundary-grid">
         <article data-reveal>
-          <span>We can control</span>
+          <span>サイト運営者が実装・確認できる</span>
           <h3>こちらで整える</h3>
           <ul>
             <li>HTTPSで安定して応答するページ</li>
             <li>robots.txt、サイトマップ、canonical</li>
             <li>本文と一致するタイトル・説明・構造化データ</li>
+            <li>Rich Results Testで重大errorがない表示資格</li>
             <li>取得可能な画像とfavicon</li>
             <li>本番確認、変更履歴、定期的な観測</li>
           </ul>
         </article>
         <article data-reveal>
-          <span>Google decides</span>
+          <span>Googleが決める</span>
           <h3>こちらでは決められない</h3>
           <ul>
             <li>いつ再クロールするか</li>
             <li>ページを索引へ保存するか</li>
             <li>検索語ごとの順位と表示形式</li>
+            <li>リッチリザルトを実際に表示するか</li>
             <li>AI概要が生成されるか、その内容</li>
             <li>代表画像、サイトリンク、faviconの採用</li>
           </ul>
@@ -632,14 +639,14 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
   <section class="section search-operations" aria-labelledby="search-operations-title">
     <div class="shell search-operations__grid">
       <div data-reveal>
-        <p class="eyebrow">After each meaningful release</p>
+        <p class="eyebrow">重要な内容更新の後に行うこと</p>
         <h2 id="search-operations-title">公開後の確認を、<br />運用へ組み込む。</h2>
       </div>
       <div class="operations-list">
-        <article data-reveal><span>01 / Deploy</span><h3>本番のHTTP応答を確認</h3><p>新ページ、画像、favicon、サイトマップをCDN越しに取得し、ローカル成果物と一致するか確認します。</p></article>
-        <article data-reveal><span>02 / HTML</span><h3>正規URLとメタ情報を確認</h3><p>canonical、robots、OGP、構造化データ、リンク先を生成後のHTMLと本番HTMLで確認します。</p></article>
-        <article data-reveal><span>03 / Console</span><h3>重要な変更だけ再リクエスト</h3><p>公開URLテストが通ることを確認し、ホームや新しい主要記事を優先クロールキューへ送ります。</p></article>
-        <article data-reveal><span>04 / Observe</span><h3>時間を置き、複数環境で見る</h3><p>ログイン状態だけで判断せず、検索語、端末、プライベート検索の違いを観測記録として残します。</p></article>
+        <article data-reveal><span>01 / 本番公開後</span><h3>本番のHTTP応答を確認</h3><p>新ページ、画像、favicon、サイトマップをCDN越しに取得し、生成した公開用fileと一致するか確認します。</p></article>
+        <article data-reveal><span>02 / HTML確認</span><h3>正規URLと公開情報を確認</h3><p>canonical、robots、OGP、構造化データ、link先を生成後のHTMLと本番HTMLで確認します。</p></article>
+        <article data-reveal><span>03 / Search Console</span><h3>重要な変更だけ再取得を依頼</h3><p>公開URLテストが通ることを確認し、ホームや新しい主要記事を優先クロールキューへ送ります。</p></article>
+        <article data-reveal><span>04 / 時間を置いて観測</span><h3>複数の条件で表示を見る</h3><p>ログイン状態だけで判断せず、検索語、端末、プライベート検索の違いを観測記録として残します。</p></article>
       </div>
     </div>
   </section>
@@ -647,7 +654,7 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
   <section class="section section--soft search-sources" aria-labelledby="search-sources-title">
     <div class="shell">
       <div class="section-heading" data-reveal>
-        <p class="eyebrow">Primary sources</p>
+        <p class="eyebrow">確認に使ったGoogle公式資料</p>
         <h2 id="search-sources-title">画面や仕様は変わる。<br />最終確認は公式資料で行う。</h2>
         <p>以下は本記事の実装・記述を確認した一次資料です。確認日: {verifiedAt}</p>
       </div>
@@ -668,7 +675,7 @@ Value: &lt;Search Consoleが発行した確認値&gt;</code></pre>
   <section class="search-case-closing">
     <div class="shell search-case-closing__inner" data-reveal>
       <div>
-        <p class="eyebrow eyebrow--light">From infrastructure to discovery</p>
+        <p class="eyebrow eyebrow--light">公開基盤から検索での発見へ</p>
         <h2>公開して終わりではなく、<br />外から見える状態まで確認する。</h2>
         <p>
           ドメイン、DNS、Webサイト、メールを整えた後、そのサイトが検索エンジンからどう取得され、どう理解されるかも運用の一部でした。

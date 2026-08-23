@@ -39,7 +39,7 @@ export const indexableRoutes = [
   {
     path: "/infrastructure/google-search/",
     datePublished: "2026-08-16T07:48:04+09:00",
-    lastModified: "2026-08-23T11:21:05+09:00",
+    lastModified: "2026-08-23T15:38:33+09:00",
   },
 ] as const satisfies readonly IndexableRouteMetadata[];
 

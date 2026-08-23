@@ -500,6 +500,96 @@ for (const htmlFile of htmlFiles) {
       }
     }
   }
+
+  if (relativePath === "infrastructure/google-search/index.html") {
+    const article = articleSchemas[0];
+    if (article?.headline !== "Google検索がページを取得・索引・表示する流れと、サイト運営者ができること") {
+      errors.push(`${relativePath}: Article headlineが画面の主題と一致しません`);
+    }
+    if (!article?.description?.includes("ReactorFront（リアクターフロント）")) {
+      errors.push(`${relativePath}: Article descriptionに運営主体の日本語表記がありません`);
+    }
+    if (article?.isPartOf?.["@id"] !== "https://www.reactorfront.jp/#website") {
+      errors.push(`${relativePath}: Article isPartOfが共通WebSiteではありません`);
+    }
+    for (const expectedText of [
+      "取得（Crawl）",
+      "索引へ保存（Index）",
+      "検索結果へ表示（Serve）",
+      "取得の許可（robots.txt）",
+      "公開URL一覧（sitemap.xml）",
+      "代表URL（canonical）",
+      "301転送",
+      "ドメイン全体を登録",
+      "DNSで所有者だと確認",
+      "公開URL一覧を送信",
+      "登録状態と現在の公開状態を確認",
+      "再取得を依頼して待つ",
+      "ReactorFront</strong>、<strong>リアクターフロント</strong>、小文字の <strong>reactorfront</strong>",
+      "同じ事業者・サイトの表記として同じnodeへ置き",
+      "事業者（ProfessionalService）",
+      "代表者（Person）",
+      "サイト（WebSite）",
+      "各ページ（WebPage）",
+      "&quot;alternateName&quot;: [",
+      "これは候補と関係を伝える実装であり、Googleが検索結果のサイト名へ採用する保証ではありません",
+      "共有時の画像情報（OGP）",
+      "小さなsite icon（favicon）",
+      "以下は2026-08-18に",
+      "ある観測時点の検索結果件数が12件",
+      "ログイン中 / プライベート",
+      "個別施策だけの効果とは断定しません",
+      "リッチリザルトの表示資格は整えられますが、実際の表示は保証できません",
+      "リッチリザルトを実際に表示するか",
+      "AI概要が生成されるか、その内容",
+      "重要な内容更新の後に行うこと",
+    ]) {
+      if (!html.includes(expectedText)) {
+        errors.push(`${relativePath}: 画面上に「${expectedText}」がありません`);
+      }
+    }
+    for (const expectedHref of [
+      "https://github.com/Kentaro-Ono-jp",
+      "https://www.linkedin.com/in/kentaro-ono/",
+      "https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/20",
+      "https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/21",
+      "https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/22",
+      "https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/23",
+      "https://github.com/Kentaro-Ono-jp/reactorfront-site/pull/24",
+      "https://developers.google.com/search/docs/fundamentals/how-search-works?hl=ja",
+      "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap?hl=ja",
+      "https://developers.google.com/search/docs/appearance/site-names?hl=ja",
+      "https://developers.google.com/search/docs/appearance/structured-data/organization?hl=ja",
+      "https://developers.google.com/search/docs/appearance/google-images?hl=ja",
+      "https://developers.google.com/search/docs/appearance/favicon-in-search?hl=ja",
+    ]) {
+      if (!html.includes(`href="${expectedHref}"`)) {
+        errors.push(`${relativePath}: 証拠または公式資料link ${expectedHref} がありません`);
+      }
+    }
+    for (const removedEnglishLabel of [
+      "Google Search / Field notes",
+      "Prologue / After publishing",
+      "Three different stages",
+      "Before Search Console",
+      "Meaning, not keywords",
+      "Sanitized example",
+      "Images &amp; identity",
+      "One mark across the site",
+      "What we actually saw",
+      "AI-generated overview",
+      "Change log / Public evidence",
+      "We can control",
+      "Google decides",
+      "After each meaningful release",
+      "Primary sources",
+      "From infrastructure to discovery",
+    ]) {
+      if (html.includes(removedEnglishLabel)) {
+        errors.push(`${relativePath}: 英語だけの旧label「${removedEnglishLabel}」が残っています`);
+      }
+    }
+  }
 }
 
 if (errors.length > 0) {

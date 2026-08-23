@@ -26,7 +26,7 @@
 | `/portfolio/aws/` | 技術者、顧客 | AWS環境を構築、検証、監視、撤収する一連の工程 | #57 | 完了 |
 | `/portfolio/aws/one-cent-ecr/` | 技術者、顧客 | 1セントの費用を追跡し、残存resourceを安全に検出・削除した判断 | #58 | 完了 |
 | `/infrastructure/` | フリーランス、顧客 | domain、DNS、Web、仕事用mailを安全に構成・維持する方法 | #59 | 完了 |
-| `/infrastructure/google-search/` | サイト運営者、顧客 | Googleが取得・解釈できる状態へ整えた作業と、Googleが決める結果の境界 | #60 | 未着手 |
+| `/infrastructure/google-search/` | サイト運営者、顧客 | Googleが取得・解釈できる状態へ整えた作業と、Googleが決める結果の境界 | #60 | 完了 |
 | 全pageのmeta / Schema / alt / lastmod | 検索利用者、技術者 | 画面と機械向け情報が同じ事実を表すこと | #61 | 未着手 |
 
 ## 共通UI・ホーム・404
@@ -109,25 +109,25 @@
 
 | Page / component | Section / 位置 | 想定読者 | 現行表現 | 分かりにくい理由 | 分類 | 改稿方向 | 維持する事実・証拠 | meta / Schema / altへの影響 | Issue / 状態 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/infrastructure/google-search/` | hero / prologue | サイト運営者 | `Google Search / Field notes`、`Prologue / After publishing` | 記事の位置づけと出発点が英語依存 | 日本語化 / 維持 | 公開後にGoogleの取得・解釈を整えた記録と示す | Google正式名称、公開日 | Article description | #60 / 未着手 |
-| 同上 | search flow | サイト運営者 | `Crawl / Index / Serve`、`Baseline / Technical foundation` | 取得、索引、表示の違いと前提が分からない | 説明 / 日本語化 | 「取得 / 索引への登録 / 検索結果への表示」と技術的前提を示す | Googleが決定する処理 | 図、caption | #60 / 未着手 |
-| 同上 | URL signals | 技術者 | `Canonical / Redirect / Sitemap` | 三者の役割と確認対象が不明 | 維持 / 説明 | 正規URL、転送、URL一覧として役割を説明 | canonical、redirect、sitemap URL | Article body | #60 / 未着手 |
-| 同上 | entity | 技術者、顧客 | `Structured data / Entity graph` | 型と参照関係が初見で分からない | 説明 / 日本語化 | 人物、事業者、WebSite、記事、外部profileの関係として説明 | `@id`、`sameAs`、`publisher` | JSON-LD、図 | #60 / 未着手 |
-| 同上 | brand aliases | 全読者 | `ReactorFront`、`リアクターフロント`、`reactorfront` | 同一事業者・サイトの別表記であることを明示する必要がある | 維持 / 説明 | `name`と優先順付き`alternateName`で同じnodeへ格納する | 安定した`@id`、`legalName` | ProfessionalService、WebSite | #60 / 未着手 |
-| 同上 | visual identity | 顧客 | `Representative image / OGP / favicon`、`One mark across the site` | 画像ごとの用途と統一理由が英語依存 | 説明 / 日本語化 | 代表画像、共有画像、faviconの役割を示す | 既存画像path、寸法 | OGP、alt、link rel | #60 / 未着手 |
-| 同上 | observations | 顧客、サイト運営者 | `What we actually saw`、`Japanese query / English query / Signed in / Private`、`AI-generated overview` | 観測条件とGoogle判断を区別しにくい | 日本語化 / 維持 | 検索語、login状態、観測日時、AI概要を事実として限定する | screenshot、検索語、日時 | caption、Article body | #60 / 未着手 |
-| 同上 | evidence / boundary | 技術者 | `Change log / Public evidence`、`Boundaries`、`We can control / Google decides` | 実装責任と外部判断の境界が英語依存 | 日本語化 / 保護 | 変更履歴、公開証拠、自分たちが制御できる範囲を示す | PR、commit、Google公式資料 | CTA、link | #60 / 未着手 |
-| 同上 | operations / sources | サイト運営者 | `After each meaningful release`、`Primary sources`、`From infrastructure to discovery` | 再確認時期、資料、次の導線が英語依存 | 日本語化 / 維持 | 意味のある更新後の確認、一次資料、前後記事への導線を示す | sitemap、Search Console、公式link | Article body | #60 / 未着手 |
+| `/infrastructure/google-search/` | hero / prologue | サイト運営者 | `Google Search / Field notes`、`Prologue / After publishing` | 記事の位置づけと出発点が英語依存 | 日本語化 / 維持 | 公開後にGoogleの取得・解釈を整えた記録と示す | Google正式名称、公開日 | Article description | #60 / 完了 |
+| 同上 | search flow | サイト運営者 | `Crawl / Index / Serve`、`Baseline / Technical foundation` | 取得、索引、表示の違いと前提が分からない | 説明 / 日本語化 | 「取得 / 索引への登録 / 検索結果への表示」と技術的前提を示す | Googleが決定する処理 | 図、caption | #60 / 完了 |
+| 同上 | URL signals | 技術者 | `Canonical / Redirect / Sitemap` | 三者の役割と確認対象が不明 | 維持 / 説明 | 正規URL、転送、URL一覧として役割を説明 | canonical、redirect、sitemap URL | Article body | #60 / 完了 |
+| 同上 | entity | 技術者、顧客 | `Structured data / Entity graph` | 型と参照関係が初見で分からない | 説明 / 日本語化 | 人物、事業者、WebSite、記事、外部profileの関係として説明 | `@id`、`sameAs`、`publisher` | JSON-LD、図 | #60 / 完了 |
+| 同上 | brand aliases | 全読者 | `ReactorFront`、`リアクターフロント`、`reactorfront` | 同一事業者・サイトの別表記であることを明示する必要がある | 維持 / 説明 | `name`と優先順付き`alternateName`で同じnodeへ格納する | 安定した`@id`、`legalName` | ProfessionalService、WebSite | #60 / 完了 |
+| 同上 | visual identity | 顧客 | `Representative image / OGP / favicon`、`One mark across the site` | 画像ごとの用途と統一理由が英語依存 | 説明 / 日本語化 | 代表画像、共有画像、faviconの役割を示す | 既存画像path、寸法 | OGP、alt、link rel | #60 / 完了 |
+| 同上 | observations | 顧客、サイト運営者 | `What we actually saw`、`Japanese query / English query / Signed in / Private`、`AI-generated overview` | 観測条件とGoogle判断を区別しにくい | 日本語化 / 維持 | 検索語、login状態、観測日時、AI概要を事実として限定する | screenshot、検索語、日時 | caption、Article body | #60 / 完了 |
+| 同上 | evidence / boundary | 技術者 | `Change log / Public evidence`、`Boundaries`、`We can control / Google decides` | 実装責任と外部判断の境界が英語依存 | 日本語化 / 保護 | 変更履歴、公開証拠、自分たちが制御できる範囲を示す | PR、commit、Google公式資料 | CTA、link | #60 / 完了 |
+| 同上 | operations / sources | サイト運営者 | `After each meaningful release`、`Primary sources`、`From infrastructure to discovery` | 再確認時期、資料、次の導線が英語依存 | 日本語化 / 維持 | 意味のある更新後の確認、一次資料、前後記事への導線を示す | sitemap、Search Console、公式link | Article body | #60 / 完了 |
 
 ## 全ページ共通の保護対象
 
 | 対象 | 分類 | 規則 | 確認方法 | Issue / 状態 |
 | --- | --- | --- | --- | --- |
-| `API`、`Web`、`AWS`、`Linux`、`AI`、`DB`、`HTTP`、service・製品名 | 維持 | そのままの方が正確な場合は維持し、連結して意味が隠れる場合だけ日本語を添える | diffと画面 | #53〜#60 / 未着手 |
-| code、command、環境変数、設定名、marker | 保護 | 文字列を変更しない | source diff、build | #53〜#60 / 未着手 |
+| `API`、`Web`、`AWS`、`Linux`、`AI`、`DB`、`HTTP`、service・製品名 | 維持 | そのままの方が正確な場合は維持し、連結して意味が隠れる場合だけ日本語を添える | diffと画面 | #53〜#60 / 完了 |
+| code、command、環境変数、設定名、marker | 保護 | 文字列を変更しない | source diff、build | #53〜#60 / 完了 |
 | URL、canonical、route、domain、email、画像path | 保護 | 文字列と参照先を変更しない。変更が必要なら全参照を同時更新する | link、生成HTML、HTTP status | #61 / 未着手 |
-| repository、branch、commit、Issue、PR、file名 | 保護 | 一次資料との照合に必要な表記を維持する | diff、link確認 | #53〜#60 / 未着手 |
-| 氏名、所属、経歴、期間、金額、件数、日時、測定値 | 保護 | 確認済み事実だけを維持し、推測で補わない | 改稿前後diff、証拠 | #53〜#60 / 未着手 |
+| repository、branch、commit、Issue、PR、file名 | 保護 | 一次資料との照合に必要な表記を維持する | diff、link確認 | #53〜#60 / 完了 |
+| 氏名、所属、経歴、期間、金額、件数、日時、測定値 | 保護 | 確認済み事実だけを維持し、推測で補わない | 改稿前後diff、証拠 | #53〜#60 / 完了 |
 | title、description、OGP、JSON-LD、alt、caption | 同期 | 画面の主題と同じ事実・意味にする | 生成HTML、validator | #61 / 未着手 |
 | 読了時間、`dateModified`、sitemap `lastmod` | 同期 | 本文量と実際の内容更新日から更新し、build日時を使わない | build、sitemap hash | #61 / 未着手 |
 
