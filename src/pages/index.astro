@@ -5,7 +5,7 @@ import { articleReadingMinutes } from "../reading-times";
 
 <BaseLayout
   title="ReactorFront"
-  description="ReactorFront（リアクターフロント）代表・小野賢太郎の公式サイト。業務システム開発、Linux運用、AWS・IaC、機械学習基盤を、設計から実装、リリース後の運用まで一続きで扱います。"
+  description="ReactorFront（リアクターフロント）代表・小野賢太郎の公式サイト。業務システム開発、Linux運用、AWS・IaCから、機械学習の評価・更新・運用を支えるMLOps基盤まで、設計・実装・運用を一続きで支援します。"
 >
   <section class="home-hero">
     <div class="home-hero__image">
@@ -31,7 +31,7 @@ import { articleReadingMinutes } from "../reading-times";
         </h1>
         <p class="home-hero__lead">
           業務要件の整理からアプリケーション実装、クラウド基盤、リリース後の運用まで一続きで支援します。<br />
-          25年以上の開発経験とLinux運用の知見を基に、変更し続けられる仕組みを設計します。
+          25年以上の開発経験とLinux運用の知見を基に、機械学習の評価・更新・運用を支えるMLOps基盤を設計します。
         </p>
         <div class="button-row">
           <a class="button button--accent" href="/portfolio/">
@@ -50,7 +50,7 @@ import { articleReadingMinutes } from "../reading-times";
           <span class="availability__pulse" aria-hidden="true"></span>
           <span><strong>現在</strong> 機械学習の研究開発案件に参画中</span>
         </div>
-        <dl class="hero-stats" aria-label="経験年数">
+        <dl class="hero-stats" aria-label="経験年数と注力領域">
           <div>
             <dt>システム開発</dt>
             <dd><strong>25</strong><span>年+</span></dd>
@@ -61,7 +61,7 @@ import { articleReadingMinutes } from "../reading-times";
           </div>
           <div>
             <dt>現在地</dt>
-            <dd><strong>ML</strong><span>R&amp;D</span></dd>
+            <dd><strong>MLOps</strong></dd>
           </div>
         </dl>
       </div>
@@ -73,7 +73,7 @@ import { articleReadingMinutes } from "../reading-times";
       <div class="section-heading section-heading--split" data-reveal>
         <div>
           <p class="eyebrow">対応できること</p>
-          <h2>アプリケーションから運用まで、<br />一続きで設計する。</h2>
+          <h2>開発から運用まで、<br />一続きで設計する。</h2>
         </div>
         <p>
           業務システムは、画面やAPIだけでは成立しません。認証、データ設計、非同期処理、デプロイ、監視、障害復旧まで含めて初めて運用できます。
@@ -111,10 +111,10 @@ import { articleReadingMinutes } from "../reading-times";
           <div class="capability-card__icon" aria-hidden="true">
             <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="6" /><path d="M24 5v8M24 35v8M5 24h8M35 24h8M10.6 10.6l5.7 5.7M31.7 31.7l5.7 5.7M37.4 10.6l-5.7 5.7M16.3 31.7l-5.7 5.7" /></svg>
           </div>
-          <h3>機械学習を業務で使える形にする</h3>
-          <p>推論APIだけで終わらせず、評価、データセット管理、AIの結果を人が確認・修正する工程、モデル更新と以前のモデルへ戻す手順まで設計します。</p>
+          <h3>機械学習の開発・運用を支える</h3>
+          <p>データセットの版管理、同じ条件でのモデル比較、採用判断、推論結果の追跡をつなぎます。問題時に以前のモデルへ戻せる開発・運用基盤を設計します。</p>
           <ul class="tag-list" aria-label="関連技術">
-            <li>PyTorch</li><li>評価</li><li>人による確認</li>
+            <li>MLOps</li><li>PyTorch</li><li>モデル評価</li>
           </ul>
         </article>
       </div>
@@ -128,8 +128,8 @@ import { articleReadingMinutes } from "../reading-times";
         <p class="eyebrow eyebrow--accent">公開ポートフォリオ</p>
         <h2>業務文書を、<br />AIと人が扱えるデータへ。</h2>
         <p>
-          PDFの受付、非同期解析、AIの結果を人が確認・修正する工程、監査ログ、モデルの評価・更新までを統合した文書処理基盤です。
-          公開版では、受付から結果確認までを端から端まで動かす最小実装として文書分類を用意し、業務文書の分析や項目抽出、設計図面の読み取りへ拡張できる構成を示しています。
+          PDFの受付、非同期解析、AIの結果を人が確認・修正する工程、監査ログに、モデルの評価・更新・復旧を組み合わせた文書処理基盤です。
+          公開版では合成文書の分類を題材に、データと評価条件の固定、現行モデルと更新候補の比較、採用記録と推論結果の追跡を実装・検証しています。
         </p>
         <a class="text-link text-link--light" href="/portfolio/">
           約{articleReadingMinutes.overview}分でわかる日本語解説へ
@@ -225,7 +225,7 @@ import { articleReadingMinutes } from "../reading-times";
       <div>
         <p class="eyebrow eyebrow--light">メールで相談</p>
         <h2>案件・技術相談のご連絡はこちら。</h2>
-        <p>業務システム、クラウド基盤、機械学習エンジニアリングに関するご相談を承ります。</p>
+        <p>業務システム、クラウド基盤、機械学習の開発・運用基盤に関するご相談を承ります。</p>
       </div>
       <a class="button button--accent button--large" href="mailto:kentaro.ono@reactorfront.jp">
         kentaro.ono@reactorfront.jp

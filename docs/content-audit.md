@@ -58,6 +58,7 @@
 | SiteHeader | menu button | smartphone利用者 | `Open menu`、`Close menu` | 操作結果を日本語で伝えられる | 日本語化 | 「メニューを開く / 閉じる」 | button動作、aria-expanded | aria-label | #53 / 完了 |
 | SiteHeader / SiteFooter / BrandMark | brand | 全読者 | `ReactorFront`、`リアクターフロント` | lowercaseを含む三表記の関係が仕様化されていない | 維持 / 説明 | 初出は `ReactorFront（リアクターフロント）`、Schemaの別名に `reactorfront` | logo、`@id`、domain | `name`、`alternateName`、alt、aria-label | #53 / 完了 |
 | `/` | hero | 顧客 | `Independent Software Engineering / Tokyo`、`Now` | 何を提供し、現在何をしているかが直接分からない | 日本語化 | 提供業務と現在の専門領域を日本語で示す | 東京、独立事業者、現在のML研究開発 | title、description、OGP | #53 / 完了 |
+| `/` | hero・業務領域・公開ポートフォリオ・相談案内 | 顧客、エージェント | `ML R&D`、機械学習基盤 | モデルの評価・更新・追跡・復旧を実装した強みが伝わりにくい | 説明 | 現在地を `MLOps` とし、機械学習の評価・更新・運用を支える基盤として日本語で説明する | 経験年数、研究開発への参画状況、合成文書を用いた公開実装の範囲 | description、OGP、WebPage description、sitemap lastmod | 2026-09-06 / 完了 |
 | `/` | 業務領域 | 顧客 | `What I do`、`Product Engineering`、`Platform & Reliability`、`Applied ML` | 分類名だけでは実作業が分からない | 日本語化 / 説明 | 開発、運用基盤、ML活用で実際に行う作業を書く | Web、API、AWS、Linux、MLという技術範囲 | WebPage description | #53 / 完了 |
 | `/` | portfolio導線 | 顧客、技術者 | `Featured Portfolio`、`Ingest / Analyze / Review / Audit` | 処理順と業務価値が英語依存 | 日本語化 | 「受付 / 解析 / 人による確認 / 監査記録」へ展開 | Document Intelligenceの処理順 | card label、alt | #53 / 完了 |
 | `/` | infrastructure導線 | フリーランス、顧客 | `Domain / DNS / Web / Mail`、`Open knowledge` | 関係と公開目的が分からない | 日本語化 / 維持 | 独自domain、DNS、Web、mailの実構成と公開範囲を示す | 実構成、公開可能範囲 | card description | #53 / 完了 |
